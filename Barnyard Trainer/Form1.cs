@@ -69,7 +69,6 @@ namespace Barnyard_Trainer
             {
                 MessageBox.Show(errorMessage, "Error!");
             }
-            MessageBox.Show(value.TrimEnd());
         }
         #endregion
 
