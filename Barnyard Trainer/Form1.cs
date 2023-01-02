@@ -9,21 +9,20 @@ namespace Barnyard_Trainer
     public partial class BarnyardTrainer : Form
     {
         #region Variables / Initialisation
-        string moneyAddress = "Barnyard.exe+0x003B493C,20";
-        string moneyHudAddress = "Barnyard.exe+0x003B493C,1C";
-        string itemCountAddress = "Barnyard.exe+0037E344,3C,50,530";
-        string xPosAddress = "Barnyard.exe+0037E344,3C,1C,20,18";
-        string yPosAddress = "Barnyard.exe+0037E344,3C,1C,20,1C";
-        string zPosAddress = "Barnyard.exe+0037E344,3C,1C,20,20";
-        string fovAddress = "0x007822ac";
-        string timeLoopAddress = "0x007ce6b0";
-        string staminaAddress = "Barnyard.exe+0x003B493C,28";
-        string milkAddress = "Barnyard.exe+0x0037E344,3C,70,C4";
-        string cantSquirtAddress = "0x007810e4";
-        string cameraZoomAddress = "Barnyard.exe+0x63DF9";
-        string cameraZoomInAddress = "Barnyard.exe+0x63E50";
-        string cameraZoomOutAddress = "Barnyard.exe+63DEB";
-        string cameraTargettedDistanceAddress = "Barnyard.exe+0x003822E0,68,88";
+        readonly string moneyAddress = "Barnyard.exe+0x003B493C,20";
+        readonly string moneyHudAddress = "Barnyard.exe+0x003B493C,1C";
+        readonly string itemCountAddress = "Barnyard.exe+0037E344,3C,50,530";
+        readonly string xPosAddress = "Barnyard.exe+0037E344,3C,1C,20,18";
+        readonly string yPosAddress = "Barnyard.exe+0037E344,3C,1C,20,1C";
+        readonly string zPosAddress = "Barnyard.exe+0037E344,3C,1C,20,20";
+        readonly string fovAddress = "0x007822ac";
+        readonly string staminaAddress = "Barnyard.exe+0x003B493C,28";
+        readonly string milkAddress = "Barnyard.exe+0x0037E344,3C,70,C4";
+        readonly string cantSquirtAddress = "0x007810e4";
+        readonly string cameraZoomAddress = "Barnyard.exe+0x63DF9";
+        readonly string cameraZoomInAddress = "Barnyard.exe+0x63E50";
+        readonly string cameraZoomOutAddress = "Barnyard.exe+63DEB";
+        readonly string cameraTargettedDistanceAddress = "Barnyard.exe+0x003822E0,68,88";
 
         Mem mem = new Mem();
 
@@ -34,11 +33,18 @@ namespace Barnyard_Trainer
 
         void Form1_Load(object sender, EventArgs e)
         {
+            outGameTimer.Start();
+        }
+
+        private void OutGameTimer_Tick(object sender, EventArgs e)
+        {
             int PID = mem.GetProcIdFromName("Barnyard.exe");
             if (PID > 0)
             {
+                statusText.Text = "Connected";
+                outGameTimer.Stop();
                 mem.OpenProcess(PID);
-                timer1.Start();
+                inGameTimer.Start();
             }
         }
         #endregion
@@ -73,6 +79,29 @@ namespace Barnyard_Trainer
         #endregion
 
         #region Main Code
+        void InGameTimer_Tick(object sender, EventArgs e)
+        {
+            if (mem.GetProcIdFromName("Barnyard.exe") == 0) // If barnyard closed
+            {
+                statusText.Text = "Disconnected";
+                inGameTimer.Stop();
+                outGameTimer.Start();
+            }
+
+            if (staminaCheckBox.Checked)
+            {
+                mem.WriteMemory(staminaAddress, "float", "5");
+            }
+            if (milkCheckBox.Checked)
+            {
+                mem.WriteMemory(milkAddress, "float", "5");
+            }
+            if (firstPersonCheckBox.Checked)
+            {
+                mem.WriteMemory(cameraTargettedDistanceAddress, "float", "0.01");
+            }
+        }
+
         void MoneyApplyButton_Click(object sender, EventArgs e)
         {
             Write(moneyAddress, IntStringTo4Bytes(moneyTextBox.Text), "bytes", "Error applying money");
@@ -153,22 +182,6 @@ namespace Barnyard_Trainer
                     DisableCameraZoom(false);
                 }
                 Write(cameraTargettedDistanceAddress, "5", "float", "Error disabling first person");
-            }
-        }
-
-        void Timer1_Tick(object sender, EventArgs e)
-        {
-            if (staminaCheckBox.Checked)
-            {
-                mem.WriteMemory(staminaAddress, "float", "5");
-            }
-            if (milkCheckBox.Checked)
-            {
-                mem.WriteMemory(milkAddress, "float", "5");
-            }
-            if(firstPersonCheckBox.Checked)
-            {
-                mem.WriteMemory(cameraTargettedDistanceAddress, "float", "0.01");
             }
         }
         #endregion

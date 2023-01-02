@@ -36,7 +36,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.fovTrackBar = new System.Windows.Forms.TrackBar();
             this.staminaCheckBox = new System.Windows.Forms.CheckBox();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.inGameTimer = new System.Windows.Forms.Timer(this.components);
             this.milkCheckBox = new System.Windows.Forms.CheckBox();
             this.squirtCheckBox = new System.Windows.Forms.CheckBox();
             this.itemsApplyButton = new System.Windows.Forms.Button();
@@ -53,6 +53,8 @@
             this.positionRefreshButton = new System.Windows.Forms.Button();
             this.zoomCheckBox = new System.Windows.Forms.CheckBox();
             this.firstPersonCheckBox = new System.Windows.Forms.CheckBox();
+            this.outGameTimer = new System.Windows.Forms.Timer(this.components);
+            this.statusText = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.fovTrackBar)).BeginInit();
             this.SuspendLayout();
             // 
@@ -115,9 +117,9 @@
             this.staminaCheckBox.Text = "Infinite Stamina";
             this.staminaCheckBox.UseVisualStyleBackColor = true;
             // 
-            // timer1
+            // inGameTimer
             // 
-            this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
+            this.inGameTimer.Tick += new System.EventHandler(this.InGameTimer_Tick);
             // 
             // milkCheckBox
             // 
@@ -273,11 +275,26 @@
             this.firstPersonCheckBox.UseVisualStyleBackColor = true;
             this.firstPersonCheckBox.CheckedChanged += new System.EventHandler(this.FirstPersonCheckBox_CheckedChanged);
             // 
+            // outGameTimer
+            // 
+            this.outGameTimer.Tick += new System.EventHandler(this.OutGameTimer_Tick);
+            // 
+            // statusText
+            // 
+            this.statusText.AutoSize = true;
+            this.statusText.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.statusText.Location = new System.Drawing.Point(0, 437);
+            this.statusText.Name = "statusText";
+            this.statusText.Size = new System.Drawing.Size(79, 13);
+            this.statusText.TabIndex = 23;
+            this.statusText.Text = "Not Connected";
+            // 
             // BarnyardTrainer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.statusText);
             this.Controls.Add(this.firstPersonCheckBox);
             this.Controls.Add(this.zoomCheckBox);
             this.Controls.Add(this.positionRefreshButton);
@@ -318,7 +335,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TrackBar fovTrackBar;
         private System.Windows.Forms.CheckBox staminaCheckBox;
-        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Timer inGameTimer;
         private System.Windows.Forms.CheckBox milkCheckBox;
         private System.Windows.Forms.CheckBox squirtCheckBox;
         private System.Windows.Forms.Button itemsApplyButton;
@@ -335,6 +352,8 @@
         private System.Windows.Forms.Button positionRefreshButton;
         private System.Windows.Forms.CheckBox zoomCheckBox;
         private System.Windows.Forms.CheckBox firstPersonCheckBox;
+        private System.Windows.Forms.Timer outGameTimer;
+        private System.Windows.Forms.Label statusText;
     }
 }
 
