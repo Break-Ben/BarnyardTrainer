@@ -1,0 +1,32 @@
+C:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\Barnyard Trainer.exe.config
+C:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\Barnyard Trainer.exe
+C:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\Barnyard Trainer.pdb
+C:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\Memory.dll
+C:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\System.Buffers.dll
+C:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\System.Memory.dll
+C:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\System.Numerics.Vectors.dll
+C:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\System.Runtime.CompilerServices.Unsafe.dll
+C:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\System.Text.Encodings.Web.dll
+C:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\System.Text.Json.dll
+C:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\System.Threading.Tasks.Extensions.dll
+C:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\System.ValueTuple.dll
+C:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\Memory.xml
+C:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\Microsoft.Bcl.AsyncInterfaces.xml
+C:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\System.Buffers.xml
+C:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\System.Memory.xml
+C:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\System.Numerics.Vectors.xml
+C:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\System.Runtime.CompilerServices.Unsafe.xml
+C:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\System.Text.Encodings.Web.xml
+C:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\System.Text.Json.xml
+C:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\System.Threading.Tasks.Extensions.xml
+C:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\System.ValueTuple.xml
+C:\Programming\C#\Barnyard Trainer\Barnyard Trainer\obj\Release\Barnyard Trainer.csproj.AssemblyReference.cache
+C:\Programming\C#\Barnyard Trainer\Barnyard Trainer\obj\Release\Barnyard Trainer.csproj.SuggestedBindingRedirects.cache
+C:\Programming\C#\Barnyard Trainer\Barnyard Trainer\obj\Release\Barnyard_Trainer.BarnyardTrainer.resources
+C:\Programming\C#\Barnyard Trainer\Barnyard Trainer\obj\Release\Barnyard_Trainer.Properties.Resources.resources
+C:\Programming\C#\Barnyard Trainer\Barnyard Trainer\obj\Release\Barnyard Trainer.csproj.GenerateResource.cache
+C:\Programming\C#\Barnyard Trainer\Barnyard Trainer\obj\Release\Barnyard Trainer.csproj.CoreCompileInputs.cache
+C:\Programming\C#\Barnyard Trainer\Barnyard Trainer\obj\Release\Barnyard Trainer.csproj.CopyComplete
+C:\Programming\C#\Barnyard Trainer\Barnyard Trainer\obj\Release\Barnyard Trainer.exe
+C:\Programming\C#\Barnyard Trainer\Barnyard Trainer\obj\Release\Barnyard Trainer.pdb
