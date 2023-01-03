@@ -3,28 +3,19 @@ using System;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
+using System.Diagnostics;
+using Microsoft.Win32;
 
 namespace Barnyard_Trainer
 {
     public partial class BarnyardTrainer : Form
     {
-        #region Variables / Initialisation
-        readonly string moneyAddress = "Barnyard.exe+0x003B493C,20";
-        readonly string moneyHudAddress = "Barnyard.exe+0x003B493C,1C";
-        readonly string itemCountAddress = "Barnyard.exe+0037E344,3C,50,530";
-        readonly string xPosAddress = "Barnyard.exe+0037E344,3C,1C,20,18";
-        readonly string yPosAddress = "Barnyard.exe+0037E344,3C,1C,20,1C";
-        readonly string zPosAddress = "Barnyard.exe+0037E344,3C,1C,20,20";
-        readonly string fovAddress = "0x007822ac";
-        readonly string staminaAddress = "Barnyard.exe+0x003B493C,28";
-        readonly string milkAddress = "Barnyard.exe+0x0037E344,3C,70,C4";
-        readonly string cantSquirtAddress = "0x007810e4";
-        readonly string cameraZoomAddress = "Barnyard.exe+0x63DF9";
-        readonly string cameraZoomInAddress = "Barnyard.exe+0x63E50";
-        readonly string cameraZoomOutAddress = "Barnyard.exe+63DEB";
-        readonly string cameraTargettedDistanceAddress = "Barnyard.exe+0x003822E0,68,88";
-
+        #region Initialisation
         Mem mem = new Mem();
+        RegistryKey registry = Registry.CurrentUser.OpenSubKey(@"Software\THQ\Barnyard", true);
+        Stopwatch stopWatch = new Stopwatch();
+        float lastXPos, lastZPos;
+        long lastTime;
 
         public BarnyardTrainer()
         {
@@ -34,6 +25,16 @@ namespace Barnyard_Trainer
         void Form1_Load(object sender, EventArgs e)
         {
             outGameTimer.Start();
+            stopWatch.Start();
+
+            if(registry.GetValue("ControllerEnabled").ToString() == "1")
+            {
+                controllerCheckBox.Checked = true;
+            }
+            if (registry.GetValue("RealForcedWindowed").ToString() == "1")
+            {
+                windowedCheckBox.Checked = true;
+            }
         }
 
         private void OutGameTimer_Tick(object sender, EventArgs e)
@@ -81,88 +82,123 @@ namespace Barnyard_Trainer
         #region Main Code
         void InGameTimer_Tick(object sender, EventArgs e)
         {
-            if (mem.GetProcIdFromName("Barnyard.exe") == 0) // If barnyard closed
+            // If barnyard closes
+            if (mem.GetProcIdFromName("Barnyard.exe") == 0)
             {
                 statusText.Text = "Disconnected";
                 inGameTimer.Stop();
                 outGameTimer.Start();
             }
 
+            // Speedometer
+            float xPos = mem.ReadFloat(Addresses.xPos);
+            float zPos = mem.ReadFloat(Addresses.zPos);
+            long time = stopWatch.ElapsedMilliseconds;
+            double speed = Math.Round(Math.Sqrt(Math.Pow(xPos - lastXPos, 2) + Math.Pow(zPos - lastZPos, 2)) / (time - lastTime) * 1000);
+            speedLabel.Text = "Horizontal Speed: " + speed + " m/s";
+            lastTime = time;
+            lastXPos = xPos;
+            lastZPos = zPos;
+
             if (staminaCheckBox.Checked)
             {
-                mem.WriteMemory(staminaAddress, "float", "5");
+                mem.WriteMemory(Addresses.stamina, "float", "5");
             }
             if (milkCheckBox.Checked)
             {
-                mem.WriteMemory(milkAddress, "float", "5");
+                mem.WriteMemory(Addresses.milk, "float", "5");
             }
             if (firstPersonCheckBox.Checked)
             {
-                mem.WriteMemory(cameraTargettedDistanceAddress, "float", "0.01");
+                mem.WriteMemory(Addresses.cameraTargettedDistance, "float", "0.01");
             }
         }
 
         void MoneyApplyButton_Click(object sender, EventArgs e)
         {
-            Write(moneyAddress, IntStringTo4Bytes(moneyTextBox.Text), "bytes", "Error applying money");
-            Write(moneyHudAddress, IntStringTo4Bytes(moneyTextBox.Text), "bytes", "Error applying money HUD");
+            Write(Addresses.money, IntStringTo4Bytes(moneyTextBox.Text), "bytes", "Error applying money");
+            Write(Addresses.moneyHud, IntStringTo4Bytes(moneyTextBox.Text), "bytes", "Error applying money HUD");
         }
 
         void ItemsApplyButton_Click(object sender, EventArgs e)
         {
-            Write(itemCountAddress, IntStringTo4Bytes(itemsTextBox.Text), "bytes", "Error applying item count");
+            Write(Addresses.itemCount, IntStringTo4Bytes(itemsTextBox.Text), "bytes", "Error applying item count");
         }
 
         void PositionRefreshButton_Click(object sender, EventArgs e)
         {
-            xPosTextBox.Text = mem.ReadFloat(xPosAddress).ToString();
-            yPosTextBox.Text = (-1f*mem.ReadFloat(yPosAddress)).ToString();
-            zPosTextBox.Text = mem.ReadFloat(zPosAddress).ToString();
+            xPosTextBox.Text = mem.ReadFloat(Addresses.xPos).ToString();
+            yPosTextBox.Text = (-1f*mem.ReadFloat(Addresses.yPos)).ToString();
+            zPosTextBox.Text = mem.ReadFloat(Addresses.zPos).ToString();
         }
 
         void PositionApplyButton_Click(object sender, EventArgs e)
         {
-            Write(xPosAddress, xPosTextBox.Text, "float", "Error applying X position");
-            Write(yPosAddress, (-1f * float.Parse(yPosTextBox.Text)).ToString(), "float", "Error applying Y position");
-            Write(zPosAddress, zPosTextBox.Text, "float", "Error applying Z position");
+            Write(Addresses.xPos, xPosTextBox.Text, "float", "Error applying X position");
+            Write(Addresses.yPos, (-1f*float.Parse(yPosTextBox.Text)).ToString(), "float", "Error applying Y position");
+            Write(Addresses.zPos, zPosTextBox.Text, "float", "Error applying Z position");
         }
 
         void FovTrackBar_Scroll(object sender, EventArgs e)
         {
-            Write(fovAddress, ((float)fovTrackBar.Value / 100).ToString(), "float", "Error changing FOV");
+            Write(Addresses.fov, ((float)fovTrackBar.Value / 100).ToString(), "float", "Error changing FOV");
+        }
+
+        void NoclipCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (noclipCheckBox.Checked)
+            {
+                Write(Addresses.radius, "0.01", "float", "Error enabling no-clip");
+            }
+            else
+            {
+                Write(Addresses.radius, "0.55", "float", "Error disabling no-clip");
+            }
+        }
+
+        void GravityCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (gravityCheckBox.Checked)
+            {
+                Nop(Addresses.gravity, 3, "Error disabling gravity");
+            }
+            else
+            {
+                Write(Addresses.gravity, "D9 59 1C", "bytes", "Error enabling gravity");
+            }
         }
 
         void SquirtCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if(squirtCheckBox.Checked)
             {
-                Write(cantSquirtAddress, "0x00", "byte", "Error enabling squirt without glasses");
+                Write(Addresses.cantSquirt, "0x00", "byte", "Error enabling squirt without glasses");
             }
             else
             {
-                Write(cantSquirtAddress, "0x01", "byte", "Error disabling squirt without glasses");
+                Write(Addresses.cantSquirt, "0x01", "byte", "Error disabling squirt without glasses");
             }
         }
 
         void ZoomCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             DisableCameraZoom(zoomCheckBox.Checked);
-            Write(cameraTargettedDistanceAddress, "5", "float", "Error zooming out camera");
+            Write(Addresses.cameraTargettedDistance, "5", "float", "Error zooming out camera");
         }
 
         void DisableCameraZoom(bool disabled)
         {
             if (disabled)
             {
-                Nop(cameraZoomAddress, 6, "Error disabling camera zoom");
-                Nop(cameraZoomInAddress, 2, "Error disabling camera zoom in");
-                Nop(cameraZoomOutAddress, 6, "Error disabling camera zoom out");
+                Nop(Addresses.cameraZoom, 6, "Error disabling camera zoom");
+                Nop(Addresses.cameraZoomIn, 2, "Error disabling camera zoom in");
+                Nop(Addresses.cameraZoomOut, 6, "Error disabling camera zoom out");
             }
             else
             {
-                Write(cameraZoomAddress, "89 96 88 00 00 00", "bytes", "Error enabling camera zoom");
-                Write(cameraZoomInAddress, "89 01", "bytes", "Error enabling camera zoom in");
-                Write(cameraZoomOutAddress, "89 8E 88 00 00 00", "bytes", "Error enabling camera zoom out");
+                Write(Addresses.cameraZoom, "89 96 88 00 00 00", "bytes", "Error enabling camera zoom");
+                Write(Addresses.cameraZoomIn, "89 01", "bytes", "Error enabling camera zoom in");
+                Write(Addresses.cameraZoomOut, "89 8E 88 00 00 00", "bytes", "Error enabling camera zoom out");
             }
         }
 
@@ -172,7 +208,7 @@ namespace Barnyard_Trainer
             {
                 zoomCheckBox.Enabled = false;
                 DisableCameraZoom(true);
-                Write(cameraTargettedDistanceAddress, "0.01", "float", "Error enabling first person");
+                Write(Addresses.cameraTargettedDistance, "0.01", "float", "Error enabling first person");
             }
             else
             {
@@ -181,8 +217,61 @@ namespace Barnyard_Trainer
                 {
                     DisableCameraZoom(false);
                 }
-                Write(cameraTargettedDistanceAddress, "5", "float", "Error disabling first person");
+                Write(Addresses.cameraTargettedDistance, "5", "float", "Error disabling first person");
             }
+        }
+
+        void ClampCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (clampCheckBox.Checked)
+            {
+                Nop(Addresses.minPitch, 2, "Error disabling minimum pitch");
+                Nop(Addresses.maxPitch, 2, "Error disabling maximum pitch");
+            }
+            else
+            {
+                Write(Addresses.minPitch, "89 01", "bytes", "Error enabling minimum pitch");
+                Write(Addresses.maxPitch, "89 11", "bytes", "Error enabling maximum pitch");
+            }
+        }
+
+        void ControllerCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if(controllerCheckBox.Checked)
+            {
+                registry.SetValue("ControllerEnabled", 1);
+            }
+            else
+            {
+                registry.SetValue("ControllerEnabled", 0);
+            }
+        }
+
+        void WindowedCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (windowedCheckBox.Checked)
+            {
+                registry.SetValue("RealForcedWindowed", 1);
+            }
+            else
+            {
+                registry.SetValue("RealForcedWindowed", 0);
+            }
+        }
+
+        void MovementApplyButton_Click(object sender, EventArgs e)
+        {
+            Write(Addresses.walkSpeed, walkTextBox.Text, "float", "Error applying walk speed");
+            Write(Addresses.runSpeed, runTextBox.Text, "float", "Error applying run speed");
+            Write(Addresses.sprintSpeed, sprintTextBox.Text, "float", "Error applying sprint speed");
+            Write(Addresses.acceleration, accTextBox.Text, "float", "Error applying acceleration");
+            Write(Addresses.deceleration, decTextBox.Text, "float", "Error applying deceleration");
+            Write(Addresses.jumpForce, jumpTextBox.Text, "float", "Error applying jump height");
+        }
+
+        void InfoButton_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Walk speed is when slightly moving the joystick, run speed is when fully moving the joystick or WASD, and sprint speed is while holding shift and moving. All speeds are in m/s.", "NOTE");
         }
         #endregion
     }
