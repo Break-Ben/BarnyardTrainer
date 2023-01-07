@@ -10,6 +10,5 @@ The current features of the tool are shown below:
 
 ## Known Issues
 + The movement settings and no-clip can only be changed on foot while not squirting
-+ Enabling 'Unclamped pitch' also allows you to turn on bikes infinitely
 + The first person mode is currently incomplete and also only works on foot
-+ The speedometer is not 100% accurate - it stutters above/below the actual speed
++ The speedometer is not 100% accurate - it stutters above/below the actual speed (but is still close)
