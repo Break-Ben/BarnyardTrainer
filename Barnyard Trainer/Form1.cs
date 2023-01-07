@@ -1,10 +1,10 @@
 ﻿using Memory;
+using Microsoft.Win32;
 using System;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
-using System.Diagnostics;
-using Microsoft.Win32;
 
 namespace Barnyard_Trainer
 {
@@ -14,7 +14,7 @@ namespace Barnyard_Trainer
         Mem mem = new Mem();
         RegistryKey registry = Registry.CurrentUser.OpenSubKey(@"Software\THQ\Barnyard", true);
         Stopwatch stopWatch = new Stopwatch();
-        float lastXPos, lastZPos;
+        float xPos, zPos, lastXPos, lastZPos;
         long lastTime;
 
         public BarnyardTrainer()
@@ -27,7 +27,7 @@ namespace Barnyard_Trainer
             outGameTimer.Start();
             stopWatch.Start();
 
-            if(registry.GetValue("ControllerEnabled").ToString() == "1")
+            if (registry.GetValue("ControllerEnabled").ToString() == "1")
             {
                 controllerCheckBox.Checked = true;
             }
@@ -52,7 +52,7 @@ namespace Barnyard_Trainer
 
         #region Custom Functions
         // Converts an integer contained in a string into 4 hexadecimal bytes (in a string)
-        string IntStringTo4Bytes(string intString) 
+        string IntStringTo4Bytes(string intString)
         {
             return string.Join(" ", BitConverter.GetBytes(int.Parse(intString)).Select(b => "0x" + b.ToString("X2")));
         }
@@ -77,9 +77,30 @@ namespace Barnyard_Trainer
                 MessageBox.Show(errorMessage, "Error!");
             }
         }
+
+        bool OnFoot()
+        {
+            return mem.ReadByte(Addresses.isOnFoot) == 1;
+        }
         #endregion
 
         #region Main Code
+        void DisableCameraZoom(bool disabled)
+        {
+            if (disabled)
+            {
+                Nop(Addresses.cameraZoom, 6, "Error disabling camera zoom");
+                Nop(Addresses.cameraZoomIn, 2, "Error disabling camera zoom in");
+                Nop(Addresses.cameraZoomOut, 6, "Error disabling camera zoom out");
+            }
+            else
+            {
+                Write(Addresses.cameraZoom, "89 96 88 00 00 00", "bytes", "Error enabling camera zoom");
+                Write(Addresses.cameraZoomIn, "89 01", "bytes", "Error enabling camera zoom in");
+                Write(Addresses.cameraZoomOut, "89 8E 88 00 00 00", "bytes", "Error enabling camera zoom out");
+            }
+        }
+
         void InGameTimer_Tick(object sender, EventArgs e)
         {
             // If barnyard closes
@@ -91,8 +112,16 @@ namespace Barnyard_Trainer
             }
 
             // Speedometer
-            float xPos = mem.ReadFloat(Addresses.xPos);
-            float zPos = mem.ReadFloat(Addresses.zPos);
+            if(OnFoot())
+            {
+                xPos = mem.ReadFloat(Addresses.xPos);
+                zPos = mem.ReadFloat(Addresses.zPos);
+            }
+            else
+            {
+                xPos = mem.ReadFloat(Addresses.bikeXPos);
+                zPos = mem.ReadFloat(Addresses.bikeZPos);
+            }
             long time = stopWatch.ElapsedMilliseconds;
             double speed = Math.Round(Math.Sqrt(Math.Pow(xPos - lastXPos, 2) + Math.Pow(zPos - lastZPos, 2)) / (time - lastTime) * 1000);
             speedLabel.Text = "Horizontal Speed: " + speed + " m/s";
@@ -102,7 +131,14 @@ namespace Barnyard_Trainer
 
             if (staminaCheckBox.Checked)
             {
-                mem.WriteMemory(Addresses.stamina, "float", "5");
+                if(OnFoot())
+                {
+                    mem.WriteMemory(Addresses.stamina, "float", "5");
+                }
+                else
+                {
+                    mem.WriteMemory(Addresses.bikeStamina, "float", "1");
+                }
             }
             if (milkCheckBox.Checked)
             {
@@ -111,6 +147,24 @@ namespace Barnyard_Trainer
             if (firstPersonCheckBox.Checked)
             {
                 mem.WriteMemory(Addresses.cameraTargettedDistance, "float", "0.01");
+            }
+            if(OnFoot())
+            {
+                if (clampCheckBox.Checked)
+                {
+                    Nop(Addresses.minPitch, 2, "Error disabling minimum pitch");
+                    Nop(Addresses.maxPitch, 2, "Error disabling maximum pitch");
+                }
+                else
+                {
+                    Write(Addresses.minPitch, "89 01", "bytes", "Error enabling minimum pitch");
+                    Write(Addresses.maxPitch, "89 11", "bytes", "Error enabling maximum pitch");
+                }
+            }
+            else // (restore because this causes issues while on a bike)
+            {
+                Write(Addresses.minPitch, "89 01", "bytes", "Error enabling minimum pitch");
+                Write(Addresses.maxPitch, "89 11", "bytes", "Error enabling maximum pitch");
             }
         }
 
@@ -127,16 +181,34 @@ namespace Barnyard_Trainer
 
         void PositionRefreshButton_Click(object sender, EventArgs e)
         {
-            xPosTextBox.Text = mem.ReadFloat(Addresses.xPos).ToString();
-            yPosTextBox.Text = (-1f*mem.ReadFloat(Addresses.yPos)).ToString();
-            zPosTextBox.Text = mem.ReadFloat(Addresses.zPos).ToString();
+            if(OnFoot())
+            {
+                xPosTextBox.Text = mem.ReadFloat(Addresses.xPos).ToString();
+                yPosTextBox.Text = (-1f * mem.ReadFloat(Addresses.yPos)).ToString();
+                zPosTextBox.Text = mem.ReadFloat(Addresses.zPos).ToString();
+            }
+            else
+            {
+                xPosTextBox.Text = mem.ReadFloat(Addresses.bikeXPos).ToString();
+                yPosTextBox.Text = (-1f * mem.ReadFloat(Addresses.bikeYPos)).ToString();
+                zPosTextBox.Text = mem.ReadFloat(Addresses.bikeZPos).ToString();
+            }
         }
 
         void PositionApplyButton_Click(object sender, EventArgs e)
         {
-            Write(Addresses.xPos, xPosTextBox.Text, "float", "Error applying X position");
-            Write(Addresses.yPos, (-1f*float.Parse(yPosTextBox.Text)).ToString(), "float", "Error applying Y position");
-            Write(Addresses.zPos, zPosTextBox.Text, "float", "Error applying Z position");
+            if(OnFoot())
+            {
+                Write(Addresses.xPos, xPosTextBox.Text, "float", "Error applying X position");
+                Write(Addresses.yPos, (-1f * float.Parse(yPosTextBox.Text)).ToString(), "float", "Error applying Y position");
+                Write(Addresses.zPos, zPosTextBox.Text, "float", "Error applying Z position");
+            }
+            else
+            {
+                Write(Addresses.bikeXPos, xPosTextBox.Text, "float", "Error applying X position");
+                Write(Addresses.bikeYPos, (-1f * float.Parse(yPosTextBox.Text)).ToString(), "float", "Error applying Y position");
+                Write(Addresses.bikeZPos, zPosTextBox.Text, "float", "Error applying Z position");
+            }
         }
 
         void FovTrackBar_Scroll(object sender, EventArgs e)
@@ -170,7 +242,7 @@ namespace Barnyard_Trainer
 
         void SquirtCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            if(squirtCheckBox.Checked)
+            if (squirtCheckBox.Checked)
             {
                 Write(Addresses.cantSquirt, "0x00", "byte", "Error enabling squirt without glasses");
             }
@@ -186,25 +258,9 @@ namespace Barnyard_Trainer
             Write(Addresses.cameraTargettedDistance, "5", "float", "Error zooming out camera");
         }
 
-        void DisableCameraZoom(bool disabled)
-        {
-            if (disabled)
-            {
-                Nop(Addresses.cameraZoom, 6, "Error disabling camera zoom");
-                Nop(Addresses.cameraZoomIn, 2, "Error disabling camera zoom in");
-                Nop(Addresses.cameraZoomOut, 6, "Error disabling camera zoom out");
-            }
-            else
-            {
-                Write(Addresses.cameraZoom, "89 96 88 00 00 00", "bytes", "Error enabling camera zoom");
-                Write(Addresses.cameraZoomIn, "89 01", "bytes", "Error enabling camera zoom in");
-                Write(Addresses.cameraZoomOut, "89 8E 88 00 00 00", "bytes", "Error enabling camera zoom out");
-            }
-        }
-
         void FirstPersonCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            if(firstPersonCheckBox.Checked)
+            if (firstPersonCheckBox.Checked)
             {
                 zoomCheckBox.Enabled = false;
                 DisableCameraZoom(true);
@@ -213,7 +269,7 @@ namespace Barnyard_Trainer
             else
             {
                 zoomCheckBox.Enabled = true;
-                if(!zoomCheckBox.Checked)
+                if (!zoomCheckBox.Checked)
                 {
                     DisableCameraZoom(false);
                 }
@@ -221,23 +277,9 @@ namespace Barnyard_Trainer
             }
         }
 
-        void ClampCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            if (clampCheckBox.Checked)
-            {
-                Nop(Addresses.minPitch, 2, "Error disabling minimum pitch");
-                Nop(Addresses.maxPitch, 2, "Error disabling maximum pitch");
-            }
-            else
-            {
-                Write(Addresses.minPitch, "89 01", "bytes", "Error enabling minimum pitch");
-                Write(Addresses.maxPitch, "89 11", "bytes", "Error enabling maximum pitch");
-            }
-        }
-
         void ControllerCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            if(controllerCheckBox.Checked)
+            if (controllerCheckBox.Checked)
             {
                 registry.SetValue("ControllerEnabled", 1);
             }

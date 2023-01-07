@@ -8,10 +8,15 @@
         public static readonly string xPos = "Barnyard.exe+0037E344,3C,1C,20,18";
         public static readonly string yPos = "Barnyard.exe+0037E344,3C,1C,20,1C";
         public static readonly string zPos = "Barnyard.exe+0037E344,3C,1C,20,20";
+        public static readonly string bikeXPos = "Barnyard.exe+3C52AC";
+        public static readonly string bikeYPos = "Barnyard.exe+3C52B0";
+        public static readonly string bikeZPos = "Barnyard.exe+3C52B4";
         public static readonly string fov = "0x007822ac";
         public static readonly string stamina = "Barnyard.exe+0x003B493C,28";
+        public static readonly string bikeStamina = "Barnyard.exe+000CDCA8,1C,18";
         public static readonly string milk = "Barnyard.exe+0x0037E344,3C,70,C4";
         public static readonly string cantSquirt = "0x007810e4";
+        public static readonly string isOnFoot = "Barnyard.exe+0x0038A0EC,20,C";
         public static readonly string cameraZoom = "Barnyard.exe+0x63DF9";
         public static readonly string cameraZoomIn = "Barnyard.exe+0x63E50";
         public static readonly string cameraZoomOut = "Barnyard.exe+63DEB";

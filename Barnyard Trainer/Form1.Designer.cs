@@ -142,6 +142,7 @@
             // 
             // inGameTimer
             // 
+            this.inGameTimer.Interval = 110;
             this.inGameTimer.Tick += new System.EventHandler(this.InGameTimer_Tick);
             // 
             // milkCheckBox
@@ -322,7 +323,6 @@
             this.clampCheckBox.TabIndex = 24;
             this.clampCheckBox.Text = "Un-clamped Pitch (look higher/lower)";
             this.clampCheckBox.UseVisualStyleBackColor = true;
-            this.clampCheckBox.CheckedChanged += new System.EventHandler(this.ClampCheckBox_CheckedChanged);
             // 
             // tableLayoutPanel1
             // 
