@@ -57,15 +57,29 @@ namespace Barnyard_Trainer
             return string.Join(" ", BitConverter.GetBytes(int.Parse(intString)).Select(b => "0x" + b.ToString("X2")));
         }
 
-        void Write(string address, string value, string type, string errorMessage = "Error")
+        void WriteFloat(string address, float value, string errorMessage = "")
         {
-            if (!mem.WriteMemory(address, type, value))
+            if (!mem.WriteMemory(address, "float", value.ToString()))
             {
-                MessageBox.Show(errorMessage, "Error!");
+                if (errorMessage != "")
+                {
+                    MessageBox.Show(errorMessage, "Error!");
+                }
             }
         }
 
-        void Nop(string address, int bytes, string errorMessage = "Error")
+        void WriteBytes(string address, string value, string errorMessage = "")
+        {
+            if (!mem.WriteMemory(address, "bytes", value))
+            {
+                if (errorMessage != "")
+                {
+                    MessageBox.Show(errorMessage, "Error!");
+                }
+            }
+        }
+
+        void Nop(string address, int bytes, string errorMessage = "")
         {
             string value = "";
             for (int i = 0; i < bytes; i++)
@@ -74,7 +88,10 @@ namespace Barnyard_Trainer
             }
             if (!mem.WriteMemory(address, "bytes", value.TrimEnd()))
             {
-                MessageBox.Show(errorMessage, "Error!");
+                if (errorMessage != "")
+                {
+                    MessageBox.Show(errorMessage, "Error!");
+                }
             }
         }
 
@@ -95,9 +112,9 @@ namespace Barnyard_Trainer
             }
             else
             {
-                Write(Addresses.cameraZoom, "89 96 88 00 00 00", "bytes", "Error enabling camera zoom");
-                Write(Addresses.cameraZoomIn, "89 01", "bytes", "Error enabling camera zoom in");
-                Write(Addresses.cameraZoomOut, "89 8E 88 00 00 00", "bytes", "Error enabling camera zoom out");
+                WriteBytes(Addresses.cameraZoom, "89 96 88 00 00 00", "Error enabling camera zoom");
+                WriteBytes(Addresses.cameraZoomIn, "89 01", "Error enabling camera zoom in");
+                WriteBytes(Addresses.cameraZoomOut, "89 8E 88 00 00 00", "Error enabling camera zoom out");
             }
         }
 
@@ -112,7 +129,7 @@ namespace Barnyard_Trainer
             }
 
             // Speedometer
-            if(OnFoot())
+            if (OnFoot())
             {
                 xPos = mem.ReadFloat(Addresses.xPos);
                 zPos = mem.ReadFloat(Addresses.zPos);
@@ -131,57 +148,57 @@ namespace Barnyard_Trainer
 
             if (staminaCheckBox.Checked)
             {
-                if(OnFoot())
+                if (OnFoot())
                 {
-                    mem.WriteMemory(Addresses.stamina, "float", "5");
+                    WriteFloat(Addresses.stamina, 5f);
                 }
                 else
                 {
-                    mem.WriteMemory(Addresses.bikeStamina, "float", "1");
+                    WriteFloat(Addresses.bikeStamina, 1f);
                 }
             }
             if (milkCheckBox.Checked)
             {
-                mem.WriteMemory(Addresses.milk, "float", "5");
+                WriteFloat(Addresses.milk, 5f);
             }
             if (firstPersonCheckBox.Checked)
             {
-                mem.WriteMemory(Addresses.cameraTargettedDistance, "float", "0.01");
+                WriteFloat(Addresses.cameraTargettedDistance, 0.01f);
             }
-            if(OnFoot())
+            if (OnFoot())
             {
                 if (clampCheckBox.Checked)
                 {
-                    Nop(Addresses.minPitch, 2, "Error disabling minimum pitch");
-                    Nop(Addresses.maxPitch, 2, "Error disabling maximum pitch");
+                    Nop(Addresses.minPitch, 2);
+                    Nop(Addresses.maxPitch, 2);
                 }
                 else
                 {
-                    Write(Addresses.minPitch, "89 01", "bytes", "Error enabling minimum pitch");
-                    Write(Addresses.maxPitch, "89 11", "bytes", "Error enabling maximum pitch");
+                    WriteBytes(Addresses.minPitch, "89 01");
+                    WriteBytes(Addresses.maxPitch, "89 11");
                 }
             }
             else // (restore because this causes issues while on a bike)
             {
-                Write(Addresses.minPitch, "89 01", "bytes", "Error enabling minimum pitch");
-                Write(Addresses.maxPitch, "89 11", "bytes", "Error enabling maximum pitch");
+                WriteBytes(Addresses.minPitch, "89 01");
+                WriteBytes(Addresses.maxPitch, "89 11");
             }
         }
 
         void MoneyApplyButton_Click(object sender, EventArgs e)
         {
-            Write(Addresses.money, IntStringTo4Bytes(moneyTextBox.Text), "bytes", "Error applying money");
-            Write(Addresses.moneyHud, IntStringTo4Bytes(moneyTextBox.Text), "bytes", "Error applying money HUD");
+            WriteBytes(Addresses.money, IntStringTo4Bytes(moneyTextBox.Text), "Error applying money");
+            WriteBytes(Addresses.moneyHud, IntStringTo4Bytes(moneyTextBox.Text), "Error applying money HUD");
         }
 
         void ItemsApplyButton_Click(object sender, EventArgs e)
         {
-            Write(Addresses.itemCount, IntStringTo4Bytes(itemsTextBox.Text), "bytes", "Error applying item count");
+            WriteBytes(Addresses.itemCount, IntStringTo4Bytes(itemsTextBox.Text), "Error applying item count");
         }
 
         void PositionRefreshButton_Click(object sender, EventArgs e)
         {
-            if(OnFoot())
+            if (OnFoot())
             {
                 xPosTextBox.Text = mem.ReadFloat(Addresses.xPos).ToString();
                 yPosTextBox.Text = (-1f * mem.ReadFloat(Addresses.yPos)).ToString();
@@ -197,34 +214,34 @@ namespace Barnyard_Trainer
 
         void PositionApplyButton_Click(object sender, EventArgs e)
         {
-            if(OnFoot())
+            if (OnFoot())
             {
-                Write(Addresses.xPos, xPosTextBox.Text, "float", "Error applying X position");
-                Write(Addresses.yPos, (-1f * float.Parse(yPosTextBox.Text)).ToString(), "float", "Error applying Y position");
-                Write(Addresses.zPos, zPosTextBox.Text, "float", "Error applying Z position");
+                WriteFloat(Addresses.xPos, float.Parse(xPosTextBox.Text), "Error applying X position");
+                WriteFloat(Addresses.yPos, -1f * float.Parse(yPosTextBox.Text), "Error applying Y position");
+                WriteFloat(Addresses.zPos, float.Parse(zPosTextBox.Text), "Error applying Z position");
             }
             else
             {
-                Write(Addresses.bikeXPos, xPosTextBox.Text, "float", "Error applying X position");
-                Write(Addresses.bikeYPos, (-1f * float.Parse(yPosTextBox.Text)).ToString(), "float", "Error applying Y position");
-                Write(Addresses.bikeZPos, zPosTextBox.Text, "float", "Error applying Z position");
+                WriteFloat(Addresses.bikeXPos, float.Parse(xPosTextBox.Text), "Error applying X position");
+                WriteFloat(Addresses.bikeYPos, -1f * float.Parse(yPosTextBox.Text), "Error applying Y position");
+                WriteFloat(Addresses.bikeZPos, float.Parse(zPosTextBox.Text), "Error applying Z position");
             }
         }
 
         void FovTrackBar_Scroll(object sender, EventArgs e)
         {
-            Write(Addresses.fov, ((float)fovTrackBar.Value / 100).ToString(), "float", "Error changing FOV");
+            WriteFloat(Addresses.fov, (float)fovTrackBar.Value / 100, "Error changing FOV");
         }
 
         void NoclipCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if (noclipCheckBox.Checked)
             {
-                Write(Addresses.radius, "0.01", "float", "Error enabling no-clip");
+                WriteFloat(Addresses.radius, 0.01f, "Error enabling no-clip");
             }
             else
             {
-                Write(Addresses.radius, "0.55", "float", "Error disabling no-clip");
+                WriteFloat(Addresses.radius, 0.55f, "Error disabling no-clip");
             }
         }
 
@@ -236,7 +253,7 @@ namespace Barnyard_Trainer
             }
             else
             {
-                Write(Addresses.gravity, "D9 59 1C", "bytes", "Error enabling gravity");
+                WriteBytes(Addresses.gravity, "D9 59 1C", "Error enabling gravity");
             }
         }
 
@@ -244,18 +261,18 @@ namespace Barnyard_Trainer
         {
             if (squirtCheckBox.Checked)
             {
-                Write(Addresses.cantSquirt, "0x00", "byte", "Error enabling squirt without glasses");
+                WriteBytes(Addresses.cantSquirt, "0x00", "Error enabling squirt without glasses");
             }
             else
             {
-                Write(Addresses.cantSquirt, "0x01", "byte", "Error disabling squirt without glasses");
+                WriteBytes(Addresses.cantSquirt, "0x01", "Error disabling squirt without glasses");
             }
         }
 
         void ZoomCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             DisableCameraZoom(zoomCheckBox.Checked);
-            Write(Addresses.cameraTargettedDistance, "5", "float", "Error zooming out camera");
+            WriteFloat(Addresses.cameraTargettedDistance, 5f, "Error zooming out camera");
         }
 
         void FirstPersonCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -264,7 +281,7 @@ namespace Barnyard_Trainer
             {
                 zoomCheckBox.Enabled = false;
                 DisableCameraZoom(true);
-                Write(Addresses.cameraTargettedDistance, "0.01", "float", "Error enabling first person");
+                WriteFloat(Addresses.cameraTargettedDistance, 0.01f, "Error enabling first person");
             }
             else
             {
@@ -273,7 +290,7 @@ namespace Barnyard_Trainer
                 {
                     DisableCameraZoom(false);
                 }
-                Write(Addresses.cameraTargettedDistance, "5", "float", "Error disabling first person");
+                WriteFloat(Addresses.cameraTargettedDistance, 5f, "Error disabling first person");
             }
         }
 
@@ -303,12 +320,12 @@ namespace Barnyard_Trainer
 
         void MovementApplyButton_Click(object sender, EventArgs e)
         {
-            Write(Addresses.walkSpeed, walkTextBox.Text, "float", "Error applying walk speed");
-            Write(Addresses.runSpeed, runTextBox.Text, "float", "Error applying run speed");
-            Write(Addresses.sprintSpeed, sprintTextBox.Text, "float", "Error applying sprint speed");
-            Write(Addresses.acceleration, accTextBox.Text, "float", "Error applying acceleration");
-            Write(Addresses.deceleration, decTextBox.Text, "float", "Error applying deceleration");
-            Write(Addresses.jumpForce, jumpTextBox.Text, "float", "Error applying jump height");
+            WriteFloat(Addresses.walkSpeed, float.Parse(walkTextBox.Text), "Error applying walk speed");
+            WriteFloat(Addresses.runSpeed, float.Parse(runTextBox.Text), "Error applying run speed");
+            WriteFloat(Addresses.sprintSpeed, float.Parse(sprintTextBox.Text), "Error applying sprint speed");
+            WriteFloat(Addresses.acceleration, float.Parse(accTextBox.Text), "Error applying acceleration");
+            WriteFloat(Addresses.deceleration, float.Parse(decTextBox.Text), "Error applying deceleration");
+            WriteFloat(Addresses.jumpForce, float.Parse(jumpTextBox.Text), "Error applying jump height");
         }
 
         void InfoButton_Click(object sender, EventArgs e)
