@@ -1,8 +1,10 @@
 # BarnyardTrainer
- A trainer / mod menu for the video game Barnyard.
+A trainer / mod menu for the video game Barnyard.
+
+Note that there are different builds of Barnyard released but this trainer is built to work with the version available for download on the [Barnyard Speedrunning Discord](https://discord.gg/4WD8sF28RU).
 
 ## Installation
-To use, simply download and extract the repository, and run BarnyardTrainer-main\Barnyard Trainer\bin\Release\Barnyard Trainer.exe
+To use, simply download and extract the repository, and run _'BarnyardTrainer-main\Barnyard Trainer\bin\Release\Barnyard Trainer.exe'_
 
 ## Features
 The current features of the tool are shown below:
