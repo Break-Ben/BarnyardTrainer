@@ -63,7 +63,7 @@ namespace Barnyard_Trainer
             {
                 if (errorMessage != "")
                 {
-                    MessageBox.Show(errorMessage, "Error!");
+                    MessageBox.Show(errorMessage, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -74,7 +74,7 @@ namespace Barnyard_Trainer
             {
                 if (errorMessage != "")
                 {
-                    MessageBox.Show(errorMessage, "Error!");
+                    MessageBox.Show(errorMessage, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -90,7 +90,7 @@ namespace Barnyard_Trainer
             {
                 if (errorMessage != "")
                 {
-                    MessageBox.Show(errorMessage, "Error!");
+                    MessageBox.Show(errorMessage, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -163,7 +163,11 @@ namespace Barnyard_Trainer
             }
             if (firstPersonCheckBox.Checked)
             {
-                WriteFloat(Addresses.cameraTargettedDistance, 0.01f);
+                if (OnFoot())
+                {
+                    WriteFloat(Addresses.cameraTargettedDistance, 0.01f);
+                    WriteFloat(Addresses.opacity, 0f);
+                }
             }
             if (OnFoot())
             {
@@ -185,52 +189,18 @@ namespace Barnyard_Trainer
             }
         }
 
-        void MoneyApplyButton_Click(object sender, EventArgs e)
+        void LadderCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            WriteBytes(Addresses.money, IntStringTo4Bytes(moneyTextBox.Text), "Error applying money");
-            WriteBytes(Addresses.moneyHud, IntStringTo4Bytes(moneyTextBox.Text), "Error applying money HUD");
-        }
-
-        void ItemsApplyButton_Click(object sender, EventArgs e)
-        {
-            WriteBytes(Addresses.itemCount, IntStringTo4Bytes(itemsTextBox.Text), "Error applying item count");
-        }
-
-        void PositionRefreshButton_Click(object sender, EventArgs e)
-        {
-            if (OnFoot())
+            if (ladderCheckBox.Checked)
             {
-                xPosTextBox.Text = mem.ReadFloat(Addresses.xPos).ToString();
-                yPosTextBox.Text = (-1f * mem.ReadFloat(Addresses.yPos)).ToString();
-                zPosTextBox.Text = mem.ReadFloat(Addresses.zPos).ToString();
+                WriteFloat(Addresses.minClimbSpeed, 15f, "Error enabling fast ladder");
+                WriteFloat(Addresses.maxClimbSpeed, 15f, "Error enabling fast ladder");
             }
             else
             {
-                xPosTextBox.Text = mem.ReadFloat(Addresses.bikeXPos).ToString();
-                yPosTextBox.Text = (-1f * mem.ReadFloat(Addresses.bikeYPos)).ToString();
-                zPosTextBox.Text = mem.ReadFloat(Addresses.bikeZPos).ToString();
+                WriteFloat(Addresses.minClimbSpeed, 1f, "Error enabling fast ladder");
+                WriteFloat(Addresses.maxClimbSpeed, 1.3f, "Error enabling fast ladder");
             }
-        }
-
-        void PositionApplyButton_Click(object sender, EventArgs e)
-        {
-            if (OnFoot())
-            {
-                WriteFloat(Addresses.xPos, float.Parse(xPosTextBox.Text), "Error applying X position");
-                WriteFloat(Addresses.yPos, -1f * float.Parse(yPosTextBox.Text), "Error applying Y position");
-                WriteFloat(Addresses.zPos, float.Parse(zPosTextBox.Text), "Error applying Z position");
-            }
-            else
-            {
-                WriteFloat(Addresses.bikeXPos, float.Parse(xPosTextBox.Text), "Error applying X position");
-                WriteFloat(Addresses.bikeYPos, -1f * float.Parse(yPosTextBox.Text), "Error applying Y position");
-                WriteFloat(Addresses.bikeZPos, float.Parse(zPosTextBox.Text), "Error applying Z position");
-            }
-        }
-
-        void FovTrackBar_Scroll(object sender, EventArgs e)
-        {
-            WriteFloat(Addresses.fov, (float)fovTrackBar.Value / 100, "Error changing FOV");
         }
 
         void NoclipCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -257,9 +227,21 @@ namespace Barnyard_Trainer
             }
         }
 
-        void SquirtCheckBox_CheckedChanged(object sender, EventArgs e)
+        void SquirtDelayCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            if (squirtCheckBox.Checked)
+            if (squirtDelayCheckBox.Checked)
+            {
+                WriteFloat(Addresses.squirtDelay, 0f, "Error disabling squirt delay");
+            }
+            else
+            {
+                WriteFloat(Addresses.squirtDelay, 0.5f, "Error restoring squirt delay");
+            }
+        }
+
+        void SquirtGlassesCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (squirtGlassesCheckBox.Checked)
             {
                 WriteBytes(Addresses.cantSquirt, "0x00", "Error enabling squirt without glasses");
             }
@@ -280,17 +262,27 @@ namespace Barnyard_Trainer
             if (firstPersonCheckBox.Checked)
             {
                 zoomCheckBox.Enabled = false;
+
                 DisableCameraZoom(true);
                 WriteFloat(Addresses.cameraTargettedDistance, 0.01f, "Error enabling first person");
+                Nop(Addresses.opacityChange1, 2, "Error changing player opacity");
+                Nop(Addresses.opacityChange2, 2, "Error changing player opacity");
+
+                //Nop(Addresses.firstPeronBike, 2);
             }
             else
             {
                 zoomCheckBox.Enabled = true;
+
                 if (!zoomCheckBox.Checked)
                 {
                     DisableCameraZoom(false);
                 }
                 WriteFloat(Addresses.cameraTargettedDistance, 5f, "Error disabling first person");
+                WriteBytes(Addresses.opacityChange1, "D9 11", "Error changing player opacity");
+                WriteBytes(Addresses.opacityChange2, "89 01", "Error changing player opacity");
+
+                //WriteBytes(Addresses.firstPeronBike, "D8 01");
             }
         }
 
@@ -328,9 +320,77 @@ namespace Barnyard_Trainer
             WriteFloat(Addresses.jumpForce, float.Parse(jumpTextBox.Text), "Error applying jump height");
         }
 
+        void PositionRefreshButton_Click(object sender, EventArgs e)
+        {
+            if (OnFoot())
+            {
+                xPosTextBox.Text = mem.ReadFloat(Addresses.xPos).ToString();
+                yPosTextBox.Text = (-1f * mem.ReadFloat(Addresses.yPos)).ToString();
+                zPosTextBox.Text = mem.ReadFloat(Addresses.zPos).ToString();
+            }
+            else
+            {
+                xPosTextBox.Text = mem.ReadFloat(Addresses.bikeXPos).ToString();
+                yPosTextBox.Text = (-1f * mem.ReadFloat(Addresses.bikeYPos)).ToString();
+                zPosTextBox.Text = mem.ReadFloat(Addresses.bikeZPos).ToString();
+            }
+        }
+
+        void PositionApplyButton_Click(object sender, EventArgs e)
+        {
+            if (OnFoot())
+            {
+                WriteFloat(Addresses.xPos, float.Parse(xPosTextBox.Text), "Error applying X position");
+                WriteFloat(Addresses.yPos, -1f * float.Parse(yPosTextBox.Text), "Error applying Y position");
+                WriteFloat(Addresses.zPos, float.Parse(zPosTextBox.Text), "Error applying Z position");
+            }
+            else
+            {
+                WriteFloat(Addresses.bikeXPos, float.Parse(xPosTextBox.Text), "Error applying X position");
+                WriteFloat(Addresses.bikeYPos, -1f * float.Parse(yPosTextBox.Text), "Error applying Y position");
+                WriteFloat(Addresses.bikeZPos, float.Parse(zPosTextBox.Text), "Error applying Z position");
+            }
+        }
+
+        void MoneyApplyButton_Click(object sender, EventArgs e)
+        {
+            WriteBytes(Addresses.money, IntStringTo4Bytes(moneyTextBox.Text), "Error applying money");
+            WriteBytes(Addresses.moneyHud, IntStringTo4Bytes(moneyTextBox.Text), "Error applying money HUD");
+        }
+
+        void ItemsApplyButton_Click(object sender, EventArgs e)
+        {
+            WriteBytes(Addresses.itemCount, IntStringTo4Bytes(itemsTextBox.Text), "Error applying item count");
+        }
+
+        void FovTrackBar_Scroll(object sender, EventArgs e)
+        {
+            WriteFloat(Addresses.fov, (float)fovTrackBar.Value / 100, "Error changing FOV");
+        }
+
         void InfoButton_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Walk speed is when slightly moving the joystick, run speed is when fully moving the joystick or WASD, and sprint speed is while holding shift and moving. All speeds are in m/s.", "NOTE");
+            MessageBox.Show("Walk speed is when slightly moving the joystick, run speed is when fully moving the joystick or WASD, and sprint speed is while holding shift and moving. All speeds are in m/s.", "NOTE", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        void BuiltinCheatsButton_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(@"Barnyard has multiple cheats that are already in the game. They are enabled by holding the 'TAB' key while typing codes.
+
+The below codes can be entered on the main menu:
+SHOWMESTUFF: Unlock all gallery items
+FUNANDGAMES: Unlock all antics
+    THATSCALLEDCOWTIPPING: Unlock Cow Tipping
+    HANGINGWITHOTIS: Unlock Chasing Chicks
+    DOGSPLAYINGPOOL: Unlock Pool
+    TIMETOGOTOWORK: Unlock Mud Jumpers
+    ILOVEPUMPKINS: Unlock Vegetable Patch Defender
+    COWSONBIKES: Unlock Bike Race
+    OHMILKME: Unlock Milk Bar
+
+The below codes can be entered while in the game:
+IWANTSOME: Get 10 of everything
+GIMMESOMELOVE: Get $9999 Gopher Bucks", "Built-in Cheats", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         #endregion
     }

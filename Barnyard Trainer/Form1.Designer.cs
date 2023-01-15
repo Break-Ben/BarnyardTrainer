@@ -38,7 +38,7 @@
             this.staminaCheckBox = new System.Windows.Forms.CheckBox();
             this.inGameTimer = new System.Windows.Forms.Timer(this.components);
             this.milkCheckBox = new System.Windows.Forms.CheckBox();
-            this.squirtCheckBox = new System.Windows.Forms.CheckBox();
+            this.squirtGlassesCheckBox = new System.Windows.Forms.CheckBox();
             this.itemsApplyButton = new System.Windows.Forms.Button();
             this.itemsTextBox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -77,6 +77,9 @@
             this.infoButton = new System.Windows.Forms.Button();
             this.gravityCheckBox = new System.Windows.Forms.CheckBox();
             this.noclipCheckBox = new System.Windows.Forms.CheckBox();
+            this.squirtDelayCheckBox = new System.Windows.Forms.CheckBox();
+            this.ladderCheckBox = new System.Windows.Forms.CheckBox();
+            this.builtinCheatsButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.fovTrackBar)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -85,7 +88,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(10, 12);
+            this.label1.Location = new System.Drawing.Point(228, 208);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(49, 15);
             this.label1.TabIndex = 0;
@@ -93,7 +96,7 @@
             // 
             // moneyTextBox
             // 
-            this.moneyTextBox.Location = new System.Drawing.Point(13, 30);
+            this.moneyTextBox.Location = new System.Drawing.Point(231, 226);
             this.moneyTextBox.Name = "moneyTextBox";
             this.moneyTextBox.Size = new System.Drawing.Size(55, 20);
             this.moneyTextBox.TabIndex = 1;
@@ -101,7 +104,7 @@
             // 
             // moneyApplyButton
             // 
-            this.moneyApplyButton.Location = new System.Drawing.Point(74, 30);
+            this.moneyApplyButton.Location = new System.Drawing.Point(292, 226);
             this.moneyApplyButton.Name = "moneyApplyButton";
             this.moneyApplyButton.Size = new System.Drawing.Size(75, 23);
             this.moneyApplyButton.TabIndex = 2;
@@ -113,7 +116,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(10, 144);
+            this.label2.Location = new System.Drawing.Point(228, 256);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(33, 15);
             this.label2.TabIndex = 3;
@@ -121,10 +124,10 @@
             // 
             // fovTrackBar
             // 
-            this.fovTrackBar.Location = new System.Drawing.Point(4, 162);
+            this.fovTrackBar.Location = new System.Drawing.Point(223, 274);
             this.fovTrackBar.Maximum = 250;
             this.fovTrackBar.Name = "fovTrackBar";
-            this.fovTrackBar.Size = new System.Drawing.Size(145, 45);
+            this.fovTrackBar.Size = new System.Drawing.Size(332, 45);
             this.fovTrackBar.TabIndex = 4;
             this.fovTrackBar.TickStyle = System.Windows.Forms.TickStyle.None;
             this.fovTrackBar.Value = 100;
@@ -133,7 +136,7 @@
             // staminaCheckBox
             // 
             this.staminaCheckBox.AutoSize = true;
-            this.staminaCheckBox.Location = new System.Drawing.Point(10, 236);
+            this.staminaCheckBox.Location = new System.Drawing.Point(12, 81);
             this.staminaCheckBox.Name = "staminaCheckBox";
             this.staminaCheckBox.Size = new System.Drawing.Size(98, 17);
             this.staminaCheckBox.TabIndex = 5;
@@ -148,28 +151,28 @@
             // milkCheckBox
             // 
             this.milkCheckBox.AutoSize = true;
-            this.milkCheckBox.Location = new System.Drawing.Point(10, 259);
+            this.milkCheckBox.Location = new System.Drawing.Point(12, 104);
             this.milkCheckBox.Name = "milkCheckBox";
             this.milkCheckBox.Size = new System.Drawing.Size(111, 17);
             this.milkCheckBox.TabIndex = 6;
             this.milkCheckBox.Text = "Infinite Milk Ammo";
             this.milkCheckBox.UseVisualStyleBackColor = true;
             // 
-            // squirtCheckBox
+            // squirtGlassesCheckBox
             // 
-            this.squirtCheckBox.AutoSize = true;
-            this.squirtCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.squirtCheckBox.Location = new System.Drawing.Point(10, 282);
-            this.squirtCheckBox.Name = "squirtCheckBox";
-            this.squirtCheckBox.Size = new System.Drawing.Size(128, 17);
-            this.squirtCheckBox.TabIndex = 7;
-            this.squirtCheckBox.Text = "Squirt without glasses";
-            this.squirtCheckBox.UseVisualStyleBackColor = true;
-            this.squirtCheckBox.CheckedChanged += new System.EventHandler(this.SquirtCheckBox_CheckedChanged);
+            this.squirtGlassesCheckBox.AutoSize = true;
+            this.squirtGlassesCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.squirtGlassesCheckBox.Location = new System.Drawing.Point(12, 150);
+            this.squirtGlassesCheckBox.Name = "squirtGlassesCheckBox";
+            this.squirtGlassesCheckBox.Size = new System.Drawing.Size(133, 17);
+            this.squirtGlassesCheckBox.TabIndex = 7;
+            this.squirtGlassesCheckBox.Text = "Squirt Without Glasses";
+            this.squirtGlassesCheckBox.UseVisualStyleBackColor = true;
+            this.squirtGlassesCheckBox.CheckedChanged += new System.EventHandler(this.SquirtGlassesCheckBox_CheckedChanged);
             // 
             // itemsApplyButton
             // 
-            this.itemsApplyButton.Location = new System.Drawing.Point(74, 74);
+            this.itemsApplyButton.Location = new System.Drawing.Point(472, 226);
             this.itemsApplyButton.Name = "itemsApplyButton";
             this.itemsApplyButton.Size = new System.Drawing.Size(75, 23);
             this.itemsApplyButton.TabIndex = 11;
@@ -179,7 +182,7 @@
             // 
             // itemsTextBox
             // 
-            this.itemsTextBox.Location = new System.Drawing.Point(13, 74);
+            this.itemsTextBox.Location = new System.Drawing.Point(411, 226);
             this.itemsTextBox.Name = "itemsTextBox";
             this.itemsTextBox.Size = new System.Drawing.Size(55, 20);
             this.itemsTextBox.TabIndex = 10;
@@ -189,7 +192,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(10, 56);
+            this.label3.Location = new System.Drawing.Point(408, 208);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(94, 15);
             this.label3.TabIndex = 9;
@@ -197,7 +200,7 @@
             // 
             // positionApplyButton
             // 
-            this.positionApplyButton.Location = new System.Drawing.Point(254, 120);
+            this.positionApplyButton.Location = new System.Drawing.Point(472, 176);
             this.positionApplyButton.Name = "positionApplyButton";
             this.positionApplyButton.Size = new System.Drawing.Size(75, 23);
             this.positionApplyButton.TabIndex = 14;
@@ -207,7 +210,7 @@
             // 
             // xPosTextBox
             // 
-            this.xPosTextBox.Location = new System.Drawing.Point(78, 120);
+            this.xPosTextBox.Location = new System.Drawing.Point(296, 176);
             this.xPosTextBox.Name = "xPosTextBox";
             this.xPosTextBox.Size = new System.Drawing.Size(46, 20);
             this.xPosTextBox.TabIndex = 13;
@@ -217,7 +220,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(10, 100);
+            this.label4.Location = new System.Drawing.Point(228, 156);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(59, 15);
             this.label4.TabIndex = 12;
@@ -226,7 +229,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(66, 123);
+            this.label5.Location = new System.Drawing.Point(284, 179);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(14, 13);
             this.label5.TabIndex = 15;
@@ -235,7 +238,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(127, 123);
+            this.label6.Location = new System.Drawing.Point(345, 179);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(14, 13);
             this.label6.TabIndex = 17;
@@ -243,7 +246,7 @@
             // 
             // yPosTextBox
             // 
-            this.yPosTextBox.Location = new System.Drawing.Point(139, 120);
+            this.yPosTextBox.Location = new System.Drawing.Point(357, 176);
             this.yPosTextBox.Name = "yPosTextBox";
             this.yPosTextBox.Size = new System.Drawing.Size(46, 20);
             this.yPosTextBox.TabIndex = 16;
@@ -252,7 +255,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(190, 123);
+            this.label7.Location = new System.Drawing.Point(408, 179);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(14, 13);
             this.label7.TabIndex = 19;
@@ -260,7 +263,7 @@
             // 
             // zPosTextBox
             // 
-            this.zPosTextBox.Location = new System.Drawing.Point(202, 120);
+            this.zPosTextBox.Location = new System.Drawing.Point(420, 176);
             this.zPosTextBox.Name = "zPosTextBox";
             this.zPosTextBox.Size = new System.Drawing.Size(46, 20);
             this.zPosTextBox.TabIndex = 18;
@@ -268,7 +271,7 @@
             // 
             // positionRefreshButton
             // 
-            this.positionRefreshButton.Location = new System.Drawing.Point(11, 118);
+            this.positionRefreshButton.Location = new System.Drawing.Point(229, 174);
             this.positionRefreshButton.Name = "positionRefreshButton";
             this.positionRefreshButton.Size = new System.Drawing.Size(53, 23);
             this.positionRefreshButton.TabIndex = 20;
@@ -280,7 +283,7 @@
             // 
             this.zoomCheckBox.AutoSize = true;
             this.zoomCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.zoomCheckBox.Location = new System.Drawing.Point(10, 305);
+            this.zoomCheckBox.Location = new System.Drawing.Point(12, 173);
             this.zoomCheckBox.Name = "zoomCheckBox";
             this.zoomCheckBox.Size = new System.Drawing.Size(130, 17);
             this.zoomCheckBox.TabIndex = 21;
@@ -291,7 +294,7 @@
             // firstPersonCheckBox
             // 
             this.firstPersonCheckBox.AutoSize = true;
-            this.firstPersonCheckBox.Location = new System.Drawing.Point(10, 329);
+            this.firstPersonCheckBox.Location = new System.Drawing.Point(12, 197);
             this.firstPersonCheckBox.Name = "firstPersonCheckBox";
             this.firstPersonCheckBox.Size = new System.Drawing.Size(168, 17);
             this.firstPersonCheckBox.TabIndex = 22;
@@ -308,7 +311,7 @@
             // 
             this.statusText.AutoSize = true;
             this.statusText.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.statusText.Location = new System.Drawing.Point(0, 428);
+            this.statusText.Location = new System.Drawing.Point(0, 318);
             this.statusText.Name = "statusText";
             this.statusText.Size = new System.Drawing.Size(79, 13);
             this.statusText.TabIndex = 23;
@@ -317,7 +320,7 @@
             // clampCheckBox
             // 
             this.clampCheckBox.AutoSize = true;
-            this.clampCheckBox.Location = new System.Drawing.Point(10, 353);
+            this.clampCheckBox.Location = new System.Drawing.Point(12, 221);
             this.clampCheckBox.Name = "clampCheckBox";
             this.clampCheckBox.Size = new System.Drawing.Size(201, 17);
             this.clampCheckBox.TabIndex = 24;
@@ -342,7 +345,7 @@
             this.tableLayoutPanel1.Controls.Add(this.label12, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.accTextBox, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.label13, 2, 2);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(362, 30);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(223, 27);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 4;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 34.48276F));
@@ -476,7 +479,7 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(359, 12);
+            this.label14.Location = new System.Drawing.Point(228, 9);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(109, 15);
             this.label14.TabIndex = 26;
@@ -484,7 +487,7 @@
             // 
             // movementApplyButton
             // 
-            this.movementApplyButton.Location = new System.Drawing.Point(369, 130);
+            this.movementApplyButton.Location = new System.Drawing.Point(230, 127);
             this.movementApplyButton.Name = "movementApplyButton";
             this.movementApplyButton.Size = new System.Drawing.Size(238, 23);
             this.movementApplyButton.TabIndex = 27;
@@ -495,7 +498,7 @@
             // speedLabel
             // 
             this.speedLabel.AutoSize = true;
-            this.speedLabel.Location = new System.Drawing.Point(480, 14);
+            this.speedLabel.Location = new System.Drawing.Point(342, 11);
             this.speedLabel.Name = "speedLabel";
             this.speedLabel.Size = new System.Drawing.Size(127, 13);
             this.speedLabel.TabIndex = 28;
@@ -504,7 +507,7 @@
             // controllerCheckBox
             // 
             this.controllerCheckBox.AutoSize = true;
-            this.controllerCheckBox.Location = new System.Drawing.Point(10, 376);
+            this.controllerCheckBox.Location = new System.Drawing.Point(12, 244);
             this.controllerCheckBox.Name = "controllerCheckBox";
             this.controllerCheckBox.Size = new System.Drawing.Size(188, 17);
             this.controllerCheckBox.TabIndex = 29;
@@ -515,7 +518,7 @@
             // windowedCheckBox
             // 
             this.windowedCheckBox.AutoSize = true;
-            this.windowedCheckBox.Location = new System.Drawing.Point(10, 400);
+            this.windowedCheckBox.Location = new System.Drawing.Point(12, 268);
             this.windowedCheckBox.Name = "windowedCheckBox";
             this.windowedCheckBox.Size = new System.Drawing.Size(185, 17);
             this.windowedCheckBox.TabIndex = 30;
@@ -526,7 +529,7 @@
             // infoButton
             // 
             this.infoButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.infoButton.Location = new System.Drawing.Point(613, 31);
+            this.infoButton.Location = new System.Drawing.Point(474, 28);
             this.infoButton.Name = "infoButton";
             this.infoButton.Size = new System.Drawing.Size(22, 22);
             this.infoButton.TabIndex = 32;
@@ -537,7 +540,7 @@
             // gravityCheckBox
             // 
             this.gravityCheckBox.AutoSize = true;
-            this.gravityCheckBox.Location = new System.Drawing.Point(10, 213);
+            this.gravityCheckBox.Location = new System.Drawing.Point(12, 58);
             this.gravityCheckBox.Name = "gravityCheckBox";
             this.gravityCheckBox.Size = new System.Drawing.Size(97, 17);
             this.gravityCheckBox.TabIndex = 33;
@@ -548,7 +551,7 @@
             // noclipCheckBox
             // 
             this.noclipCheckBox.AutoSize = true;
-            this.noclipCheckBox.Location = new System.Drawing.Point(10, 190);
+            this.noclipCheckBox.Location = new System.Drawing.Point(12, 12);
             this.noclipCheckBox.Name = "noclipCheckBox";
             this.noclipCheckBox.Size = new System.Drawing.Size(59, 17);
             this.noclipCheckBox.TabIndex = 34;
@@ -556,11 +559,47 @@
             this.noclipCheckBox.UseVisualStyleBackColor = true;
             this.noclipCheckBox.CheckedChanged += new System.EventHandler(this.NoclipCheckBox_CheckedChanged);
             // 
+            // squirtDelayCheckBox
+            // 
+            this.squirtDelayCheckBox.AutoSize = true;
+            this.squirtDelayCheckBox.Location = new System.Drawing.Point(12, 127);
+            this.squirtDelayCheckBox.Name = "squirtDelayCheckBox";
+            this.squirtDelayCheckBox.Size = new System.Drawing.Size(100, 17);
+            this.squirtDelayCheckBox.TabIndex = 35;
+            this.squirtDelayCheckBox.Text = "No Squirt Delay";
+            this.squirtDelayCheckBox.UseVisualStyleBackColor = true;
+            this.squirtDelayCheckBox.CheckedChanged += new System.EventHandler(this.SquirtDelayCheckBox_CheckedChanged);
+            // 
+            // ladderCheckBox
+            // 
+            this.ladderCheckBox.AutoSize = true;
+            this.ladderCheckBox.Location = new System.Drawing.Point(12, 35);
+            this.ladderCheckBox.Name = "ladderCheckBox";
+            this.ladderCheckBox.Size = new System.Drawing.Size(82, 17);
+            this.ladderCheckBox.TabIndex = 36;
+            this.ladderCheckBox.Text = "Fast Ladder";
+            this.ladderCheckBox.UseVisualStyleBackColor = true;
+            this.ladderCheckBox.CheckedChanged += new System.EventHandler(this.LadderCheckBox_CheckedChanged);
+            // 
+            // builtinCheatsButton
+            // 
+            this.builtinCheatsButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.builtinCheatsButton.Location = new System.Drawing.Point(231, 297);
+            this.builtinCheatsButton.Name = "builtinCheatsButton";
+            this.builtinCheatsButton.Size = new System.Drawing.Size(82, 22);
+            this.builtinCheatsButton.TabIndex = 38;
+            this.builtinCheatsButton.Text = "Built-in Cheats";
+            this.builtinCheatsButton.UseVisualStyleBackColor = true;
+            this.builtinCheatsButton.Click += new System.EventHandler(this.BuiltinCheatsButton_Click);
+            // 
             // BarnyardTrainer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(651, 441);
+            this.ClientSize = new System.Drawing.Size(564, 331);
+            this.Controls.Add(this.builtinCheatsButton);
+            this.Controls.Add(this.ladderCheckBox);
+            this.Controls.Add(this.squirtDelayCheckBox);
             this.Controls.Add(this.noclipCheckBox);
             this.Controls.Add(this.gravityCheckBox);
             this.Controls.Add(this.infoButton);
@@ -586,7 +625,7 @@
             this.Controls.Add(this.itemsApplyButton);
             this.Controls.Add(this.itemsTextBox);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.squirtCheckBox);
+            this.Controls.Add(this.squirtGlassesCheckBox);
             this.Controls.Add(this.milkCheckBox);
             this.Controls.Add(this.staminaCheckBox);
             this.Controls.Add(this.fovTrackBar);
@@ -616,7 +655,7 @@
         private System.Windows.Forms.CheckBox staminaCheckBox;
         private System.Windows.Forms.Timer inGameTimer;
         private System.Windows.Forms.CheckBox milkCheckBox;
-        private System.Windows.Forms.CheckBox squirtCheckBox;
+        private System.Windows.Forms.CheckBox squirtGlassesCheckBox;
         private System.Windows.Forms.Button itemsApplyButton;
         private System.Windows.Forms.TextBox itemsTextBox;
         private System.Windows.Forms.Label label3;
@@ -655,6 +694,9 @@
         private System.Windows.Forms.Button infoButton;
         private System.Windows.Forms.CheckBox gravityCheckBox;
         private System.Windows.Forms.CheckBox noclipCheckBox;
+        private System.Windows.Forms.CheckBox squirtDelayCheckBox;
+        private System.Windows.Forms.CheckBox ladderCheckBox;
+        private System.Windows.Forms.Button builtinCheatsButton;
     }
 }
 
