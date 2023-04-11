@@ -43,5 +43,11 @@
         public static readonly string firstPeronBike = "Barnyard.exe+0x25E6C0";
         public static readonly string opacityChange1 = "Barnyard.exe+0x2B660A";
         public static readonly string opacityChange2 = "Barnyard.exe+0x2B660A";
+        public static readonly string waterCollision = "Barnyard.exe+0x21ABEC";
+        public static readonly string noClip = "Barnyard.exe+0x1773F9";
+
+        // Inputs
+        public static readonly string space = "DINPUT8.dll+0x312F1";
+        public static readonly string leftControl = "DINPUT8.dll+0x312D5";
     }
 }

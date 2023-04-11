@@ -124,6 +124,7 @@ namespace Barnyard_Trainer
             if (mem.GetProcIdFromName("Barnyard.exe") == 0)
             {
                 statusText.Text = "Disconnected";
+                flightTimer.Stop();
                 inGameTimer.Stop();
                 outGameTimer.Start();
             }
@@ -181,11 +182,77 @@ namespace Barnyard_Trainer
                     WriteBytes(Addresses.minPitch, "89 01");
                     WriteBytes(Addresses.maxPitch, "89 11");
                 }
+                if (waterCheckBox.Checked)
+                {
+                    Nop(Addresses.waterCollision, 2);
+                }
+                else
+                {
+                    WriteBytes(Addresses.waterCollision, "89 0E");
+                }
             }
             else // (restore because this causes issues while on a bike)
             {
                 WriteBytes(Addresses.minPitch, "89 01");
                 WriteBytes(Addresses.maxPitch, "89 11");
+                WriteBytes(Addresses.waterCollision, "89 0E");
+            }
+        }
+
+        void FlightTimer_Tick(object sender, EventArgs e)
+        {
+            if (mem.ReadByte(Addresses.space) == 128)
+            {
+                WriteFloat(Addresses.yPos, mem.ReadFloat(Addresses.yPos) - 0.2f);
+            }
+            if (mem.ReadByte(Addresses.leftControl) == 128)
+            {
+                WriteFloat(Addresses.yPos, mem.ReadFloat(Addresses.yPos) + 0.2f);
+            }
+        }
+
+        void FlightCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (flightCheckBox.Checked)
+            {
+                Nop(Addresses.gravity, 3, "Error disabling gravity");
+                gravityCheckBox.Enabled = false;
+                flightTimer.Start();
+            }
+            else
+            {
+                if(!gravityCheckBox.Checked)
+                {
+                    WriteBytes(Addresses.gravity, "D9 59 1C", "Error enabling gravity");
+                }
+                gravityCheckBox.Enabled = true;
+                flightTimer.Stop();
+            }
+        }
+
+        void NoclipCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (noclipCheckBox.Checked)
+            {
+                WriteFloat(Addresses.radius, 0.01f, "Error changing player radius");
+                Nop(Addresses.noClip, 2, "Error enabling no-clip");
+            }
+            else
+            {
+                WriteFloat(Addresses.radius, 0.55f, "Error changing player radius");
+                WriteBytes(Addresses.noClip, "89 11", "Error disabling no-clip");
+            }
+        }
+
+        void GravityCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (gravityCheckBox.Checked)
+            {
+                Nop(Addresses.gravity, 3, "Error disabling gravity");
+            }
+            else
+            {
+                WriteBytes(Addresses.gravity, "D9 59 1C", "Error enabling gravity");
             }
         }
 
@@ -200,30 +267,6 @@ namespace Barnyard_Trainer
             {
                 WriteFloat(Addresses.minClimbSpeed, 1f, "Error enabling fast ladder");
                 WriteFloat(Addresses.maxClimbSpeed, 1.3f, "Error enabling fast ladder");
-            }
-        }
-
-        void NoclipCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            if (noclipCheckBox.Checked)
-            {
-                WriteFloat(Addresses.radius, 0.01f, "Error enabling no-clip");
-            }
-            else
-            {
-                WriteFloat(Addresses.radius, 0.55f, "Error disabling no-clip");
-            }
-        }
-
-        void GravityCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            if (gravityCheckBox.Checked)
-            {
-                Nop(Addresses.gravity, 3, "Error disabling gravity");
-            }
-            else
-            {
-                WriteBytes(Addresses.gravity, "D9 59 1C", "Error enabling gravity");
             }
         }
 
@@ -368,9 +411,14 @@ namespace Barnyard_Trainer
             WriteFloat(Addresses.fov, (float)fovTrackBar.Value / 100, "Error changing FOV");
         }
 
-        void InfoButton_Click(object sender, EventArgs e)
+        void FlightInfoButton_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Walk speed is when slightly moving the joystick, run speed is when fully moving the joystick or WASD, and sprint speed is while holding shift and moving. All speeds are in m/s.", "NOTE", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("'Space' to fly up and 'Left Control' to fly down.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        void SpeedInfoButton_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Walk speed is when slightly moving the joystick, run speed is when fully moving the joystick or pressing WASD, and sprint speed is while holding shift and moving. All speeds are in m/s.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         void BuiltinCheatsButton_Click(object sender, EventArgs e)
