@@ -662,6 +662,9 @@ The current <paramref name="reader" /> token does not start or represent a value
       <summary>Gets the UTF-8 encoded representation of the pre-encoded JSON text.</summary>
       <returns>The UTF-8 encoded representation of the pre-encoded JSON text.</returns>
     </member>
+    <member name="P:System.Text.Json.JsonEncodedText.Value">
+      <summary>Gets the UTF-16 encoded representation of the pre-encoded JSON text as a <see cref="T:System.String" />.</summary>
+    </member>
     <member name="T:System.Text.Json.JsonException">
       <summary>Defines a custom exception object that is thrown when invalid JSON text is encountered, the defined maximum depth is passed, or the JSON text is not compatible with the type of a property on an object.</summary>
     </member>
@@ -734,6 +737,18 @@ The current <paramref name="reader" /> token does not start or represent a value
     <member name="P:System.Text.Json.JsonNamingPolicy.CamelCase">
       <summary>Gets the naming policy for camel-casing.</summary>
       <returns>The naming policy for camel-casing.</returns>
+    </member>
+    <member name="P:System.Text.Json.JsonNamingPolicy.KebabCaseLower">
+      <summary>Gets the naming policy for lowercase kebab-casing.</summary>
+    </member>
+    <member name="P:System.Text.Json.JsonNamingPolicy.KebabCaseUpper">
+      <summary>Gets the naming policy for uppercase kebab-casing.</summary>
+    </member>
+    <member name="P:System.Text.Json.JsonNamingPolicy.SnakeCaseLower">
+      <summary>Gets the naming policy for lowercase snake-casing.</summary>
+    </member>
+    <member name="P:System.Text.Json.JsonNamingPolicy.SnakeCaseUpper">
+      <summary>Gets the naming policy for uppercase snake-casing.</summary>
     </member>
     <member name="T:System.Text.Json.JsonProperty">
       <summary>Represents a single property for a JSON object.</summary>
@@ -814,6 +829,17 @@ The current <paramref name="reader" /> token does not start or represent a value
     <member name="T:System.Text.Json.JsonSerializer">
       <summary>Provides functionality to serialize objects or value types to JSON and to deserialize JSON into objects or value types.</summary>
     </member>
+    <member name="M:System.Text.Json.JsonSerializer.Deserialize(System.IO.Stream,System.Text.Json.Serialization.Metadata.JsonTypeInfo)">
+      <summary>Reads the UTF-8 encoded text representing a single JSON value into an instance specified by the <paramref name="jsonTypeInfo" />.
+ The Stream will be read to completion.</summary>
+      <param name="utf8Json">JSON data to parse.</param>
+      <param name="jsonTypeInfo">Metadata about the type to convert.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="utf8Json" /> or <paramref name="jsonTypeInfo" /> is <see langword="null" />.</exception>
+      <exception cref="T:System.Text.Json.JsonException">The JSON is invalid,
+            or there is remaining data in the Stream.</exception>
+      <returns>A <paramref name="jsonTypeInfo" /> representation of the JSON value.</returns>
+    </member>
     <member name="M:System.Text.Json.JsonSerializer.Deserialize(System.IO.Stream,System.Type,System.Text.Json.JsonSerializerOptions)">
       <summary>Reads the UTF-8 encoded text representing a single JSON value into a <paramref name="returnType" />.
             The Stream will be read to completion.</summary>
@@ -838,6 +864,14 @@ The current <paramref name="reader" /> token does not start or represent a value
       <exception cref="T:System.NotSupportedException">There is no compatible <see cref="T:System.Text.Json.Serialization.JsonConverter" /> for <paramref name="returnType" /> or its serializable members.</exception>
       <exception cref="T:System.InvalidOperationException">The <see cref="M:System.Text.Json.Serialization.JsonSerializerContext.GetTypeInfo(System.Type)" /> method on the provided <paramref name="context" /> did not return a compatible <see cref="T:System.Text.Json.Serialization.Metadata.JsonTypeInfo" /> for <paramref name="returnType" />.</exception>
       <returns>A <paramref name="returnType" /> representation of the JSON value.</returns>
+    </member>
+    <member name="M:System.Text.Json.JsonSerializer.Deserialize(System.ReadOnlySpan{System.Byte},System.Text.Json.Serialization.Metadata.JsonTypeInfo)">
+      <summary>Parses the UTF-8 encoded text representing a single JSON value into an instance specified by the <paramref name="jsonTypeInfo" />.</summary>
+      <param name="utf8Json">JSON text to parse.</param>
+      <param name="jsonTypeInfo">Metadata about the type to convert.</param>
+      <exception cref="T:System.Text.Json.JsonException">The JSON is invalid,
+            or there is remaining data in the buffer.</exception>
+      <returns>A <paramref name="jsonTypeInfo" /> representation of the JSON value.</returns>
     </member>
     <member name="M:System.Text.Json.JsonSerializer.Deserialize(System.ReadOnlySpan{System.Byte},System.Type,System.Text.Json.JsonSerializerOptions)">
       <summary>Parses the UTF-8 encoded text representing a single JSON value into an instance of a specified type.</summary>
@@ -869,6 +903,19 @@ There is remaining data in the span beyond a single JSON value.</exception>
       <exception cref="T:System.NotSupportedException">There is no compatible <see cref="T:System.Text.Json.Serialization.JsonConverter" /> for <paramref name="returnType" /> or its serializable members.</exception>
       <exception cref="T:System.InvalidOperationException">The <see cref="M:System.Text.Json.Serialization.JsonSerializerContext.GetTypeInfo(System.Type)" /> method on the provided <paramref name="context" /> did not return a compatible <see cref="T:System.Text.Json.Serialization.Metadata.JsonTypeInfo" /> for <paramref name="returnType" />.</exception>
       <returns>A <paramref name="returnType" /> representation of the JSON value.</returns>
+    </member>
+    <member name="M:System.Text.Json.JsonSerializer.Deserialize(System.ReadOnlySpan{System.Char},System.Text.Json.Serialization.Metadata.JsonTypeInfo)">
+      <summary>Parses the text representing a single JSON value into an instance specified by the <paramref name="jsonTypeInfo" />.</summary>
+      <param name="json">JSON text to parse.</param>
+      <param name="jsonTypeInfo">Metadata about the type to convert.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="jsonTypeInfo" /> is <see langword="null" />.</exception>
+      <exception cref="T:System.Text.Json.JsonException">The JSON is invalid.
+
+-or-
+
+There is remaining data in the string beyond a single JSON value.</exception>
+      <returns>A <paramref name="jsonTypeInfo" /> representation of the JSON value.</returns>
     </member>
     <member name="M:System.Text.Json.JsonSerializer.Deserialize(System.ReadOnlySpan{System.Char},System.Type,System.Text.Json.JsonSerializerOptions)">
       <summary>Parses the text representing a single JSON value into an instance of a specified type.</summary>
@@ -913,6 +960,23 @@ There is remaining data in the string beyond a single JSON value.</exception>
       <exception cref="T:System.InvalidOperationException">The <see cref="M:System.Text.Json.Serialization.JsonSerializerContext.GetTypeInfo(System.Type)" /> method of the provided <paramref name="context" /> returns <see langword="null" /> for the type to convert.</exception>
       <returns>A <paramref name="returnType" /> representation of the JSON value.</returns>
     </member>
+    <member name="M:System.Text.Json.JsonSerializer.Deserialize(System.String,System.Text.Json.Serialization.Metadata.JsonTypeInfo)">
+      <summary>Parses the text representing a single JSON value into an instance specified by the <paramref name="jsonTypeInfo" />.</summary>
+      <param name="json">JSON text to parse.</param>
+      <param name="jsonTypeInfo">Metadata about the type to convert.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="json" /> is <see langword="null" />.
+
+-or-
+
+<paramref name="jsonTypeInfo" /> is <see langword="null" />.</exception>
+      <exception cref="T:System.Text.Json.JsonException">The JSON is invalid.
+
+-or-
+
+There is remaining data in the string beyond a single JSON value.</exception>
+      <returns>A <paramref name="jsonTypeInfo" /> representation of the JSON value.</returns>
+    </member>
     <member name="M:System.Text.Json.JsonSerializer.Deserialize(System.String,System.Type,System.Text.Json.JsonSerializerOptions)">
       <summary>Parses the text representing a single JSON value into an instance of a specified type.</summary>
       <param name="json">The JSON text to parse.</param>
@@ -956,6 +1020,18 @@ There is remaining data in the string beyond a single JSON value.</exception>
       <exception cref="T:System.InvalidOperationException">The <see cref="M:System.Text.Json.Serialization.JsonSerializerContext.GetTypeInfo(System.Type)" /> method of the provided <paramref name="context" /> returns <see langword="null" /> for the type to convert.</exception>
       <returns>A <paramref name="returnType" /> representation of the JSON value.</returns>
     </member>
+    <member name="M:System.Text.Json.JsonSerializer.Deserialize(System.Text.Json.JsonDocument,System.Text.Json.Serialization.Metadata.JsonTypeInfo)">
+      <summary>Converts the <see cref="T:System.Text.Json.JsonDocument" /> representing a single JSON value into an instance specified by the <paramref name="jsonTypeInfo" />.</summary>
+      <param name="document">The <see cref="T:System.Text.Json.JsonDocument" /> to convert.</param>
+      <param name="jsonTypeInfo">Metadata about the type to convert.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="document" /> is <see langword="null" />.
+
+-or-
+
+<paramref name="jsonTypeInfo" /> is <see langword="null" />.</exception>
+      <returns>A <paramref name="jsonTypeInfo" /> representation of the JSON value.</returns>
+    </member>
     <member name="M:System.Text.Json.JsonSerializer.Deserialize(System.Text.Json.JsonDocument,System.Type,System.Text.Json.JsonSerializerOptions)">
       <summary>Converts the <see cref="T:System.Text.Json.JsonDocument" /> representing a single JSON value into a <paramref name="returnType" />.</summary>
       <param name="document">The <see cref="T:System.Text.Json.JsonDocument" /> to convert.</param>
@@ -996,6 +1072,14 @@ There is remaining data in the string beyond a single JSON value.</exception>
       <exception cref="T:System.InvalidOperationException">The <see cref="M:System.Text.Json.Serialization.JsonSerializerContext.GetTypeInfo(System.Type)" /> method of the provided <paramref name="context" /> returns <see langword="null" /> for the type to convert.</exception>
       <returns>A <paramref name="returnType" /> representation of the JSON value.</returns>
     </member>
+    <member name="M:System.Text.Json.JsonSerializer.Deserialize(System.Text.Json.JsonElement,System.Text.Json.Serialization.Metadata.JsonTypeInfo)">
+      <summary>Converts the <see cref="T:System.Text.Json.JsonElement" /> representing a single JSON value into an instance specified by the <paramref name="jsonTypeInfo" />.</summary>
+      <param name="element">The <see cref="T:System.Text.Json.JsonElement" /> to convert.</param>
+      <param name="jsonTypeInfo">Metadata about the type to convert.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="jsonTypeInfo" /> is <see langword="null" />.</exception>
+      <returns>A <paramref name="jsonTypeInfo" /> representation of the JSON value.</returns>
+    </member>
     <member name="M:System.Text.Json.JsonSerializer.Deserialize(System.Text.Json.JsonElement,System.Type,System.Text.Json.JsonSerializerOptions)">
       <summary>Converts the <see cref="T:System.Text.Json.JsonElement" /> representing a single JSON value into a <paramref name="returnType" />.</summary>
       <param name="element">The <see cref="T:System.Text.Json.JsonElement" /> to convert.</param>
@@ -1032,6 +1116,14 @@ There is remaining data in the string beyond a single JSON value.</exception>
       <exception cref="T:System.InvalidOperationException">The <see cref="M:System.Text.Json.Serialization.JsonSerializerContext.GetTypeInfo(System.Type)" /> method of the provided <paramref name="context" /> returns <see langword="null" /> for the type to convert.</exception>
       <returns>A <paramref name="returnType" /> representation of the JSON value.</returns>
     </member>
+    <member name="M:System.Text.Json.JsonSerializer.Deserialize(System.Text.Json.Nodes.JsonNode,System.Text.Json.Serialization.Metadata.JsonTypeInfo)">
+      <summary>Converts the <see cref="T:System.Text.Json.Nodes.JsonNode" /> representing a single JSON value into an instance specified by the <paramref name="jsonTypeInfo" />.</summary>
+      <param name="node">The <see cref="T:System.Text.Json.Nodes.JsonNode" /> to convert.</param>
+      <param name="jsonTypeInfo">Metadata about the type to convert.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="jsonTypeInfo" /> is <see langword="null" />.</exception>
+      <returns>A <paramref name="jsonTypeInfo" /> representation of the JSON value.</returns>
+    </member>
     <member name="M:System.Text.Json.JsonSerializer.Deserialize(System.Text.Json.Nodes.JsonNode,System.Type,System.Text.Json.JsonSerializerOptions)">
       <summary>Converts the <see cref="T:System.Text.Json.Nodes.JsonNode" /> representing a single JSON value into a <paramref name="returnType" />.</summary>
       <param name="node">The <see cref="T:System.Text.Json.Nodes.JsonNode" /> to convert.</param>
@@ -1065,6 +1157,17 @@ There is remaining data in the string beyond a single JSON value.</exception>
       <exception cref="T:System.NotSupportedException">There is no compatible <see cref="T:System.Text.Json.Serialization.JsonConverter" /> for <paramref name="returnType" /> or its serializable members.</exception>
       <exception cref="T:System.InvalidOperationException">The <see cref="M:System.Text.Json.Serialization.JsonSerializerContext.GetTypeInfo(System.Type)" /> method of the provided <paramref name="context" /> returns <see langword="null" /> for the type to convert.</exception>
       <returns>A <paramref name="returnType" /> representation of the JSON value.</returns>
+    </member>
+    <member name="M:System.Text.Json.JsonSerializer.Deserialize(System.Text.Json.Utf8JsonReader@,System.Text.Json.Serialization.Metadata.JsonTypeInfo)">
+      <summary>Reads one JSON value (including objects or arrays) from the provided reader into an instance specified by the <paramref name="jsonTypeInfo" />.</summary>
+      <param name="reader">The reader to read.</param>
+      <param name="jsonTypeInfo">Metadata about the type to convert.</param>
+      <exception cref="T:System.Text.Json.JsonException">The JSON is invalid,
+             <paramref name="jsonTypeInfo" /> is not compatible with the JSON,
+             or a value could not be read from the reader.</exception>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="reader" /> is using unsupported options.</exception>
+      <returns>A <paramref name="jsonTypeInfo" /> representation of the JSON value.</returns>
     </member>
     <member name="M:System.Text.Json.JsonSerializer.Deserialize(System.Text.Json.Utf8JsonReader@,System.Type,System.Text.Json.JsonSerializerOptions)">
       <summary>Reads one JSON value (including objects or arrays) from the provided reader and converts it into an instance of  a specified type.</summary>
@@ -1335,6 +1438,18 @@ A value could not be read from the reader.</exception>
       <exception cref="T:System.NotSupportedException">There is no compatible <see cref="T:System.Text.Json.Serialization.JsonConverter" /> for <typeparamref name="TValue" /> or its serializable members.</exception>
       <returns>A <typeparamref name="TValue" /> representation of the JSON value.</returns>
     </member>
+    <member name="M:System.Text.Json.JsonSerializer.DeserializeAsync(System.IO.Stream,System.Text.Json.Serialization.Metadata.JsonTypeInfo,System.Threading.CancellationToken)">
+      <summary>Reads the UTF-8 encoded text representing a single JSON value into an instance specified by the <paramref name="jsonTypeInfo" />.
+ The Stream will be read to completion.</summary>
+      <param name="utf8Json">JSON data to parse.</param>
+      <param name="jsonTypeInfo">Metadata about the type to convert.</param>
+      <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken" /> that can be used to cancel the read operation.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="utf8Json" /> or <paramref name="jsonTypeInfo" /> is <see langword="null" />.</exception>
+      <exception cref="T:System.Text.Json.JsonException">The JSON is invalid,
+            or when there is remaining data in the Stream.</exception>
+      <returns>A <paramref name="jsonTypeInfo" /> representation of the JSON value.</returns>
+    </member>
     <member name="M:System.Text.Json.JsonSerializer.DeserializeAsync(System.IO.Stream,System.Type,System.Text.Json.JsonSerializerOptions,System.Threading.CancellationToken)">
       <summary>Asynchronously reads the UTF-8 encoded text representing a single JSON value into an instance of a specified type. The stream will be read to completion.</summary>
       <param name="utf8Json">The JSON data to parse.</param>
@@ -1422,6 +1537,16 @@ There is remaining data in the stream.</exception>
         <paramref name="utf8Json" /> or <paramref name="jsonTypeInfo" /> is <see langword="null" />.</exception>
       <returns>An <see cref="T:System.Collections.Generic.IAsyncEnumerable`1" /> representation of the provided JSON array.</returns>
     </member>
+    <member name="M:System.Text.Json.JsonSerializer.Serialize(System.IO.Stream,System.Object,System.Text.Json.Serialization.Metadata.JsonTypeInfo)">
+      <summary>Converts the provided value to UTF-8 encoded JSON text and write it to the <see cref="T:System.IO.Stream" />.</summary>
+      <param name="utf8Json">The UTF-8 <see cref="T:System.IO.Stream" /> to write to.</param>
+      <param name="value">The value to convert.</param>
+      <param name="jsonTypeInfo">Metadata about the type to convert.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="utf8Json" /> is <see langword="null" />.</exception>
+      <exception cref="T:System.InvalidCastException">
+        <paramref name="value" /> does not match the type of <paramref name="jsonTypeInfo" />.</exception>
+    </member>
     <member name="M:System.Text.Json.JsonSerializer.Serialize(System.IO.Stream,System.Object,System.Type,System.Text.Json.JsonSerializerOptions)">
       <summary>Converts the provided value to UTF-8 encoded JSON text and write it to the <see cref="T:System.IO.Stream" />.</summary>
       <param name="utf8Json">The UTF-8 <see cref="T:System.IO.Stream" /> to write to.</param>
@@ -1446,6 +1571,16 @@ There is remaining data in the stream.</exception>
         <paramref name="utf8Json" />, <paramref name="inputType" />, or <paramref name="context" /> is <see langword="null" />.</exception>
       <exception cref="T:System.NotSupportedException">There is no compatible <see cref="T:System.Text.Json.Serialization.JsonConverter" /> for <paramref name="inputType" />  or its serializable members.</exception>
     </member>
+    <member name="M:System.Text.Json.JsonSerializer.Serialize(System.Object,System.Text.Json.Serialization.Metadata.JsonTypeInfo)">
+      <summary>Converts the provided value into a <see cref="T:System.String" />.</summary>
+      <param name="value">The value to convert.</param>
+      <param name="jsonTypeInfo">Metadata about the type to convert.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="jsonTypeInfo" /> is <see langword="null" />.</exception>
+      <exception cref="T:System.InvalidCastException">
+        <paramref name="value" /> does not match the type of <paramref name="jsonTypeInfo" />.</exception>
+      <returns>A <see cref="T:System.String" /> representation of the value.</returns>
+    </member>
     <member name="M:System.Text.Json.JsonSerializer.Serialize(System.Object,System.Type,System.Text.Json.JsonSerializerOptions)">
       <summary>Converts the value of a specified type into a JSON string.</summary>
       <param name="value">The value to convert.</param>
@@ -1468,6 +1603,16 @@ There is remaining data in the stream.</exception>
       <exception cref="T:System.ArgumentNullException">
         <paramref name="inputType" /> or <paramref name="context" /> is <see langword="null" />.</exception>
       <returns>A <see cref="T:System.String" /> representation of the value.</returns>
+    </member>
+    <member name="M:System.Text.Json.JsonSerializer.Serialize(System.Text.Json.Utf8JsonWriter,System.Object,System.Text.Json.Serialization.Metadata.JsonTypeInfo)">
+      <summary>Writes one JSON value (including objects or arrays) to the provided writer.</summary>
+      <param name="writer">The writer to write.</param>
+      <param name="value">The value to convert and write.</param>
+      <param name="jsonTypeInfo">Metadata about the type to convert.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="writer" /> or <paramref name="jsonTypeInfo" /> is <see langword="null" />.</exception>
+      <exception cref="T:System.InvalidCastException">
+        <paramref name="value" /> does not match the type of <paramref name="jsonTypeInfo" />.</exception>
     </member>
     <member name="M:System.Text.Json.JsonSerializer.Serialize(System.Text.Json.Utf8JsonWriter,System.Object,System.Type,System.Text.Json.JsonSerializerOptions)">
       <summary>Writes the JSON representation of the specified type to the provided writer.</summary>
@@ -1552,6 +1697,18 @@ There is remaining data in the stream.</exception>
         <paramref name="writer" /> or <paramref name="jsonTypeInfo" /> is <see langword="null" />.</exception>
       <exception cref="T:System.NotSupportedException">There is no compatible <see cref="T:System.Text.Json.Serialization.JsonConverter" /> for <typeparamref name="TValue" /> or its serializable members.</exception>
     </member>
+    <member name="M:System.Text.Json.JsonSerializer.SerializeAsync(System.IO.Stream,System.Object,System.Text.Json.Serialization.Metadata.JsonTypeInfo,System.Threading.CancellationToken)">
+      <summary>Converts the provided value to UTF-8 encoded JSON text and writes it to the <see cref="T:System.IO.Stream" />.</summary>
+      <param name="utf8Json">The UTF-8 <see cref="T:System.IO.Stream" /> to write to.</param>
+      <param name="value">The value to convert.</param>
+      <param name="jsonTypeInfo">Metadata about the type to convert.</param>
+      <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken" /> that can be used to cancel the write operation.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="utf8Json" /> is <see langword="null" />.</exception>
+      <exception cref="T:System.InvalidCastException">
+        <paramref name="value" /> does not match the type of <paramref name="jsonTypeInfo" />.</exception>
+      <returns>A task that represents the asynchronous write operation.</returns>
+    </member>
     <member name="M:System.Text.Json.JsonSerializer.SerializeAsync(System.IO.Stream,System.Object,System.Type,System.Text.Json.JsonSerializerOptions,System.Threading.CancellationToken)">
       <summary>Asynchronously converts the value of a specified type to UTF-8 encoded JSON text and writes it to the specified stream.</summary>
       <param name="utf8Json">The UTF-8 stream to write to.</param>
@@ -1604,6 +1761,16 @@ There is remaining data in the stream.</exception>
       <exception cref="T:System.NotSupportedException">There is no compatible <see cref="T:System.Text.Json.Serialization.JsonConverter" /> for <typeparamref name="TValue" /> or its serializable members.</exception>
       <returns>A task that represents the asynchronous write operation.</returns>
     </member>
+    <member name="M:System.Text.Json.JsonSerializer.SerializeToDocument(System.Object,System.Text.Json.Serialization.Metadata.JsonTypeInfo)">
+      <summary>Converts the provided value into a <see cref="T:System.Text.Json.JsonDocument" />.</summary>
+      <param name="value">The value to convert.</param>
+      <param name="jsonTypeInfo">Metadata about the type to convert.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="jsonTypeInfo" /> is <see langword="null" />.</exception>
+      <exception cref="T:System.InvalidCastException">
+        <paramref name="value" /> does not match the type of <paramref name="jsonTypeInfo" />.</exception>
+      <returns>A <see cref="T:System.Text.Json.JsonDocument" /> representation of the value.</returns>
+    </member>
     <member name="M:System.Text.Json.JsonSerializer.SerializeToDocument(System.Object,System.Type,System.Text.Json.JsonSerializerOptions)">
       <summary>Converts the provided value into a <see cref="T:System.Text.Json.JsonDocument" />.</summary>
       <param name="value">The value to convert.</param>
@@ -1644,6 +1811,16 @@ There is remaining data in the stream.</exception>
       <exception cref="T:System.ArgumentNullException">
         <paramref name="jsonTypeInfo" /> is <see langword="null" />.</exception>
       <returns>A <see cref="T:System.Text.Json.JsonDocument" /> representation of the value.</returns>
+    </member>
+    <member name="M:System.Text.Json.JsonSerializer.SerializeToElement(System.Object,System.Text.Json.Serialization.Metadata.JsonTypeInfo)">
+      <summary>Converts the provided value into a <see cref="T:System.Text.Json.JsonElement" />.</summary>
+      <param name="value">The value to convert.</param>
+      <param name="jsonTypeInfo">Metadata about the type to convert.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="jsonTypeInfo" /> is <see langword="null" />.</exception>
+      <exception cref="T:System.InvalidCastException">
+        <paramref name="value" /> does not match the type of <paramref name="jsonTypeInfo" />.</exception>
+      <returns>A <see cref="T:System.Text.Json.JsonElement" /> representation of the value.</returns>
     </member>
     <member name="M:System.Text.Json.JsonSerializer.SerializeToElement(System.Object,System.Type,System.Text.Json.JsonSerializerOptions)">
       <summary>Converts the provided value into a <see cref="T:System.Text.Json.JsonDocument" />.</summary>
@@ -1686,6 +1863,16 @@ There is remaining data in the stream.</exception>
         <paramref name="jsonTypeInfo" /> is <see langword="null" />.</exception>
       <returns>A <see cref="T:System.Text.Json.JsonDocument" /> representation of the value.</returns>
     </member>
+    <member name="M:System.Text.Json.JsonSerializer.SerializeToNode(System.Object,System.Text.Json.Serialization.Metadata.JsonTypeInfo)">
+      <summary>Converts the provided value into a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
+      <param name="value">The value to convert.</param>
+      <param name="jsonTypeInfo">Metadata about the type to convert.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="jsonTypeInfo" /> is <see langword="null" />.</exception>
+      <exception cref="T:System.InvalidCastException">
+        <paramref name="value" /> does not match the type of <paramref name="jsonTypeInfo" />.</exception>
+      <returns>A <see cref="T:System.Text.Json.Nodes.JsonNode" /> representation of the value.</returns>
+    </member>
     <member name="M:System.Text.Json.JsonSerializer.SerializeToNode(System.Object,System.Type,System.Text.Json.JsonSerializerOptions)">
       <summary>Converts the provided value into a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
       <param name="value">The value to convert.</param>
@@ -1726,6 +1913,16 @@ There is remaining data in the stream.</exception>
       <exception cref="T:System.ArgumentNullException">
         <paramref name="jsonTypeInfo" /> is <see langword="null" />.</exception>
       <returns>A <see cref="T:System.Text.Json.Nodes.JsonNode" /> representation of the value.</returns>
+    </member>
+    <member name="M:System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(System.Object,System.Text.Json.Serialization.Metadata.JsonTypeInfo)">
+      <summary>Converts the provided value into a <see cref="T:System.Byte" /> array.</summary>
+      <param name="value">The value to convert.</param>
+      <param name="jsonTypeInfo">Metadata about the type to convert.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="jsonTypeInfo" /> is <see langword="null" />.</exception>
+      <exception cref="T:System.InvalidCastException">
+        <paramref name="value" /> does not match the type of <paramref name="jsonTypeInfo" />.</exception>
+      <returns>A UTF-8 representation of the value.</returns>
     </member>
     <member name="M:System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(System.Object,System.Type,System.Text.Json.JsonSerializerOptions)">
       <summary>Converts a value of the specified type into a JSON string, encoded as UTF-8 bytes.</summary>
@@ -1770,6 +1967,9 @@ There is remaining data in the stream.</exception>
         <paramref name="jsonTypeInfo" /> is <see langword="null" />.</exception>
       <returns>A UTF-8 representation of the value.</returns>
     </member>
+    <member name="P:System.Text.Json.JsonSerializer.IsReflectionEnabledByDefault">
+      <summary>Indicates whether unconfigured <see cref="T:System.Text.Json.JsonSerializerOptions" /> instances should be set to use the reflection-based <see cref="T:System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver" />.</summary>
+    </member>
     <member name="T:System.Text.Json.JsonSerializerDefaults">
       <summary>Specifies scenario-based default serialization options that can be used to construct a <see cref="T:System.Text.Json.JsonSerializerOptions" /> instance.</summary>
     </member>
@@ -1805,7 +2005,7 @@ There is remaining data in the stream.</exception>
         <paramref name="options" /> is <see langword="null" />.</exception>
     </member>
     <member name="M:System.Text.Json.JsonSerializerOptions.AddContext``1">
-      <summary>Binds current <see cref="T:System.Text.Json.JsonSerializerOptions" /> instance with a new instance of the specified <see cref="T:System.Text.Json.Serialization.JsonSerializerContext" /> type.</summary>
+      <summary>Appends a new <see cref="T:System.Text.Json.Serialization.JsonSerializerContext" /> to the metadata resolution of the current <see cref="T:System.Text.Json.JsonSerializerOptions" /> instance.</summary>
       <typeparam name="TContext">The generic definition of the specified context type.</typeparam>
     </member>
     <member name="M:System.Text.Json.JsonSerializerOptions.GetConverter(System.Type)">
@@ -1823,6 +2023,30 @@ There is remaining data in the stream.</exception>
       <exception cref="T:System.ArgumentException">
         <paramref name="type" /> is not valid for serialization.</exception>
       <returns>The contract metadata resolved for <paramref name="type" />.</returns>
+    </member>
+    <member name="M:System.Text.Json.JsonSerializerOptions.MakeReadOnly">
+      <summary>Marks the current instance as read-only to prevent any further user modification.</summary>
+      <exception cref="T:System.InvalidOperationException">The instance does not specify a <see cref="P:System.Text.Json.JsonSerializerOptions.TypeInfoResolver" /> setting.</exception>
+    </member>
+    <member name="M:System.Text.Json.JsonSerializerOptions.MakeReadOnly(System.Boolean)">
+      <summary>Marks the current instance as read-only preventing any further user modification.</summary>
+      <param name="populateMissingResolver">Populates unconfigured <see cref="P:System.Text.Json.JsonSerializerOptions.TypeInfoResolver" /> properties with the reflection-based default.</param>
+      <exception cref="T:System.InvalidOperationException">
+        <para>The instance does not specify a <see cref="P:System.Text.Json.JsonSerializerOptions.TypeInfoResolver" /> setting. Thrown when <paramref name="populateMissingResolver" /> is <see langword="false" />.</para>
+        <para>-or-</para>
+        <para>The <see cref="P:System.Text.Json.JsonSerializer.IsReflectionEnabledByDefault" /> feature switch has been turned off.</para>
+      </exception>
+    </member>
+    <member name="M:System.Text.Json.JsonSerializerOptions.TryGetTypeInfo(System.Type,System.Text.Json.Serialization.Metadata.JsonTypeInfo@)">
+      <summary>Tries to get the <see cref="T:System.Text.Json.Serialization.Metadata.JsonTypeInfo" /> contract metadata resolved by the current <see cref="T:System.Text.Json.JsonSerializerOptions" /> instance.</summary>
+      <param name="type">The type to resolve contract metadata for.</param>
+      <param name="typeInfo">When this method returns, contains the resolved contract metadata, or <see langword="null" /> if the contract could not be resolved.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="type" /> is <see langword="null" />.</exception>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="type" /> is not valid for serialization.</exception>
+      <returns>
+        <see langword="true" /> if a contract for <paramref name="type" /> was found, or <see langword="false" /> otherwise.</returns>
     </member>
     <member name="P:System.Text.Json.JsonSerializerOptions.AllowTrailingCommas">
       <summary>Get or sets a value that indicates whether an extra comma at the end of a list of JSON values in an object or array is allowed (and ignored) within the JSON payload being deserialized.</summary>
@@ -1890,6 +2114,9 @@ There is remaining data in the stream.</exception>
       <returns>
         <see langword="true" /> if fields are included during serialization; otherwise, <see langword="false" />.</returns>
     </member>
+    <member name="P:System.Text.Json.JsonSerializerOptions.IsReadOnly">
+      <summary>Gets a value that indicates whether the current instance has been locked for user modification.</summary>
+    </member>
     <member name="P:System.Text.Json.JsonSerializerOptions.MaxDepth">
       <summary>Gets or sets the maximum depth allowed when serializing or deserializing JSON, with the default value of 0 indicating a maximum depth of 64.</summary>
       <exception cref="T:System.InvalidOperationException">This property was set after serialization or deserialization has occurred.</exception>
@@ -1899,6 +2126,10 @@ There is remaining data in the stream.</exception>
     <member name="P:System.Text.Json.JsonSerializerOptions.NumberHandling">
       <summary>Gets or sets an object that specifies how number types should be handled when serializing or deserializing.</summary>
       <exception cref="T:System.InvalidOperationException">This property is set after serialization or deserialization has occurred.</exception>
+    </member>
+    <member name="P:System.Text.Json.JsonSerializerOptions.PreferredObjectCreationHandling">
+      <summary>Gets or sets the preferred object creation handling for properties when deserializing JSON.</summary>
+      <returns>When set to <see cref="F:System.Text.Json.Serialization.JsonObjectCreationHandling.Populate" />, all properties that are capable of reusing the existing instance will be populated.</returns>
     </member>
     <member name="P:System.Text.Json.JsonSerializerOptions.PropertyNameCaseInsensitive">
       <summary>Gets or sets a value that indicates whether a property's name uses a case-insensitive comparison during deserialization. The default value is <see langword="false" />.</summary>
@@ -1922,8 +2153,14 @@ There is remaining data in the stream.</exception>
       <summary>Gets or sets the <see cref="T:System.Text.Json.Serialization.Metadata.JsonTypeInfo" /> contract resolver used by this instance.</summary>
       <exception cref="T:System.InvalidOperationException">The property is set after serialization or deserialization has occurred.</exception>
     </member>
+    <member name="P:System.Text.Json.JsonSerializerOptions.TypeInfoResolverChain">
+      <summary>Gets the list of chained <see cref="T:System.Text.Json.Serialization.Metadata.JsonTypeInfo" /> contract resolvers used by this instance.</summary>
+    </member>
     <member name="P:System.Text.Json.JsonSerializerOptions.UnknownTypeHandling">
       <summary>Gets or sets an object that specifies how deserializing a type declared as an <see cref="T:System.Object" /> is handled during deserialization.</summary>
+    </member>
+    <member name="P:System.Text.Json.JsonSerializerOptions.UnmappedMemberHandling">
+      <summary>Gets or sets an object that specifies how <see cref="T:System.Text.Json.JsonSerializer" /> handles JSON properties that cannot be mapped to a specific .NET member when deserializing object types.</summary>
     </member>
     <member name="P:System.Text.Json.JsonSerializerOptions.WriteIndented">
       <summary>Gets or sets a value that indicates whether JSON should use pretty printing. By default, JSON is serialized without any extra white space.</summary>
@@ -2061,7 +2298,12 @@ There is remaining data in the stream.</exception>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonArray.GetEnumerator">
       <summary>Returns an enumerator that iterates through the <see cref="T:System.Text.Json.Nodes.JsonArray" />.</summary>
-      <returns>A <see cref="T:System.Collections.Generic.IEnumerator`1" /> for the <see cref="T:System.Text.Json.Nodes.JsonNode" />.</returns>
+      <returns>An <see cref="T:System.Collections.Generic.IEnumerator`1" /> for the <see cref="T:System.Text.Json.Nodes.JsonArray" />.</returns>
+    </member>
+    <member name="M:System.Text.Json.Nodes.JsonArray.GetValues``1">
+      <summary>Returns an enumerable that wraps calls to <see cref="M:System.Text.Json.Nodes.JsonNode.GetValue``1" />.</summary>
+      <typeparam name="T">The type of the value to obtain from the <see cref="T:System.Text.Json.Nodes.JsonValue" />.</typeparam>
+      <returns>An enumerable iterating over values of the array.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonArray.IndexOf(System.Text.Json.Nodes.JsonNode)">
       <summary>The object to locate in the <see cref="T:System.Text.Json.Nodes.JsonArray" />.</summary>
@@ -2133,9 +2375,30 @@ There is remaining data in the stream.</exception>
       <exception cref="T:System.InvalidOperationException">The node is not a <see cref="T:System.Text.Json.Nodes.JsonValue" />.</exception>
       <returns>A <see cref="T:System.Text.Json.Nodes.JsonValue" />.</returns>
     </member>
+    <member name="M:System.Text.Json.Nodes.JsonNode.DeepClone">
+      <summary>Creates a new instance of the <see cref="T:System.Text.Json.Nodes.JsonNode" /> class. All child nodes are recursively cloned.</summary>
+      <returns>A new cloned instance of the current node.</returns>
+    </member>
+    <member name="M:System.Text.Json.Nodes.JsonNode.DeepEquals(System.Text.Json.Nodes.JsonNode,System.Text.Json.Nodes.JsonNode)">
+      <summary>Compares the values of two nodes, including the values of all descendant nodes.</summary>
+      <param name="node1">The <see cref="T:System.Text.Json.Nodes.JsonNode" /> to compare.</param>
+      <param name="node2">The <see cref="T:System.Text.Json.Nodes.JsonNode" /> to compare.</param>
+      <returns>
+        <see langword="true" /> if the tokens are equal; otherwise <see langword="false" />.</returns>
+    </member>
+    <member name="M:System.Text.Json.Nodes.JsonNode.GetElementIndex">
+      <summary>Returns the index of the current node from the parent <see cref="T:System.Text.Json.Nodes.JsonArray" />.</summary>
+      <exception cref="T:System.InvalidOperationException">The current parent is not a <see cref="T:System.Text.Json.Nodes.JsonArray" />.</exception>
+      <returns>The index of the current node.</returns>
+    </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.GetPath">
       <summary>Gets the JSON path.</summary>
       <returns>The JSON Path value.</returns>
+    </member>
+    <member name="M:System.Text.Json.Nodes.JsonNode.GetPropertyName">
+      <summary>Returns the property name of the current node from the parent object.</summary>
+      <exception cref="T:System.InvalidOperationException">The current parent is not a <see cref="T:System.Text.Json.Nodes.JsonObject" />.</exception>
+      <returns>The property name of the current node.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.GetValue``1">
       <summary>Gets the value for the current <see cref="T:System.Text.Json.Nodes.JsonValue" />.</summary>
@@ -2144,169 +2407,173 @@ There is remaining data in the stream.</exception>
       <exception cref="T:System.InvalidOperationException">The current <see cref="T:System.Text.Json.Nodes.JsonNode" /> is not a <see cref="T:System.Text.Json.Nodes.JsonValue" /> or is not compatible with {TValue}.</exception>
       <returns>A value converted from the <see cref="T:System.Text.Json.Nodes.JsonValue" /> instance.</returns>
     </member>
+    <member name="M:System.Text.Json.Nodes.JsonNode.GetValueKind">
+      <summary>Returns the <see cref="T:System.Text.Json.JsonValueKind" /> of the current instance.</summary>
+      <returns>The json value kind of the current instance.</returns>
+    </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Explicit(System.Text.Json.Nodes.JsonNode)~System.Boolean">
-      <summary>Defines an explicit conversion of a given <see cref="T:System.Boolean" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
-      <param name="value">A <see cref="T:System.Boolean" /> to implicitly convert.</param>
+      <summary>Defines an explicit conversion of a given <see cref="T:System.Text.Json.Nodes.JsonNode" /> to a <see cref="T:System.Boolean" />.</summary>
+      <param name="value">A <see cref="T:System.Text.Json.Nodes.JsonNode" /> to explicitly convert.</param>
       <returns>A value converted from the <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Explicit(System.Text.Json.Nodes.JsonNode)~System.Byte">
-      <summary>Defines an explicit conversion of a given <see cref="T:System.Byte" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
-      <param name="value">A <see cref="T:System.Byte" /> to implicitly convert.</param>
+      <summary>Defines an explicit conversion of a given <see cref="T:System.Text.Json.Nodes.JsonNode" /> to a <see cref="T:System.Byte" />.</summary>
+      <param name="value">A <see cref="T:System.Text.Json.Nodes.JsonNode" /> to explicitly convert.</param>
       <returns>A value converted from the <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Explicit(System.Text.Json.Nodes.JsonNode)~System.Char">
-      <summary>Defines an explicit conversion of a given <see cref="T:System.Char" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
-      <param name="value">A <see cref="T:System.Char" /> to implicitly convert.</param>
+      <summary>Defines an explicit conversion of a given <see cref="T:System.Text.Json.Nodes.JsonNode" /> to a <see cref="T:System.Char" />.</summary>
+      <param name="value">A <see cref="T:System.Text.Json.Nodes.JsonNode" /> to explicitly convert.</param>
       <returns>A value converted from the <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Explicit(System.Text.Json.Nodes.JsonNode)~System.DateTime">
-      <summary>Defines an explicit conversion of a given <see cref="T:System.DateTime" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
-      <param name="value">A <see cref="T:System.DateTime" /> to implicitly convert.</param>
+      <summary>Defines an explicit conversion of a given <see cref="T:System.Text.Json.Nodes.JsonNode" /> to a <see cref="T:System.DateTime" />.</summary>
+      <param name="value">A <see cref="T:System.Text.Json.Nodes.JsonNode" /> to explicitly convert.</param>
       <returns>A value converted from the <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Explicit(System.Text.Json.Nodes.JsonNode)~System.DateTimeOffset">
-      <summary>Defines an explicit conversion of a given <see cref="T:System.DateTimeOffset" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
-      <param name="value">A <see cref="T:System.DateTimeOffset" /> to implicitly convert.</param>
+      <summary>Defines an explicit conversion of a given <see cref="T:System.Text.Json.Nodes.JsonNode" /> to a <see cref="T:System.DateTimeOffset" />.</summary>
+      <param name="value">A <see cref="T:System.Text.Json.Nodes.JsonNode" /> to explicitly convert.</param>
       <returns>A value converted from the <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Explicit(System.Text.Json.Nodes.JsonNode)~System.Decimal">
-      <summary>Defines an explicit conversion of a given <see cref="T:System.Decimal" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
-      <param name="value">A <see cref="T:System.Decimal" /> to implicitly convert.</param>
+      <summary>Defines an explicit conversion of a given <see cref="T:System.Text.Json.Nodes.JsonNode" /> to a <see cref="T:System.Decimal" />.</summary>
+      <param name="value">A <see cref="T:System.Text.Json.Nodes.JsonNode" /> to explicitly convert.</param>
       <returns>A value converted from the <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Explicit(System.Text.Json.Nodes.JsonNode)~System.Double">
-      <summary>Defines an explicit conversion of a given <see cref="T:System.Double" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
-      <param name="value">A <see cref="T:System.Double" /> to implicitly convert.</param>
+      <summary>Defines an explicit conversion of a given <see cref="T:System.Text.Json.Nodes.JsonNode" /> to a <see cref="T:System.Double" />.</summary>
+      <param name="value">A <see cref="T:System.Text.Json.Nodes.JsonNode" /> to explicitly convert.</param>
       <returns>A value converted from the <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Explicit(System.Text.Json.Nodes.JsonNode)~System.Guid">
-      <summary>Defines an explicit conversion of a given <see cref="T:System.Guid" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
-      <param name="value">A <see cref="T:System.Guid" /> to implicitly convert.</param>
+      <summary>Defines an explicit conversion of a given <see cref="T:System.Text.Json.Nodes.JsonNode" /> to a <see cref="T:System.Guid" />.</summary>
+      <param name="value">A <see cref="T:System.Text.Json.Nodes.JsonNode" /> to explicitly convert.</param>
       <returns>A value converted from the <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Explicit(System.Text.Json.Nodes.JsonNode)~System.Int16">
-      <summary>Defines an explicit conversion of a given <see cref="T:System.Int16" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
-      <param name="value">A <see cref="T:System.Int16" /> to implicitly convert.</param>
+      <summary>Defines an explicit conversion of a given <see cref="T:System.Text.Json.Nodes.JsonNode" /> to an <see cref="T:System.Int16" />.</summary>
+      <param name="value">A <see cref="T:System.Text.Json.Nodes.JsonNode" /> to explicitly convert.</param>
       <returns>A value converted from the <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Explicit(System.Text.Json.Nodes.JsonNode)~System.Int32">
-      <summary>Defines an explicit conversion of a given <see cref="T:System.Int32" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
-      <param name="value">A <see cref="T:System.Int32" /> to implicitly convert.</param>
+      <summary>Defines an explicit conversion of a given <see cref="T:System.Text.Json.Nodes.JsonNode" /> to an <see cref="T:System.Int32" />.</summary>
+      <param name="value">A <see cref="T:System.Text.Json.Nodes.JsonNode" /> to explicitly convert.</param>
       <returns>A value converted from the <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Explicit(System.Text.Json.Nodes.JsonNode)~System.Int64">
-      <summary>Defines an explicit conversion of a given <see cref="T:System.Int64" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
-      <param name="value">A <see cref="T:System.Int64" /> to implicitly convert.</param>
+      <summary>Defines an explicit conversion of a given <see cref="T:System.Text.Json.Nodes.JsonNode" /> to an <see cref="T:System.Int64" />.</summary>
+      <param name="value">A <see cref="T:System.Text.Json.Nodes.JsonNode" /> to explicitly convert.</param>
       <returns>A value converted from the <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Explicit(System.Text.Json.Nodes.JsonNode)~System.Nullable{System.Boolean}">
-      <summary>Defines an explicit conversion of a given <see cref="T:System.Boolean" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
-      <param name="value">A <see cref="T:System.Boolean" /> to implicitly convert.</param>
+      <summary>Defines an explicit conversion of a specified nullable <see cref="T:System.Text.Json.Nodes.JsonNode" /> to a nullable <see cref="T:System.Boolean" />.</summary>
+      <param name="value">A <see cref="T:System.Text.Json.Nodes.JsonNode" /> to explicitly convert.</param>
       <returns>A value converted from the <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Explicit(System.Text.Json.Nodes.JsonNode)~System.Nullable{System.Byte}">
-      <summary>Defines an explicit conversion of a given <see cref="T:System.Byte" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
-      <param name="value">A <see cref="T:System.Byte" /> to implicitly convert.</param>
+      <summary>Defines an explicit conversion of a specified nullable <see cref="T:System.Text.Json.Nodes.JsonNode" /> to a nullable <see cref="T:System.Byte" />.</summary>
+      <param name="value">A <see cref="T:System.Text.Json.Nodes.JsonNode" /> to explicitly convert.</param>
       <returns>A value converted from the <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Explicit(System.Text.Json.Nodes.JsonNode)~System.Nullable{System.Char}">
-      <summary>Defines an explicit conversion of a given <see cref="T:System.Char" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
-      <param name="value">A <see cref="T:System.Char" /> to implicitly convert.</param>
+      <summary>Defines an explicit conversion of a given <see cref="T:System.Text.Json.Nodes.JsonNode" /> to a <see cref="T:System.Char" />.</summary>
+      <param name="value">A <see cref="T:System.Char" /> to explicitly convert.</param>
       <returns>A value converted from the <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Explicit(System.Text.Json.Nodes.JsonNode)~System.Nullable{System.DateTime}">
-      <summary>Defines an explicit conversion of a given <see cref="T:System.DateTime" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
-      <param name="value">A <see cref="T:System.DateTime" /> to implicitly convert.</param>
+      <summary>Defines an explicit conversion of a specified nullable <see cref="T:System.Text.Json.Nodes.JsonNode" /> to a nullable <see cref="T:System.DateTime" />.</summary>
+      <param name="value">A <see cref="T:System.Text.Json.Nodes.JsonNode" /> to explicitly convert.</param>
       <returns>A value converted from the <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Explicit(System.Text.Json.Nodes.JsonNode)~System.Nullable{System.DateTimeOffset}">
-      <summary>Defines an explicit conversion of a given <see cref="T:System.DateTimeOffset" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
-      <param name="value">A <see cref="T:System.DateTimeOffset" /> to implicitly convert.</param>
+      <summary>Defines an explicit conversion of a specified nullable <see cref="T:System.Text.Json.Nodes.JsonNode" /> to a nullable <see cref="T:System.DateTimeOffset" />.</summary>
+      <param name="value">A <see cref="T:System.Text.Json.Nodes.JsonNode" /> to explicitly convert.</param>
       <returns>A value converted from the <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Explicit(System.Text.Json.Nodes.JsonNode)~System.Nullable{System.Decimal}">
-      <summary>Defines an explicit conversion of a given <see cref="T:System.Decimal" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
-      <param name="value">A <see cref="T:System.Decimal" /> to implicitly convert.</param>
+      <summary>Defines an explicit conversion of a specified nullable <see cref="T:System.Text.Json.Nodes.JsonNode" /> to a nullable <see cref="T:System.Decimal" />.</summary>
+      <param name="value">A <see cref="T:System.Text.Json.Nodes.JsonNode" /> to explicitly convert.</param>
       <returns>A value converted from the <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Explicit(System.Text.Json.Nodes.JsonNode)~System.Nullable{System.Double}">
-      <summary>Defines an explicit conversion of a given <see cref="T:System.Double" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
-      <param name="value">A <see cref="T:System.Double" /> to implicitly convert.</param>
+      <summary>Defines an explicit conversion of a specified nullable <see cref="T:System.Text.Json.Nodes.JsonNode" /> to a nullable <see cref="T:System.Double" />.</summary>
+      <param name="value">A <see cref="T:System.Text.Json.Nodes.JsonNode" /> to explicitly convert.</param>
       <returns>A value converted from the <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Explicit(System.Text.Json.Nodes.JsonNode)~System.Nullable{System.Guid}">
-      <summary>Defines an explicit conversion of a given <see cref="T:System.Guid" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
-      <param name="value">A <see cref="T:System.Guid" /> to implicitly convert.</param>
+      <summary>Defines an explicit conversion of a specified nullable <see cref="T:System.Text.Json.Nodes.JsonNode" /> to a nullable <see cref="T:System.Guid" />.</summary>
+      <param name="value">A <see cref="T:System.Text.Json.Nodes.JsonNode" /> to explicitly convert.</param>
       <returns>A value converted from the <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Explicit(System.Text.Json.Nodes.JsonNode)~System.Nullable{System.Int16}">
-      <summary>Defines an explicit conversion of a given <see cref="T:System.Int16" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
-      <param name="value">A <see cref="T:System.Int16" /> to implicitly convert.</param>
+      <summary>Defines an explicit conversion of a specified nullable <see cref="T:System.Text.Json.Nodes.JsonNode" /> to a nullable <see cref="T:System.Int16" />.</summary>
+      <param name="value">A <see cref="T:System.Text.Json.Nodes.JsonNode" /> to explicitly convert.</param>
       <returns>A value converted from the <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Explicit(System.Text.Json.Nodes.JsonNode)~System.Nullable{System.Int32}">
-      <summary>Defines an explicit conversion of a given <see cref="T:System.Int32" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
-      <param name="value">A <see cref="T:System.Int32" /> to implicitly convert.</param>
+      <summary>Defines an explicit conversion of a specified nullable <see cref="T:System.Text.Json.Nodes.JsonNode" /> to a nullable <see cref="T:System.Int32" />.</summary>
+      <param name="value">A <see cref="T:System.Text.Json.Nodes.JsonNode" /> to explicitly convert.</param>
       <returns>A value converted from the <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Explicit(System.Text.Json.Nodes.JsonNode)~System.Nullable{System.Int64}">
-      <summary>Defines an explicit conversion of a given <see cref="T:System.Int64" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
-      <param name="value">A <see cref="T:System.Int64" /> to implicitly convert.</param>
+      <summary>Defines an explicit conversion of a specified nullable <see cref="T:System.Text.Json.Nodes.JsonNode" /> to a nullable <see cref="T:System.Int64" />.</summary>
+      <param name="value">A <see cref="T:System.Text.Json.Nodes.JsonNode" /> to explicitly convert.</param>
       <returns>A value converted from the <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Explicit(System.Text.Json.Nodes.JsonNode)~System.Nullable{System.SByte}">
-      <summary>Defines an explicit conversion of a given <see cref="T:System.SByte" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
-      <param name="value">A <see cref="T:System.SByte" /> to implicitly convert.</param>
+      <summary>Defines an explicit conversion of a specified nullable <see cref="T:System.Text.Json.Nodes.JsonNode" /> to a nullable <see cref="T:System.SByte" />.</summary>
+      <param name="value">A <see cref="T:System.Text.Json.Nodes.JsonNode" /> to explicitly convert.</param>
       <returns>A value converted from the <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Explicit(System.Text.Json.Nodes.JsonNode)~System.Nullable{System.Single}">
-      <summary>Defines an explicit conversion of a given <see cref="T:System.Single" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
-      <param name="value">A <see cref="T:System.Single" /> to implicitly convert.</param>
+      <summary>Defines an explicit conversion of a specified nullable <see cref="T:System.Text.Json.Nodes.JsonNode" /> to a nullable <see cref="T:System.Single" />.</summary>
+      <param name="value">A <see cref="T:System.Text.Json.Nodes.JsonNode" /> to explicitly convert.</param>
       <returns>A value converted from the <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Explicit(System.Text.Json.Nodes.JsonNode)~System.Nullable{System.UInt16}">
-      <summary>Defines an explicit conversion of a given <see cref="T:System.UInt16" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
-      <param name="value">A <see cref="T:System.UInt16" /> to implicitly convert.</param>
+      <summary>Defines an explicit conversion of a specified nullable <see cref="T:System.Text.Json.Nodes.JsonNode" /> to a nullable <see cref="T:System.UInt16" />.</summary>
+      <param name="value">A <see cref="T:System.Text.Json.Nodes.JsonNode" /> to explicitly convert.</param>
       <returns>A value converted from the <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Explicit(System.Text.Json.Nodes.JsonNode)~System.Nullable{System.UInt32}">
-      <summary>Defines an explicit conversion of a given <see cref="T:System.UInt32" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
-      <param name="value">A <see cref="T:System.UInt32" /> to implicitly convert.</param>
+      <summary>Defines an explicit conversion of a specified nullable <see cref="T:System.Text.Json.Nodes.JsonNode" /> to a nullable <see cref="T:System.UInt32" />.</summary>
+      <param name="value">A <see cref="T:System.Text.Json.Nodes.JsonNode" /> to explicitly convert.</param>
       <returns>A value converted from the <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Explicit(System.Text.Json.Nodes.JsonNode)~System.Nullable{System.UInt64}">
-      <summary>Defines an explicit conversion of a given <see cref="T:System.UInt64" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
-      <param name="value">A <see cref="T:System.UInt64" /> to implicitly convert.</param>
+      <summary>Defines an explicit conversion of a specified nullable <see cref="T:System.Text.Json.Nodes.JsonNode" /> to a nullable <see cref="T:System.UInt64" />.</summary>
+      <param name="value">A <see cref="T:System.Text.Json.Nodes.JsonNode" /> to explicitly convert.</param>
       <returns>A value converted from the <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Explicit(System.Text.Json.Nodes.JsonNode)~System.SByte">
-      <summary>Defines an explicit conversion of a given <see cref="T:System.SByte" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
-      <param name="value">A <see cref="T:System.SByte" /> to implicitly convert.</param>
+      <summary>Defines an explicit conversion of a given <see cref="T:System.Text.Json.Nodes.JsonNode" /> to an <see cref="T:System.SByte" />.</summary>
+      <param name="value">A <see cref="T:System.Text.Json.Nodes.JsonNode" /> to explicitly convert.</param>
       <returns>A value converted from the <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Explicit(System.Text.Json.Nodes.JsonNode)~System.Single">
-      <summary>Defines an explicit conversion of a given <see cref="T:System.Single" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
-      <param name="value">A <see cref="T:System.Single" /> to implicitly convert.</param>
+      <summary>Defines an explicit conversion of a given <see cref="T:System.Text.Json.Nodes.JsonNode" /> to a <see cref="T:System.Single" />.</summary>
+      <param name="value">A <see cref="T:System.Text.Json.Nodes.JsonNode" /> to explicitly convert.</param>
       <returns>A value converted from the <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Explicit(System.Text.Json.Nodes.JsonNode)~System.String">
-      <summary>Defines an explicit conversion of a given <see cref="T:System.String" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
-      <param name="value">A <see cref="T:System.String" /> to implicitly convert.</param>
+      <summary>Defines an explicit conversion of a specified nullable <see cref="T:System.Text.Json.Nodes.JsonNode" /> to a nullable <see cref="T:System.String" />.</summary>
+      <param name="value">A <see cref="T:System.Text.Json.Nodes.JsonNode" /> to explicitly convert.</param>
       <returns>A value converted from the <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Explicit(System.Text.Json.Nodes.JsonNode)~System.UInt16">
-      <summary>Defines an explicit conversion of a given <see cref="T:System.UInt16" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
-      <param name="value">A <see cref="T:System.UInt16" /> to implicitly convert.</param>
+      <summary>Defines an explicit conversion of a given <see cref="T:System.Text.Json.Nodes.JsonNode" /> to a <see cref="T:System.UInt16" />.</summary>
+      <param name="value">A <see cref="T:System.Text.Json.Nodes.JsonNode" /> to explicitly convert.</param>
       <returns>A value converted from the <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Explicit(System.Text.Json.Nodes.JsonNode)~System.UInt32">
-      <summary>Defines an explicit conversion of a given <see cref="T:System.UInt32" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
-      <param name="value">A <see cref="T:System.UInt32" /> to implicitly convert.</param>
+      <summary>Defines an explicit conversion of a given <see cref="T:System.Text.Json.Nodes.JsonNode" /> to a <see cref="T:System.UInt32" />.</summary>
+      <param name="value">A <see cref="T:System.Text.Json.Nodes.JsonNode" /> to explicitly convert.</param>
       <returns>A value converted from the <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Explicit(System.Text.Json.Nodes.JsonNode)~System.UInt64">
-      <summary>Defines an explicit conversion of a given <see cref="T:System.UInt64" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
-      <param name="value">A <see cref="T:System.UInt64" /> to implicitly convert.</param>
+      <summary>Defines an explicit conversion of a given <see cref="T:System.Text.Json.Nodes.JsonNode" /> to a <see cref="T:System.UInt64" />.</summary>
+      <param name="value">A <see cref="T:System.Text.Json.Nodes.JsonNode" /> to explicitly convert.</param>
       <returns>A value converted from the <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Implicit(System.Boolean)~System.Text.Json.Nodes.JsonNode">
@@ -2365,112 +2632,112 @@ There is remaining data in the stream.</exception>
       <returns>A <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance converted from the <paramref name="value" /> parameter.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Implicit(System.Nullable{System.Boolean})~System.Text.Json.Nodes.JsonNode">
-      <summary>Defines an implicit conversion of a given <see cref="T:System.Boolean" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
+      <summary>Defines an implicit conversion of a specified nullable <see cref="T:System.Boolean" /> to a nullable <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
       <param name="value">A <see cref="T:System.Boolean" /> to implicitly convert.</param>
       <returns>A <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance converted from the <paramref name="value" /> parameter.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Implicit(System.Nullable{System.Byte})~System.Text.Json.Nodes.JsonNode">
-      <summary>Defines an implicit conversion of a given <see cref="T:System.Byte" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
+      <summary>Defines an implicit conversion of a specified nullable <see cref="T:System.Byte" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
       <param name="value">A <see cref="T:System.Byte" /> to implicitly convert.</param>
       <returns>A <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance converted from the <paramref name="value" /> parameter.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Implicit(System.Nullable{System.Char})~System.Text.Json.Nodes.JsonNode">
-      <summary>Defines an implicit conversion of a given <see cref="T:System.Char" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
+      <summary>Defines an implicit conversion of a specified nullable <see cref="T:System.Char" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
       <param name="value">A <see cref="T:System.Char" /> to implicitly convert.</param>
       <returns>A <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance converted from the <paramref name="value" /> parameter.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Implicit(System.Nullable{System.DateTime})~System.Text.Json.Nodes.JsonNode">
-      <summary>Defines an implicit conversion of a given <see cref="T:System.DateTime" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
+      <summary>Defines an implicit conversion of a specified nullable <see cref="T:System.DateTime" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
       <param name="value">A <see cref="T:System.DateTime" /> to implicitly convert.</param>
       <returns>A <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance converted from the <paramref name="value" /> parameter.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Implicit(System.Nullable{System.DateTimeOffset})~System.Text.Json.Nodes.JsonNode">
-      <summary>Defines an implicit conversion of a given <see cref="T:System.DateTimeOffset" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
+      <summary>Defines an implicit conversion of a specified nullable <see cref="T:System.DateTimeOffset" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
       <param name="value">A <see cref="T:System.DateTimeOffset" /> to implicitly convert.</param>
       <returns>A <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance converted from the <paramref name="value" /> parameter.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Implicit(System.Nullable{System.Decimal})~System.Text.Json.Nodes.JsonNode">
-      <summary>Defines an implicit conversion of a given <see cref="T:System.Decimal" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
+      <summary>Defines an implicit conversion of a specified nullable <see cref="T:System.Decimal" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
       <param name="value">A <see cref="T:System.Decimal" /> to implicitly convert.</param>
       <returns>A <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance converted from the <paramref name="value" /> parameter.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Implicit(System.Nullable{System.Double})~System.Text.Json.Nodes.JsonNode">
-      <summary>Defines an implicit conversion of a given <see cref="T:System.Double" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
+      <summary>Defines an implicit conversion of a specified nullable <see cref="T:System.Double" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
       <param name="value">A <see cref="T:System.Double" /> to implicitly convert.</param>
       <returns>A <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance converted from the <paramref name="value" /> parameter.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Implicit(System.Nullable{System.Guid})~System.Text.Json.Nodes.JsonNode">
-      <summary>Defines an implicit conversion of a given <see cref="T:System.Guid" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
+      <summary>Defines an implicit conversion of a specified nullable <see cref="T:System.Guid" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
       <param name="value">A <see cref="T:System.Guid" /> to implicitly convert.</param>
       <returns>A <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance converted from the <paramref name="value" /> parameter.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Implicit(System.Nullable{System.Int16})~System.Text.Json.Nodes.JsonNode">
-      <summary>Defines an implicit conversion of a given <see cref="T:System.Int16" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
+      <summary>Defines an implicit conversion of a specified nullable <see cref="T:System.Int16" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
       <param name="value">A <see cref="T:System.Int16" /> to implicitly convert.</param>
       <returns>A <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance converted from the <paramref name="value" /> parameter.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Implicit(System.Nullable{System.Int32})~System.Text.Json.Nodes.JsonNode">
-      <summary>Defines an implicit conversion of a given <see cref="T:System.Int32" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
+      <summary>Defines an implicit conversion of a specified nullable <see cref="T:System.Int32" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
       <param name="value">A <see cref="T:System.Int32" /> to implicitly convert.</param>
       <returns>A <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance converted from the <paramref name="value" /> parameter.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Implicit(System.Nullable{System.Int64})~System.Text.Json.Nodes.JsonNode">
-      <summary>Defines an implicit conversion of a given <see cref="T:System.Int64" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
+      <summary>Defines an implicit conversion of a specified nullable <see cref="T:System.Int64" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
       <param name="value">A <see cref="T:System.Int64" /> to implicitly convert.</param>
       <returns>A <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance converted from the <paramref name="value" /> parameter.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Implicit(System.Nullable{System.SByte})~System.Text.Json.Nodes.JsonNode">
-      <summary>Defines an implicit conversion of a given <see cref="T:System.SByte" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
+      <summary>Defines an implicit conversion of a specified nullable <see cref="T:System.SByte" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
       <param name="value">A <see cref="T:System.SByte" /> to implicitly convert.</param>
       <returns>A <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance converted from the <paramref name="value" /> parameter.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Implicit(System.Nullable{System.Single})~System.Text.Json.Nodes.JsonNode">
-      <summary>Defines an implicit conversion of a given <see cref="T:System.Single" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
+      <summary>Defines an implicit conversion of a specified nullable <see cref="T:System.Single" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
       <param name="value">A <see cref="T:System.Single" /> to implicitly convert.</param>
       <returns>A <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance converted from the <paramref name="value" /> parameter.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Implicit(System.Nullable{System.UInt16})~System.Text.Json.Nodes.JsonNode">
-      <summary>Defines an implicit conversion of a given <see cref="T:System.UInt16" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
+      <summary>Defines an implicit conversion of a specified nullable <see cref="T:System.UInt16" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
       <param name="value">A <see cref="T:System.UInt16" /> to implicitly convert.</param>
       <returns>A <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance converted from the <paramref name="value" /> parameter.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Implicit(System.Nullable{System.UInt32})~System.Text.Json.Nodes.JsonNode">
-      <summary>Defines an implicit conversion of a given <see cref="T:System.UInt32" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
+      <summary>Defines an implicit conversion of a specified nullable <see cref="T:System.UInt32" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
       <param name="value">A <see cref="T:System.UInt32" /> to implicitly convert.</param>
       <returns>A <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance converted from the <paramref name="value" /> parameter.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Implicit(System.Nullable{System.UInt64})~System.Text.Json.Nodes.JsonNode">
-      <summary>Defines an implicit conversion of a given <see cref="T:System.UInt64" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
+      <summary>Defines an implicit conversion of a specified nullable <see cref="T:System.UInt64" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
       <param name="value">A <see cref="T:System.UInt64" /> to implicitly convert.</param>
       <returns>A <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance converted from the <paramref name="value" /> parameter.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Implicit(System.SByte)~System.Text.Json.Nodes.JsonNode">
-      <summary>Defines an implicit conversion of a given <see cref="T:System.SByte" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
+      <summary>Defines an implicit conversion of a specified nullable <see cref="T:System.SByte" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
       <param name="value">A <see cref="T:System.SByte" /> to implicitly convert.</param>
       <returns>A <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance converted from the <paramref name="value" /> parameter.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Implicit(System.Single)~System.Text.Json.Nodes.JsonNode">
-      <summary>Defines an implicit conversion of a given <see cref="T:System.Single" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
+      <summary>Defines an implicit conversion of a specified nullable <see cref="T:System.Single" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
       <param name="value">A <see cref="T:System.Single" /> to implicitly convert.</param>
       <returns>A <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance converted from the <paramref name="value" /> parameter.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Implicit(System.String)~System.Text.Json.Nodes.JsonNode">
-      <summary>Defines an implicit conversion of a given <see cref="T:System.String" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
+      <summary>Defines an implicit conversion of a specified nullable <see cref="T:System.String" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
       <param name="value">A <see cref="T:System.String" /> to implicitly convert.</param>
       <returns>A <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance converted from the <paramref name="value" /> parameter.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Implicit(System.UInt16)~System.Text.Json.Nodes.JsonNode">
-      <summary>Defines an implicit conversion of a given <see cref="T:System.UInt16" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
+      <summary>Defines an implicit conversion of a specified nullable <see cref="T:System.UInt16" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
       <param name="value">A <see cref="T:System.UInt16" /> to implicitly convert.</param>
       <returns>A <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance converted from the <paramref name="value" /> parameter.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Implicit(System.UInt32)~System.Text.Json.Nodes.JsonNode">
-      <summary>Defines an implicit conversion of a given <see cref="T:System.UInt32" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
+      <summary>Defines an implicit conversion of a specified nullable <see cref="T:System.UInt32" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
       <param name="value">A <see cref="T:System.UInt32" /> to implicitly convert.</param>
       <returns>A <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance converted from the <paramref name="value" /> parameter.</returns>
     </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.op_Implicit(System.UInt64)~System.Text.Json.Nodes.JsonNode">
-      <summary>Defines an implicit conversion of a given <see cref="T:System.UInt64" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
+      <summary>Defines an implicit conversion of a specified nullable <see cref="T:System.UInt64" /> to a <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
       <param name="value">A <see cref="T:System.UInt64" /> to implicitly convert.</param>
       <returns>A <see cref="T:System.Text.Json.Nodes.JsonNode" /> instance converted from the <paramref name="value" /> parameter.</returns>
     </member>
@@ -2513,6 +2780,21 @@ There is remaining data in the stream.</exception>
       <exception cref="T:System.Text.Json.JsonException">A value could not be read from the reader.</exception>
       <returns>The <see cref="T:System.Text.Json.Nodes.JsonNode" /> from the reader.</returns>
     </member>
+    <member name="M:System.Text.Json.Nodes.JsonNode.ParseAsync(System.IO.Stream,System.Nullable{System.Text.Json.Nodes.JsonNodeOptions},System.Text.Json.JsonDocumentOptions,System.Threading.CancellationToken)">
+      <summary>Parses a <see cref="T:System.IO.Stream" /> as UTF-8 encoded data representing a single JSON value into a <see cref="T:System.Text.Json.Nodes.JsonNode" />.  The stream will be read to completion.</summary>
+      <param name="utf8Json">The JSON text to parse.</param>
+      <param name="nodeOptions">Options to control the node behavior after parsing.</param>
+      <param name="documentOptions">Options to control the document behavior during parsing.</param>
+      <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+      <exception cref="T:System.Text.Json.JsonException">
+        <paramref name="utf8Json" /> does not represent a valid single JSON value.</exception>
+      <returns>A <see cref="T:System.Threading.Tasks.Task" /> to produce a <see cref="T:System.Text.Json.Nodes.JsonNode" /> representation of the JSON value.</returns>
+    </member>
+    <member name="M:System.Text.Json.Nodes.JsonNode.ReplaceWith``1(``0)">
+      <summary>Replaces this node with a new value.</summary>
+      <param name="value">The value that replaces this node.</param>
+      <typeparam name="T">The type of value to be replaced.</typeparam>
+    </member>
     <member name="M:System.Text.Json.Nodes.JsonNode.ToJsonString(System.Text.Json.JsonSerializerOptions)">
       <summary>Converts the current instance to string in JSON format.</summary>
       <param name="options">Options to control the serialization behavior.</param>
@@ -2552,8 +2834,7 @@ There is remaining data in the stream.</exception>
               A parent can either be a <see cref="T:System.Text.Json.Nodes.JsonObject" /> or a <see cref="T:System.Text.Json.Nodes.JsonArray" />.</summary>
     </member>
     <member name="P:System.Text.Json.Nodes.JsonNode.Root">
-      <summary>Gets the root <see cref="T:System.Text.Json.Nodes.JsonNode" />.
-              If the current <see cref="T:System.Text.Json.Nodes.JsonNode" /> is a root, <see langword="null" /> is returned.</summary>
+      <summary>Gets the root <see cref="T:System.Text.Json.Nodes.JsonNode" />.</summary>
     </member>
     <member name="T:System.Text.Json.Nodes.JsonNodeOptions">
       <summary>Options to control <see cref="T:System.Text.Json.Nodes.JsonNode" /> behavior.</summary>
@@ -2962,6 +3243,9 @@ There is remaining data in the stream.</exception>
       <returns>
         <see langword="true" /> if the instance can convert the specified object type; otherwise, <see langword="false" />.</returns>
     </member>
+    <member name="P:System.Text.Json.Serialization.JsonConverter.Type">
+      <summary>Gets the type being converted by the current converter instance.</summary>
+    </member>
     <member name="T:System.Text.Json.Serialization.JsonConverter`1">
       <summary>Converts an object or value to or from JSON.</summary>
       <typeparam name="T">The type of object or value handled by the converter.</typeparam>
@@ -3004,6 +3288,9 @@ There is remaining data in the stream.</exception>
     <member name="P:System.Text.Json.Serialization.JsonConverter`1.HandleNull">
       <summary>Gets a value that indicates whether <see langword="null" /> should be passed to the converter on serialization, and whether <see cref="F:System.Text.Json.JsonTokenType.Null" /> should be passed on deserialization.</summary>
     </member>
+    <member name="P:System.Text.Json.Serialization.JsonConverter`1.Type">
+      <summary>Gets the type being converted by the current converter instance.</summary>
+    </member>
     <member name="T:System.Text.Json.Serialization.JsonConverterAttribute">
       <summary>When placed on a property or type, specifies the converter type to use.</summary>
     </member>
@@ -3034,6 +3321,9 @@ There is remaining data in the stream.</exception>
       <param name="typeToConvert">The type handled by the converter.</param>
       <param name="options">The serialization options to use.</param>
       <returns>A converter for which <typeparamref name="T" /> is compatible with <paramref name="typeToConvert" />.</returns>
+    </member>
+    <member name="P:System.Text.Json.Serialization.JsonConverterFactory.Type">
+      <summary>Gets the type being converted by the current converter instance.</summary>
     </member>
     <member name="T:System.Text.Json.Serialization.JsonDerivedTypeAttribute">
       <summary>When placed on a type declaration, indicates that the specified subtype should be opted into polymorphic serialization.</summary>
@@ -3101,8 +3391,39 @@ There is remaining data in the stream.</exception>
     <member name="F:System.Text.Json.Serialization.JsonKnownNamingPolicy.CamelCase">
       <summary>Specifies that the built-in <see cref="P:System.Text.Json.JsonNamingPolicy.CamelCase" /> be used to convert JSON property names.</summary>
     </member>
+    <member name="F:System.Text.Json.Serialization.JsonKnownNamingPolicy.KebabCaseLower">
+      <summary>Specifies that the built-in <see cref="P:System.Text.Json.JsonNamingPolicy.KebabCaseLower" /> be used to convert JSON property names.</summary>
+    </member>
+    <member name="F:System.Text.Json.Serialization.JsonKnownNamingPolicy.KebabCaseUpper">
+      <summary>Specifies that the built-in <see cref="P:System.Text.Json.JsonNamingPolicy.KebabCaseUpper" /> policy be used to convert JSON property names.</summary>
+    </member>
+    <member name="F:System.Text.Json.Serialization.JsonKnownNamingPolicy.SnakeCaseLower">
+      <summary>Specifies that the built-in <see cref="P:System.Text.Json.JsonNamingPolicy.SnakeCaseLower" /> policy be used to convert JSON property names.</summary>
+    </member>
+    <member name="F:System.Text.Json.Serialization.JsonKnownNamingPolicy.SnakeCaseUpper">
+      <summary>Specifies that the built-in <see cref="P:System.Text.Json.JsonNamingPolicy.SnakeCaseUpper" /> policy be used to convert JSON property names.</summary>
+    </member>
     <member name="F:System.Text.Json.Serialization.JsonKnownNamingPolicy.Unspecified">
       <summary>Specifies that JSON property names should not be converted.</summary>
+    </member>
+    <member name="T:System.Text.Json.Serialization.JsonNumberEnumConverter`1">
+      <summary>Converter to convert enums to and from numeric values.</summary>
+      <typeparam name="TEnum">The enum type that this converter targets.</typeparam>
+    </member>
+    <member name="M:System.Text.Json.Serialization.JsonNumberEnumConverter`1.#ctor">
+      <summary>Initializes a new instance of <see cref="T:System.Text.Json.Serialization.JsonNumberEnumConverter`1" />.</summary>
+    </member>
+    <member name="M:System.Text.Json.Serialization.JsonNumberEnumConverter`1.CanConvert(System.Type)">
+      <summary>When overridden in a derived class, determines whether the converter instance can convert the specified object type.</summary>
+      <param name="typeToConvert">The type of the object to check whether it can be converted by this converter instance.</param>
+      <returns>
+        <code data-dev-comment-type="langword">true</code> if the instance can convert the specified object type; otherwise, <code data-dev-comment-type="langword">false</code>.</returns>
+    </member>
+    <member name="M:System.Text.Json.Serialization.JsonNumberEnumConverter`1.CreateConverter(System.Type,System.Text.Json.JsonSerializerOptions)">
+      <summary>Creates a converter for a specified type.</summary>
+      <param name="typeToConvert">The type handled by the converter.</param>
+      <param name="options">The serialization options to use.</param>
+      <returns>A converter for which <code data-dev-comment-type="typeparamref">T</code> is compatible with <code data-dev-comment-type="paramref">typeToConvert</code>.</returns>
     </member>
     <member name="T:System.Text.Json.Serialization.JsonNumberHandling">
       <summary>Determines how <see cref="T:System.Text.Json.JsonSerializer" /> handles numbers when serializing and deserializing.</summary>
@@ -3129,6 +3450,25 @@ There is remaining data in the stream.</exception>
     <member name="P:System.Text.Json.Serialization.JsonNumberHandlingAttribute.Handling">
       <summary>Indicates what settings should be used when serializing or deserializing numbers.</summary>
       <returns>An object that determines the number serialization and deserialization settings.</returns>
+    </member>
+    <member name="T:System.Text.Json.Serialization.JsonObjectCreationHandling">
+      <summary>Determines how deserialization will handle object creation for fields or properties.</summary>
+    </member>
+    <member name="F:System.Text.Json.Serialization.JsonObjectCreationHandling.Populate">
+      <summary>Attempt to populate any instances already found on a deserialized field or property.</summary>
+    </member>
+    <member name="F:System.Text.Json.Serialization.JsonObjectCreationHandling.Replace">
+      <summary>A new instance will always be created when deserializing a field or property.</summary>
+    </member>
+    <member name="T:System.Text.Json.Serialization.JsonObjectCreationHandlingAttribute">
+      <summary>Determines how deserialization handles object creation for fields or properties.</summary>
+    </member>
+    <member name="M:System.Text.Json.Serialization.JsonObjectCreationHandlingAttribute.#ctor(System.Text.Json.Serialization.JsonObjectCreationHandling)">
+      <summary>Initializes a new instance of <see cref="T:System.Text.Json.Serialization.JsonObjectCreationHandlingAttribute" />.</summary>
+      <param name="handling">The handling to apply to the current member.</param>
+    </member>
+    <member name="P:System.Text.Json.Serialization.JsonObjectCreationHandlingAttribute.Handling">
+      <summary>Gets the configuration to use when deserializing members.</summary>
     </member>
     <member name="T:System.Text.Json.Serialization.JsonPolymorphicAttribute">
       <summary>When placed on a type, indicates that the type should be serialized polymorphically.</summary>
@@ -3232,8 +3572,26 @@ There is remaining data in the stream.</exception>
     <member name="M:System.Text.Json.Serialization.JsonSourceGenerationOptionsAttribute.#ctor">
       <summary>Initializes a new instance of <see cref="T:System.Text.Json.Serialization.JsonSourceGenerationOptionsAttribute" />.</summary>
     </member>
+    <member name="M:System.Text.Json.Serialization.JsonSourceGenerationOptionsAttribute.#ctor(System.Text.Json.JsonSerializerDefaults)">
+      <summary>Constructs a new <see cref="T:System.Text.Json.Serialization.JsonSourceGenerationOptionsAttribute" /> instance with a predefined set of options determined by the specified <see cref="T:System.Text.Json.JsonSerializerDefaults" />.</summary>
+      <param name="defaults">The <see cref="T:System.Text.Json.JsonSerializerDefaults" /> to reason about.</param>
+      <exception cref="T:System.ArgumentOutOfRangeException">
+        <paramref name="defaults" /> is invalid.</exception>
+    </member>
+    <member name="P:System.Text.Json.Serialization.JsonSourceGenerationOptionsAttribute.AllowTrailingCommas">
+      <summary>Gets or sets the default value of <see cref="P:System.Text.Json.JsonSerializerOptions.AllowTrailingCommas" />.</summary>
+    </member>
+    <member name="P:System.Text.Json.Serialization.JsonSourceGenerationOptionsAttribute.Converters">
+      <summary>Gets or sets the default value of <see cref="P:System.Text.Json.JsonSerializerOptions.Converters" />.</summary>
+    </member>
+    <member name="P:System.Text.Json.Serialization.JsonSourceGenerationOptionsAttribute.DefaultBufferSize">
+      <summary>Gets or sets the default value of <see cref="P:System.Text.Json.JsonSerializerOptions.DefaultBufferSize" />.</summary>
+    </member>
     <member name="P:System.Text.Json.Serialization.JsonSourceGenerationOptionsAttribute.DefaultIgnoreCondition">
       <summary>Gets or sets the default ignore condition.</summary>
+    </member>
+    <member name="P:System.Text.Json.Serialization.JsonSourceGenerationOptionsAttribute.DictionaryKeyPolicy">
+      <summary>Gets or sets the default value of <see cref="P:System.Text.Json.JsonSerializerOptions.DictionaryKeyPolicy" />.</summary>
     </member>
     <member name="P:System.Text.Json.Serialization.JsonSourceGenerationOptionsAttribute.GenerationMode">
       <summary>Gets or sets the source generation mode for types that don't explicitly set the mode with <see cref="P:System.Text.Json.Serialization.JsonSerializableAttribute.GenerationMode" />.</summary>
@@ -3247,8 +3605,32 @@ There is remaining data in the stream.</exception>
     <member name="P:System.Text.Json.Serialization.JsonSourceGenerationOptionsAttribute.IncludeFields">
       <summary>Gets or sets a value that indicates whether to include fields for serialization and deserialization.</summary>
     </member>
+    <member name="P:System.Text.Json.Serialization.JsonSourceGenerationOptionsAttribute.MaxDepth">
+      <summary>Gets or sets the default value of <see cref="P:System.Text.Json.JsonSerializerOptions.MaxDepth" />.</summary>
+    </member>
+    <member name="P:System.Text.Json.Serialization.JsonSourceGenerationOptionsAttribute.NumberHandling">
+      <summary>Gets or sets the default value of <see cref="P:System.Text.Json.JsonSerializerOptions.NumberHandling" />.</summary>
+    </member>
+    <member name="P:System.Text.Json.Serialization.JsonSourceGenerationOptionsAttribute.PreferredObjectCreationHandling">
+      <summary>Gets or sets the default value of <see cref="P:System.Text.Json.JsonSerializerOptions.PreferredObjectCreationHandling" />.</summary>
+    </member>
+    <member name="P:System.Text.Json.Serialization.JsonSourceGenerationOptionsAttribute.PropertyNameCaseInsensitive">
+      <summary>Gets or sets the default value of <see cref="P:System.Text.Json.JsonSerializerOptions.PropertyNameCaseInsensitive" />.</summary>
+    </member>
     <member name="P:System.Text.Json.Serialization.JsonSourceGenerationOptionsAttribute.PropertyNamingPolicy">
       <summary>Gets or sets a built-in naming policy to convert JSON property names with.</summary>
+    </member>
+    <member name="P:System.Text.Json.Serialization.JsonSourceGenerationOptionsAttribute.ReadCommentHandling">
+      <summary>Gets or sets the default value of <see cref="P:System.Text.Json.JsonSerializerOptions.ReadCommentHandling" />.</summary>
+    </member>
+    <member name="P:System.Text.Json.Serialization.JsonSourceGenerationOptionsAttribute.UnknownTypeHandling">
+      <summary>Gets or sets the default value of <see cref="P:System.Text.Json.JsonSerializerOptions.UnknownTypeHandling" />.</summary>
+    </member>
+    <member name="P:System.Text.Json.Serialization.JsonSourceGenerationOptionsAttribute.UnmappedMemberHandling">
+      <summary>Gets or sets the default value of <see cref="P:System.Text.Json.JsonSerializerOptions.UnmappedMemberHandling" />.</summary>
+    </member>
+    <member name="P:System.Text.Json.Serialization.JsonSourceGenerationOptionsAttribute.UseStringEnumConverter">
+      <summary>Gets or sets a value that indicates whether the source generator defaults to <see cref="T:System.Text.Json.Serialization.JsonStringEnumConverter" /> instead of numeric serialization for all enum types encountered in its type graph.</summary>
     </member>
     <member name="P:System.Text.Json.Serialization.JsonSourceGenerationOptionsAttribute.WriteIndented">
       <summary>Gets or sets a value that indicates whether JSON output is pretty-printed.</summary>
@@ -3277,6 +3659,31 @@ There is remaining data in the stream.</exception>
       <param name="options">The serialization options to use.</param>
       <returns>A converter for which <code data-dev-comment-type="typeparamref">T</code> is compatible with <code data-dev-comment-type="paramref">typeToConvert</code>.</returns>
     </member>
+    <member name="T:System.Text.Json.Serialization.JsonStringEnumConverter`1">
+      <summary>Converter to convert enums to and from strings.</summary>
+      <typeparam name="TEnum">The enum type that this converter targets.</typeparam>
+    </member>
+    <member name="M:System.Text.Json.Serialization.JsonStringEnumConverter`1.#ctor">
+      <summary>Initializes a new instance of <see cref="T:System.Text.Json.Serialization.JsonStringEnumConverter`1" /> with the default naming policy and that allows integer values.</summary>
+    </member>
+    <member name="M:System.Text.Json.Serialization.JsonStringEnumConverter`1.#ctor(System.Text.Json.JsonNamingPolicy,System.Boolean)">
+      <summary>Initializes a new instance of <see cref="T:System.Text.Json.Serialization.JsonStringEnumConverter`1" />.</summary>
+      <param name="namingPolicy">Optional naming policy for writing enum values.</param>
+      <param name="allowIntegerValues">
+        <see langword="true" /> to allow undefined enum values. When <see langword="true" />, if an enum value isn't defined, it outputs as a number rather than a string.</param>
+    </member>
+    <member name="M:System.Text.Json.Serialization.JsonStringEnumConverter`1.CanConvert(System.Type)">
+      <summary>When overridden in a derived class, determines whether the converter instance can convert the specified object type.</summary>
+      <param name="typeToConvert">The type of the object to check whether it can be converted by this converter instance.</param>
+      <returns>
+        <code data-dev-comment-type="langword">true</code> if the instance can convert the specified object type; otherwise, <code data-dev-comment-type="langword">false</code>.</returns>
+    </member>
+    <member name="M:System.Text.Json.Serialization.JsonStringEnumConverter`1.CreateConverter(System.Type,System.Text.Json.JsonSerializerOptions)">
+      <summary>Creates a converter for a specified type.</summary>
+      <param name="typeToConvert">The type handled by the converter.</param>
+      <param name="options">The serialization options to use.</param>
+      <returns>A converter for which <code data-dev-comment-type="typeparamref">T</code> is compatible with <code data-dev-comment-type="paramref">typeToConvert</code>.</returns>
+    </member>
     <member name="T:System.Text.Json.Serialization.JsonUnknownDerivedTypeHandling">
       <summary>Defines how objects of a derived runtime type that has not been explicitly declared for polymorphic serialization should be handled.</summary>
     </member>
@@ -3298,6 +3705,25 @@ There is remaining data in the stream.</exception>
     </member>
     <member name="F:System.Text.Json.Serialization.JsonUnknownTypeHandling.JsonNode">
       <summary>A type declared as <see cref="T:System.Object" /> is deserialized as a <see cref="F:System.Text.Json.Serialization.JsonUnknownTypeHandling.JsonNode" />.</summary>
+    </member>
+    <member name="T:System.Text.Json.Serialization.JsonUnmappedMemberHandling">
+      <summary>Determines how <see cref="T:System.Text.Json.JsonSerializer" /> handles JSON properties that cannot be mapped to a specific .NET member when deserializing object types.</summary>
+    </member>
+    <member name="F:System.Text.Json.Serialization.JsonUnmappedMemberHandling.Disallow">
+      <summary>Throws an exception when an unmapped property is encountered.</summary>
+    </member>
+    <member name="F:System.Text.Json.Serialization.JsonUnmappedMemberHandling.Skip">
+      <summary>Silently skips any unmapped properties. This is the default behavior.</summary>
+    </member>
+    <member name="T:System.Text.Json.Serialization.JsonUnmappedMemberHandlingAttribute">
+      <summary>When placed on a type, determines the <see cref="T:System.Text.Json.Serialization.JsonUnmappedMemberHandling" /> configuration for the specific type, overriding the global <see cref="P:System.Text.Json.JsonSerializerOptions.UnmappedMemberHandling" /> setting.</summary>
+    </member>
+    <member name="M:System.Text.Json.Serialization.JsonUnmappedMemberHandlingAttribute.#ctor(System.Text.Json.Serialization.JsonUnmappedMemberHandling)">
+      <summary>Initializes a new instance of <see cref="T:System.Text.Json.Serialization.JsonUnmappedMemberHandlingAttribute" />.</summary>
+      <param name="unmappedMemberHandling">The handling to apply to the current member.</param>
+    </member>
+    <member name="P:System.Text.Json.Serialization.JsonUnmappedMemberHandlingAttribute.UnmappedMemberHandling">
+      <summary>Gets the unmapped member handling setting for the attribute.</summary>
     </member>
     <member name="T:System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver">
       <summary>Defines the default, reflection-based JSON contract resolver used by System.Text.Json.</summary>
@@ -3509,6 +3935,13 @@ There is remaining data in the stream.</exception>
       <typeparam name="TElement">The generic definition of the element type.</typeparam>
       <returns>Serialization metadata for the given type.</returns>
     </member>
+    <member name="M:System.Text.Json.Serialization.Metadata.JsonMetadataServices.CreateMemoryInfo``1(System.Text.Json.JsonSerializerOptions,System.Text.Json.Serialization.Metadata.JsonCollectionInfoValues{System.Memory{``0}})">
+      <summary>Creates serialization metadata for <see cref="T:System.Memory`1" />.</summary>
+      <param name="options">The <see cref="T:System.Text.Json.JsonSerializerOptions" /> to use.</param>
+      <param name="collectionInfo">Provides serialization metadata about the collection type.</param>
+      <typeparam name="TElement">The generic definition of the element type.</typeparam>
+      <returns>Serialization metadata for the given type.</returns>
+    </member>
     <member name="M:System.Text.Json.Serialization.Metadata.JsonMetadataServices.CreateObjectInfo``1(System.Text.Json.JsonSerializerOptions,System.Text.Json.Serialization.Metadata.JsonObjectInfoValues{``0})">
       <summary>Creates metadata for a complex class or struct.</summary>
       <param name="options">The <see cref="T:System.Text.Json.JsonSerializerOptions" /> to use for serialization and deserialization.</param>
@@ -3538,6 +3971,13 @@ There is remaining data in the stream.</exception>
       <param name="options">The <see cref="T:System.Text.Json.JsonSerializerOptions" /> to use for serialization and deserialization.</param>
       <param name="collectionInfo">Provides serialization metadata about the collection type.</param>
       <typeparam name="TCollection">The generic definition of the type.</typeparam>
+      <typeparam name="TElement">The generic definition of the element type.</typeparam>
+      <returns>Serialization metadata for the given type.</returns>
+    </member>
+    <member name="M:System.Text.Json.Serialization.Metadata.JsonMetadataServices.CreateReadOnlyMemoryInfo``1(System.Text.Json.JsonSerializerOptions,System.Text.Json.Serialization.Metadata.JsonCollectionInfoValues{System.ReadOnlyMemory{``0}})">
+      <summary>Creates serialization metadata for <see cref="T:System.ReadOnlyMemory`1" />.</summary>
+      <param name="options">The <see cref="T:System.Text.Json.JsonSerializerOptions" /> to use.</param>
+      <param name="collectionInfo">Provides serialization metadata about the collection type.</param>
       <typeparam name="TElement">The generic definition of the element type.</typeparam>
       <returns>Serialization metadata for the given type.</returns>
     </member>
@@ -3618,6 +4058,12 @@ There is remaining data in the stream.</exception>
     <member name="P:System.Text.Json.Serialization.Metadata.JsonMetadataServices.GuidConverter">
       <summary>Gets an object that converts <see cref="T:System.Guid" /> values.</summary>
     </member>
+    <member name="P:System.Text.Json.Serialization.Metadata.JsonMetadataServices.HalfConverter">
+      <summary>Returns a <see cref="T:System.Text.Json.Serialization.JsonConverter`1" /> instance that converts <see cref="T:System.Half" /> values.</summary>
+    </member>
+    <member name="P:System.Text.Json.Serialization.Metadata.JsonMetadataServices.Int128Converter">
+      <summary>Returns a <see cref="T:System.Text.Json.Serialization.JsonConverter`1" /> instance that converts <see cref="T:System.Int128" /> values.</summary>
+    </member>
     <member name="P:System.Text.Json.Serialization.Metadata.JsonMetadataServices.Int16Converter">
       <summary>Gets an object that converts <see cref="T:System.Int16" /> values.</summary>
     </member>
@@ -3645,8 +4091,14 @@ There is remaining data in the stream.</exception>
     <member name="P:System.Text.Json.Serialization.Metadata.JsonMetadataServices.JsonValueConverter">
       <summary>Gets an object that converts <see cref="T:System.Json.JsonValue" /> values.</summary>
     </member>
+    <member name="P:System.Text.Json.Serialization.Metadata.JsonMetadataServices.MemoryByteConverter">
+      <summary>Returns a <see cref="T:System.Text.Json.Serialization.JsonConverter`1" /> instance that converts <see cref="T:System.Memory`1" /> values.</summary>
+    </member>
     <member name="P:System.Text.Json.Serialization.Metadata.JsonMetadataServices.ObjectConverter">
       <summary>Gets an object that converts <see cref="T:System.Object" /> values.</summary>
+    </member>
+    <member name="P:System.Text.Json.Serialization.Metadata.JsonMetadataServices.ReadOnlyMemoryByteConverter">
+      <summary>Returns a <see cref="T:System.Text.Json.Serialization.JsonConverter`1" /> instance that converts <see cref="T:System.ReadOnlyMemory`1" /> values.</summary>
     </member>
     <member name="P:System.Text.Json.Serialization.Metadata.JsonMetadataServices.SByteConverter">
       <summary>Gets an object that converts <see cref="T:System.SByte" /> values.</summary>
@@ -3662,6 +4114,9 @@ There is remaining data in the stream.</exception>
     </member>
     <member name="P:System.Text.Json.Serialization.Metadata.JsonMetadataServices.TimeSpanConverter">
       <summary>Gets a JSON converter that converts <see cref="T:System.TimeSpan" /> values.</summary>
+    </member>
+    <member name="P:System.Text.Json.Serialization.Metadata.JsonMetadataServices.UInt128Converter">
+      <summary>Returns a <see cref="T:System.Text.Json.Serialization.JsonConverter`1" /> instance that converts <see cref="T:System.UInt128" /> values.</summary>
     </member>
     <member name="P:System.Text.Json.Serialization.Metadata.JsonMetadataServices.UInt16Converter">
       <summary>Gets an object that converts <see cref="T:System.UInt16" /> values.</summary>
@@ -3781,6 +4236,9 @@ The current <see cref="P:System.Text.Json.Serialization.Metadata.JsonPropertyInf
       <summary>Gets or sets the <see cref="T:System.Text.Json.Serialization.JsonNumberHandling" /> applied to the current property.</summary>
       <exception cref="T:System.InvalidOperationException">The <see cref="T:System.Text.Json.Serialization.Metadata.JsonPropertyInfo" /> instance has been locked for further modification.</exception>
     </member>
+    <member name="P:System.Text.Json.Serialization.Metadata.JsonPropertyInfo.ObjectCreationHandling">
+      <summary>Gets or sets a value indicating if the property or field should be replaced or populated during deserialization.</summary>
+    </member>
     <member name="P:System.Text.Json.Serialization.Metadata.JsonPropertyInfo.Options">
       <summary>Gets the <see cref="T:System.Text.Json.JsonSerializerOptions" /> value associated with the current contract instance.</summary>
     </member>
@@ -3857,6 +4315,7 @@ The current <see cref="P:System.Text.Json.Serialization.Metadata.JsonPropertyInf
         <paramref name="propertyType" /> or <paramref name="name" /> is <see langword="null" />.</exception>
       <exception cref="T:System.ArgumentException">
         <paramref name="propertyType" /> cannot be used for serialization.</exception>
+      <exception cref="T:System.InvalidOperationException">The <see cref="T:System.Text.Json.Serialization.Metadata.JsonTypeInfo" /> instance has been locked for further modification.</exception>
       <returns>A blank <see cref="T:System.Text.Json.Serialization.Metadata.JsonPropertyInfo" /> instance.</returns>
     </member>
     <member name="M:System.Text.Json.Serialization.Metadata.JsonTypeInfo.CreateJsonTypeInfo(System.Type,System.Text.Json.JsonSerializerOptions)">
@@ -3877,6 +4336,9 @@ The current <see cref="P:System.Text.Json.Serialization.Metadata.JsonPropertyInf
         <paramref name="options" /> is <see langword="null" />.</exception>
       <returns>A blank <see cref="T:System.Text.Json.Serialization.Metadata.JsonTypeInfo`1" /> instance.</returns>
     </member>
+    <member name="M:System.Text.Json.Serialization.Metadata.JsonTypeInfo.MakeReadOnly">
+      <summary>Locks the current instance for further modification.</summary>
+    </member>
     <member name="P:System.Text.Json.Serialization.Metadata.JsonTypeInfo.Converter">
       <summary>Gets the <see cref="T:System.Text.Json.Serialization.JsonConverter" /> associated with the current type.</summary>
     </member>
@@ -3888,12 +4350,16 @@ The current <see cref="P:System.Text.Json.Serialization.Metadata.JsonPropertyInf
 
 A parameterless factory is not supported for the current metadata <see cref="P:System.Text.Json.Serialization.Metadata.JsonTypeInfo.Kind" />.</exception>
     </member>
+    <member name="P:System.Text.Json.Serialization.Metadata.JsonTypeInfo.IsReadOnly">
+      <summary>Gets a value that indicates whether the current instance has been locked for modification.</summary>
+    </member>
     <member name="P:System.Text.Json.Serialization.Metadata.JsonTypeInfo.Kind">
       <summary>Gets a value that describes the kind of contract metadata that the current instance specifies.</summary>
     </member>
     <member name="P:System.Text.Json.Serialization.Metadata.JsonTypeInfo.NumberHandling">
       <summary>Gets or sets the type-level <see cref="P:System.Text.Json.JsonSerializerOptions.NumberHandling" /> override.</summary>
       <exception cref="T:System.InvalidOperationException">The <see cref="T:System.Text.Json.Serialization.Metadata.JsonTypeInfo" /> instance has been locked for further modification.</exception>
+      <exception cref="T:System.ArgumentOutOfRangeException">An invalid <see cref="T:System.Text.Json.Serialization.JsonNumberHandling" /> value was specified.</exception>
     </member>
     <member name="P:System.Text.Json.Serialization.Metadata.JsonTypeInfo.OnDeserialized">
       <summary>Gets or sets a callback to be invoked after deserialization occurs.</summary>
@@ -3930,6 +4396,10 @@ Serialization callbacks are only supported for <see cref="F:System.Text.Json.Ser
     <member name="P:System.Text.Json.Serialization.Metadata.JsonTypeInfo.Options">
       <summary>Gets the <see cref="T:System.Text.Json.JsonSerializerOptions" /> value associated with the current <see cref="T:System.Text.Json.Serialization.Metadata.JsonTypeInfo" /> instance.</summary>
     </member>
+    <member name="P:System.Text.Json.Serialization.Metadata.JsonTypeInfo.OriginatingResolver">
+      <summary>Gets or sets the <see cref="T:System.Text.Json.Serialization.Metadata.IJsonTypeInfoResolver" /> from which this metadata instance originated.</summary>
+      <exception cref="T:System.InvalidOperationException">The <see cref="T:System.Text.Json.Serialization.Metadata.JsonTypeInfo" /> instance has been locked for further modification.</exception>
+    </member>
     <member name="P:System.Text.Json.Serialization.Metadata.JsonTypeInfo.PolymorphismOptions">
       <summary>Gets or sets a configuration object specifying polymorphism metadata.</summary>
       <exception cref="T:System.ArgumentException">
@@ -3940,11 +4410,29 @@ Serialization callbacks are only supported for <see cref="F:System.Text.Json.Ser
 
 Polymorphic serialization is not supported for the current metadata <see cref="P:System.Text.Json.Serialization.Metadata.JsonTypeInfo.Kind" />.</exception>
     </member>
+    <member name="P:System.Text.Json.Serialization.Metadata.JsonTypeInfo.PreferredPropertyObjectCreationHandling">
+      <summary>Gets or sets the preferred <see cref="T:System.Text.Json.Serialization.JsonObjectCreationHandling" /> value for properties contained in the type.</summary>
+      <exception cref="T:System.InvalidOperationException">The <see cref="T:System.Text.Json.Serialization.Metadata.JsonTypeInfo" /> instance has been locked for further modification.
+
+-or-
+
+Unmapped member handling is only supported for <see cref="F:System.Text.Json.Serialization.Metadata.JsonTypeInfoKind.Object">JsonTypeInfoKind.Object</see>.</exception>
+      <exception cref="T:System.ArgumentOutOfRangeException">Specified an invalid <see cref="T:System.Text.Json.Serialization.JsonObjectCreationHandling" /> value.</exception>
+    </member>
     <member name="P:System.Text.Json.Serialization.Metadata.JsonTypeInfo.Properties">
       <summary>Gets the list of <see cref="T:System.Text.Json.Serialization.Metadata.JsonPropertyInfo" /> metadata corresponding to the current type.</summary>
     </member>
     <member name="P:System.Text.Json.Serialization.Metadata.JsonTypeInfo.Type">
       <summary>Gets the <see cref="P:System.Text.Json.Serialization.Metadata.JsonTypeInfo.Type" /> for which the JSON serialization contract is being defined.</summary>
+    </member>
+    <member name="P:System.Text.Json.Serialization.Metadata.JsonTypeInfo.UnmappedMemberHandling">
+      <summary>Gets or sets the type-level <see cref="T:System.Text.Json.Serialization.JsonUnmappedMemberHandling" /> override.</summary>
+      <exception cref="T:System.InvalidOperationException">The <see cref="T:System.Text.Json.Serialization.Metadata.JsonTypeInfo" /> instance has been locked for further modification.
+
+-or-
+
+Unmapped member handling is only supported for <see cref="F:System.Text.Json.Serialization.Metadata.JsonTypeInfoKind.Object" />.</exception>
+      <exception cref="T:System.ArgumentOutOfRangeException">An invalid <see cref="T:System.Text.Json.Serialization.JsonUnmappedMemberHandling" /> value was specified.</exception>
     </member>
     <member name="T:System.Text.Json.Serialization.Metadata.JsonTypeInfo`1">
       <summary>Provides JSON serialization-related metadata about a type.</summary>
@@ -3983,8 +4471,14 @@ A parameterless factory is not supported for the current metadata <see cref="P:S
       <summary>Combines multiple <see cref="T:System.Text.Json.Serialization.Metadata.IJsonTypeInfoResolver" /> sources into one.</summary>
       <param name="resolvers">Sequence of contract resolvers to be queried for metadata.</param>
       <exception cref="T:System.ArgumentException">
-        <paramref name="resolvers" /> or any of its elements is <see langword="null" />.</exception>
+        <paramref name="resolvers" /> is <see langword="null" />.</exception>
       <returns>A <see cref="T:System.Text.Json.Serialization.Metadata.IJsonTypeInfoResolver" /> combining results from <paramref name="resolvers" />.</returns>
+    </member>
+    <member name="M:System.Text.Json.Serialization.Metadata.JsonTypeInfoResolver.WithAddedModifier(System.Text.Json.Serialization.Metadata.IJsonTypeInfoResolver,System.Action{System.Text.Json.Serialization.Metadata.JsonTypeInfo})">
+      <summary>Creates a resolver and applies modifications to the metadata generated by the source <paramref name="resolver" />.</summary>
+      <param name="resolver">The source resolver generating <see cref="T:System.Text.Json.Serialization.Metadata.JsonTypeInfo" /> metadata.</param>
+      <param name="modifier">The delegate that modifies non-<see langword="null" /><see cref="T:System.Text.Json.Serialization.Metadata.JsonTypeInfo" /> results.</param>
+      <returns>A new <see cref="T:System.Text.Json.Serialization.Metadata.IJsonTypeInfoResolver" /> instance with modifications applied.</returns>
     </member>
     <member name="T:System.Text.Json.Serialization.ReferenceHandler">
       <summary>Defines how the <see cref="T:System.Text.Json.JsonSerializer" /> deals with references on serialization and deserialization.</summary>
@@ -4047,41 +4541,40 @@ A parameterless factory is not supported for the current metadata <see cref="P:S
       <param name="jsonData">The UTF-8 encoded JSON text to process.</param>
       <param name="isFinalBlock">
         <see langword="true" /> to indicate that the input sequence contains the entire data to process; <see langword="false" /> to indicate that the input span contains partial data with more data to follow.</param>
-      <param name="state">An object that contains the reader state. If this is the first call to the constructor, pass the default state; otherwise, pass the value of the <see cref="P:System.Text.Json.Utf8JsonReader.CurrentState" /> property from the previous instance of the <see cref="T:System.Text.Json.Utf8JsonReader" />.</param>
+      <param name="state">The reader state. If this is the first call to the constructor, pass the default state; otherwise, pass the value of the <see cref="P:System.Text.Json.Utf8JsonReader.CurrentState" /> property from the previous instance of the <see cref="T:System.Text.Json.Utf8JsonReader" />.</param>
     </member>
     <member name="M:System.Text.Json.Utf8JsonReader.#ctor(System.Buffers.ReadOnlySequence{System.Byte},System.Text.Json.JsonReaderOptions)">
       <summary>Initializes a new instance of the <see cref="T:System.Text.Json.Utf8JsonReader" /> structure that processes a read-only sequence of UTF-8 encoded text using the specified options.</summary>
       <param name="jsonData">The UTF-8 encoded JSON text to process.</param>
-      <param name="options">Defines customized behavior of the <see cref="T:System.Text.Json.Utf8JsonReader" /> that differs from the JSON RFC (for example how to handle comments or maximum depth allowed when reading). By default, the <see cref="T:System.Text.Json.Utf8JsonReader" /> follows the JSON RFC strictly; comments within the JSON are invalid, and the maximum depth is 64.</param>
+      <param name="options">Options that define customized behavior of the <see cref="T:System.Text.Json.Utf8JsonReader" /> that differs from the JSON RFC (for example, how to handle comments or maximum depth allowed when reading). By default, the <see cref="T:System.Text.Json.Utf8JsonReader" /> follows the JSON RFC strictly; comments within the JSON are invalid, and the maximum depth is 64.</param>
     </member>
     <member name="M:System.Text.Json.Utf8JsonReader.#ctor(System.ReadOnlySpan{System.Byte},System.Boolean,System.Text.Json.JsonReaderState)">
       <summary>Initializes a new instance of the <see cref="T:System.Text.Json.Utf8JsonReader" /> structure that processes a read-only span of UTF-8 encoded text and indicates whether the input contains all the text to process.</summary>
       <param name="jsonData">The UTF-8 encoded JSON text to process.</param>
       <param name="isFinalBlock">
         <see langword="true" /> to indicate that the input sequence contains the entire data to process; <see langword="false" /> to indicate that the input span contains partial data with more data to follow.</param>
-      <param name="state">An object that contains the reader state. If this is the first call to the constructor, pass the default state; otherwise, pass the value of the <see cref="P:System.Text.Json.Utf8JsonReader.CurrentState" /> property from the previous instance of the <see cref="T:System.Text.Json.Utf8JsonReader" />.</param>
+      <param name="state">The reader state. If this is the first call to the constructor, pass the default state; otherwise, pass the value of the <see cref="P:System.Text.Json.Utf8JsonReader.CurrentState" /> property from the previous instance of the <see cref="T:System.Text.Json.Utf8JsonReader" />.</param>
     </member>
     <member name="M:System.Text.Json.Utf8JsonReader.#ctor(System.ReadOnlySpan{System.Byte},System.Text.Json.JsonReaderOptions)">
       <summary>Initializes a new instance of the <see cref="T:System.Text.Json.Utf8JsonReader" /> structure that processes a read-only span of UTF-8 encoded text using the specified options.</summary>
       <param name="jsonData">The UTF-8 encoded JSON text to process.</param>
-      <param name="options">Defines customized behavior of the <see cref="T:System.Text.Json.Utf8JsonReader" /> that differs from the JSON RFC (for example how to handle comments or maximum depth allowed when reading). By default, the <see cref="T:System.Text.Json.Utf8JsonReader" /> follows the JSON RFC strictly; comments within the JSON are invalid, and the maximum depth is 64.</param>
+      <param name="options">Options that define customized behavior of the <see cref="T:System.Text.Json.Utf8JsonReader" /> that differs from the JSON RFC (for example, how to handle comments or maximum depth allowed when reading). By default, the <see cref="T:System.Text.Json.Utf8JsonReader" /> follows the JSON RFC strictly; comments within the JSON are invalid, and the maximum depth is 64.</param>
     </member>
     <member name="M:System.Text.Json.Utf8JsonReader.CopyString(System.Span{System.Byte})">
-      <summary>Copies the current JSON token value from the source, unescaped as a UTF-8 string to the destination buffer.</summary>
+      <summary>Copies the current JSON token value from the source, unescaped, as UTF-8 bytes to a buffer.</summary>
       <param name="utf8Destination">A buffer to write the unescaped UTF-8 bytes into.</param>
-      <exception cref="T:System.InvalidOperationException">The JSON token is not a string
-, that is, it's not <see cref="F:System.Text.Json.JsonTokenType.String" /> or <see cref="F:System.Text.Json.JsonTokenType.PropertyName" />.
+      <exception cref="T:System.InvalidOperationException">The JSON token is not a string, that is, it's not <see cref="F:System.Text.Json.JsonTokenType.String" /> or <see cref="F:System.Text.Json.JsonTokenType.PropertyName" />.
+
 -or-
 
-The JSON string contains invalid UTF-8 bytes, or invalid UTF-16 surrogates.</exception>
+The JSON string contains invalid UTF-8 bytes or invalid UTF-16 surrogates.</exception>
       <exception cref="T:System.ArgumentException">The destination buffer is too small to hold the unescaped value.</exception>
       <returns>The number of bytes written to <paramref name="utf8Destination" />.</returns>
     </member>
     <member name="M:System.Text.Json.Utf8JsonReader.CopyString(System.Span{System.Char})">
-      <summary>Copies the current JSON token value from the source, unescaped, and transcoded as a UTF-16 char buffer.</summary>
+      <summary>Copies the current JSON token value from the source, unescaped, as UTF-16 characters to a buffer.</summary>
       <param name="destination">A buffer to write the transcoded UTF-16 characters into.</param>
-      <exception cref="T:System.InvalidOperationException">The JSON token is not a string
-, that is, it's not <see cref="F:System.Text.Json.JsonTokenType.String" /> or <see cref="F:System.Text.Json.JsonTokenType.PropertyName" />.
+      <exception cref="T:System.InvalidOperationException">The JSON token is not a string, that is, it's not <see cref="F:System.Text.Json.JsonTokenType.String" /> or <see cref="F:System.Text.Json.JsonTokenType.PropertyName" />.
 
 -or-
 
@@ -4091,7 +4584,7 @@ The JSON string contains invalid UTF-8 bytes or invalid UTF-16 surrogates.</exce
     </member>
     <member name="M:System.Text.Json.Utf8JsonReader.GetBoolean">
       <summary>Reads the next JSON token value from the source as a <see cref="T:System.Boolean" />.</summary>
-      <exception cref="T:System.InvalidOperationException">The value of the JSON token isn't a boolean value (that is, <see cref="F:System.Text.Json.JsonTokenType.True" /> or <see cref="F:System.Text.Json.JsonTokenType.False" />).</exception>
+      <exception cref="T:System.InvalidOperationException">The value of the JSON token isn't a Boolean value (that is, <see cref="F:System.Text.Json.JsonTokenType.True" /> or <see cref="F:System.Text.Json.JsonTokenType.False" />).</exception>
       <returns>
         <see langword="true" /> if the <see cref="P:System.Text.Json.Utf8JsonReader.TokenType" /> is <see cref="F:System.Text.Json.JsonTokenType.True" />; <see langword="false" /> if the <see cref="P:System.Text.Json.Utf8JsonReader.TokenType" /> is <see cref="F:System.Text.Json.JsonTokenType.False" />.</returns>
     </member>
@@ -4120,7 +4613,7 @@ The value is incomplete. That is, the JSON string length is not a multiple of 4.
       <returns>The byte array that represents the current JSON token value.</returns>
     </member>
     <member name="M:System.Text.Json.Utf8JsonReader.GetComment">
-      <summary>Parses the current JSON token value from the source as a comment, transcoded it as a <see cref="T:System.String" />.</summary>
+      <summary>Parses the current JSON token value from the source as a comment and transcodes it as a <see cref="T:System.String" />.</summary>
       <exception cref="T:System.InvalidOperationException">The JSON token is not a comment.</exception>
       <returns>The comment that represents the current JSON token value.</returns>
     </member>
@@ -4221,7 +4714,7 @@ The JSON token value represents a number less than <see cref="F:System.SByte.Min
       <returns>The UTF-8 encoded token value parsed to a <see cref="T:System.Single" />.</returns>
     </member>
     <member name="M:System.Text.Json.Utf8JsonReader.GetString">
-      <summary>Reads the next JSON token value from the source, unescaped, and transcoded as a string.</summary>
+      <summary>Reads the next JSON token value from the source unescaped and transcodes it as a string.</summary>
       <exception cref="T:System.InvalidOperationException">The JSON token value isn't a string (that is, not a <see cref="F:System.Text.Json.JsonTokenType.String" />, <see cref="F:System.Text.Json.JsonTokenType.PropertyName" />, or <see cref="F:System.Text.Json.JsonTokenType.Null" />).
 
 -or-
@@ -4432,7 +4925,7 @@ The current depth exceeds the recursive limit set by the maximum depth.</excepti
         <see langword="true" /> if <see cref="P:System.Text.Json.Utf8JsonReader.ValueSequence" /> should be used to get the token value; <see langword="false" /> if <see cref="P:System.Text.Json.Utf8JsonReader.ValueSpan" /> should be used instead.</returns>
     </member>
     <member name="P:System.Text.Json.Utf8JsonReader.IsFinalBlock">
-      <summary>Gets the mode of this instance of the <see cref="T:System.Text.Json.Utf8JsonReader" /> which indicates whether all the JSON data was provided or there is more data to come.</summary>
+      <summary>Gets a value that indicates whether all the JSON data was provided or there is more data to come.</summary>
       <returns>
         <see langword="true" /> if the reader was constructed with the input span or sequence containing the entire JSON data to process; <see langword="false" /> if the reader was constructed with an input span or sequence that may contain partial JSON data with more data to follow.</returns>
     </member>
@@ -4898,6 +5391,17 @@ The current depth exceeds the recursive limit set by the maximum depth.</excepti
       <summary>Writes the pre-encoded property name (as a JSON string) as the first part of a name/value pair of a JSON object.</summary>
       <param name="propertyName">The JSON encoded property name of the JSON object to be transcoded and written as UTF-8.</param>
       <exception cref="T:System.InvalidOperationException">Validation is enabled, and this write operation would produce invalid JSON.</exception>
+    </member>
+    <member name="M:System.Text.Json.Utf8JsonWriter.WriteRawValue(System.Buffers.ReadOnlySequence{System.Byte},System.Boolean)">
+      <summary>Writes the input as JSON content. It is expected that the input content is a single complete JSON value.</summary>
+      <param name="utf8Json">The raw JSON content to write.</param>
+      <param name="skipInputValidation">
+        <see langword="false" /> to validate if the input is an RFC 8259-compliant JSON payload; <see langword="true" /> to skip validation.</param>
+      <exception cref="T:System.ArgumentException">The length of the input is zero or equal to <see cref="F:System.Int32.MaxValue">Int32.MaxValue</see>.</exception>
+      <exception cref="T:System.Text.Json.JsonException">
+        <paramref name="skipInputValidation" /> is <see langword="false" />, and the input
+             is not a valid, complete, single JSON value according to the JSON RFC
+             or the input JSON exceeds a recursive depth of 64.</exception>
     </member>
     <member name="M:System.Text.Json.Utf8JsonWriter.WriteRawValue(System.ReadOnlySpan{System.Byte},System.Boolean)">
       <summary>Writes the input as JSON content. It is expected that the input content is a single complete JSON value.</summary>

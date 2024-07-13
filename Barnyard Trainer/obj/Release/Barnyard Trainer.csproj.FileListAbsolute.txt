@@ -30,3 +30,34 @@ C:\Programming\C#\Barnyard Trainer\Barnyard Trainer\obj\Release\Barnyard Trainer
 C:\Programming\C#\Barnyard Trainer\Barnyard Trainer\obj\Release\Barnyard Trainer.csproj.CopyComplete
 C:\Programming\C#\Barnyard Trainer\Barnyard Trainer\obj\Release\Barnyard Trainer.exe
 C:\Programming\C#\Barnyard Trainer\Barnyard Trainer\obj\Release\Barnyard Trainer.pdb
+D:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\Barnyard Trainer.exe.config
+D:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\Barnyard Trainer.exe
+D:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\Barnyard Trainer.pdb
+D:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\Memory.dll
+D:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\Microsoft.Bcl.AsyncInterfaces.dll
+D:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\System.Buffers.dll
+D:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\System.Memory.dll
+D:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\System.Numerics.Vectors.dll
+D:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\System.Runtime.CompilerServices.Unsafe.dll
+D:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\System.Text.Encodings.Web.dll
+D:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\System.Text.Json.dll
+D:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\System.Threading.Tasks.Extensions.dll
+D:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\System.ValueTuple.dll
+D:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\Memory.xml
+D:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\Microsoft.Bcl.AsyncInterfaces.xml
+D:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\System.Buffers.xml
+D:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\System.Memory.xml
+D:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\System.Numerics.Vectors.xml
+D:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\System.Runtime.CompilerServices.Unsafe.xml
+D:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\System.Text.Encodings.Web.xml
+D:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\System.Text.Json.xml
+D:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\System.Threading.Tasks.Extensions.xml
+D:\Programming\C#\Barnyard Trainer\Barnyard Trainer\bin\Release\System.ValueTuple.xml
+D:\Programming\C#\Barnyard Trainer\Barnyard Trainer\obj\Release\Barnyard Trainer.csproj.AssemblyReference.cache
+D:\Programming\C#\Barnyard Trainer\Barnyard Trainer\obj\Release\Barnyard_Trainer.BarnyardTrainer.resources
+D:\Programming\C#\Barnyard Trainer\Barnyard Trainer\obj\Release\Barnyard_Trainer.Properties.Resources.resources
+D:\Programming\C#\Barnyard Trainer\Barnyard Trainer\obj\Release\Barnyard Trainer.csproj.GenerateResource.cache
+D:\Programming\C#\Barnyard Trainer\Barnyard Trainer\obj\Release\Barnyard Trainer.csproj.CoreCompileInputs.cache
+D:\Programming\C#\Barnyard Trainer\Barnyard Trainer\obj\Release\Barnyard.08EB0397.Up2Date
+D:\Programming\C#\Barnyard Trainer\Barnyard Trainer\obj\Release\Barnyard Trainer.exe
+D:\Programming\C#\Barnyard Trainer\Barnyard Trainer\obj\Release\Barnyard Trainer.pdb

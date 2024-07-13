@@ -168,7 +168,7 @@
             <param name="file">ini file (OPTIONAL)</param>
             <returns>IEnumerable of all addresses found.</returns>
         </member>
-        <member name="M:Memory.Mem.AoBScan(System.Int64,System.Int64,System.String,System.Boolean,System.Boolean,System.String)">
+        <member name="M:Memory.Mem.AoBScan(System.Int64,System.Int64,System.String,System.Boolean,System.Boolean,System.Boolean,System.String)">
             <summary>
             Array of Byte scan.
             </summary>
@@ -178,9 +178,10 @@
             <param name="file">ini file (OPTIONAL)</param>
             <param name="writable">Include writable addresses in scan</param>
             <param name="executable">Include executable addresses in scan</param>
+            <param name="mapped">Include mapped addresses in scan</param>
             <returns>IEnumerable of all addresses found.</returns>
         </member>
-        <member name="M:Memory.Mem.AoBScan(System.Int64,System.Int64,System.String,System.Boolean,System.Boolean,System.Boolean,System.String)">
+        <member name="M:Memory.Mem.AoBScan(System.Int64,System.Int64,System.String,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.String)">
             <summary>
             Array of Byte scan.
             </summary>
@@ -191,6 +192,7 @@
             <param name="readable">Include readable addresses in scan</param>
             <param name="writable">Include writable addresses in scan</param>
             <param name="executable">Include executable addresses in scan</param>
+            <param name="mapped">Include mapped addresses in scan</param>
             <returns>IEnumerable of all addresses found.</returns>
         </member>
         <member name="M:Memory.Mem.AoBScan(System.String,System.Int64,System.String,System.String)">
@@ -323,7 +325,7 @@
             <param name="file">path and file name of ini file. (OPTIONAL)</param>
             <returns>Array of 8 booleans representing each bit of the byte read</returns>
         </member>
-        <member name="M:Memory.Mem.BindToUI(System.String,System.Action{System.String},System.String)">
+        <member name="M:Memory.Mem.BindToUI``1(System.String,System.Action{System.String},System.String)">
             <summary>
             Reads a memory address, keeps value in UI object. Ex: BindToUI("0x12345678,0x02,0x05", v => ObjName.Invoke((MethodInvoker)delegate { if (String.Compare(v, ObjName.Text) != 0) { ObjName.Text = v; } }));
             </summary>
