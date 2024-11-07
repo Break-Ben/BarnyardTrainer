@@ -1,1 +1,7 @@
 Barnyard Trainer/Hidden/
+Barnyard Trainer/.vs/
+Barnyard Trainer/bin/
+Barnyard Trainer/obj/
+.vs/
+packages/
+*.user
