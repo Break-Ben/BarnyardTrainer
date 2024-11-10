@@ -66,10 +66,10 @@ namespace Barnyard_Trainer
 
         void FlightTimer_Tick(object sender, EventArgs e)
         {
-            if (Memory.ReadByte(Addresses.space) == PRESSED)
-                Memory.WriteFloat(Addresses.yPos, Memory.ReadFloat(Addresses.yPos) - 0.2f);
-            if (Memory.ReadByte(Addresses.leftControl) == PRESSED)
-                Memory.WriteFloat(Addresses.yPos, Memory.ReadFloat(Addresses.yPos) + 0.2f);
+            if (Addresses.inputs["space"].ReadByte() == PRESSED)
+                Addresses.values["yPos"].Write(Addresses.values["yPos"].ReadFloat() - 0.2f);
+            if (Addresses.inputs["leftControl"].ReadByte() == PRESSED)
+                Addresses.values["yPos"].Write(Addresses.values["yPos"].ReadFloat() + 0.2f);
         }
         #endregion
 
@@ -78,14 +78,14 @@ namespace Barnyard_Trainer
         {
             if (flightCheckBox.Checked)
             {
-                Memory.Nop(Addresses.gravity, 3, "Error disabling gravity");
+                Addresses.instructions["gravity"].Nop("Error disabling gravity");
                 gravityCheckBox.Enabled = false;
                 flightTimer.Start();
             }
             else
             {
                 if (!gravityCheckBox.Checked)
-                    Memory.WriteBytes(Addresses.gravity, "D9 59 1C", "Error enabling gravity");
+                    Addresses.instructions["gravity"].Restore("Error enabling gravity");
                 gravityCheckBox.Enabled = true;
                 flightTimer.Stop();
             }
@@ -95,81 +95,65 @@ namespace Barnyard_Trainer
         {
             if (noclipCheckBox.Checked)
             {
-                Memory.WriteFloat(Addresses.radius, 0.01f, "Error changing player radius");
-                Memory.Nop(Addresses.noClip, 2, "Error enabling no-clip");
+                Addresses.unitValues["radius"].Write(0.01f, "Error changing player radius");
+                Addresses.instructions["noClip"].Nop("Error enabling no-clip");
             }
             else
             {
-                Memory.WriteFloat(Addresses.radius, 0.55f, "Error changing player radius");
-                Memory.WriteBytes(Addresses.noClip, "89 11", "Error disabling no-clip");
+                Addresses.unitValues["radius"].Write(0.55f, "Error changing player radius");
+                Addresses.instructions["noClip"].Restore("Error disabling no-clip");
             }
         }
 
         void GravityCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if (gravityCheckBox.Checked)
-                Memory.Nop(Addresses.gravity, 3, "Error disabling gravity");
+                Addresses.instructions["gravity"].Nop("Error disabling gravity");
             else
-                Memory.WriteBytes(Addresses.gravity, "D9 59 1C", "Error enabling gravity");
+                Addresses.instructions["gravity"].Restore("Error enabling gravity");
         }
 
         void LadderCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if (ladderCheckBox.Checked)
             {
-                Memory.WriteFloat(Addresses.minClimbSpeed, 15f, "Error enabling fast ladder");
-                Memory.WriteFloat(Addresses.maxClimbSpeed, 15f, "Error enabling fast ladder");
+                Addresses.unitValues["minClimbSpeed"].Write(15f, "Error enabling fast ladder");
+                Addresses.unitValues["maxClimbSpeed"].Write(15f, "Error enabling fast ladder");
             }
             else
             {
-                Memory.WriteFloat(Addresses.minClimbSpeed, 1f, "Error enabling fast ladder");
-                Memory.WriteFloat(Addresses.maxClimbSpeed, 1.3f, "Error enabling fast ladder");
+                Addresses.unitValues["minClimbSpeed"].Write(1f, "Error disabling fast ladder");
+                Addresses.unitValues["maxClimbSpeed"].Write(1.3f, "Error disabling fast ladder");
             }
         }
 
         void SquirtDelayCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if (squirtDelayCheckBox.Checked)
-                Memory.WriteFloat(Addresses.squirtDelay, 0f, "Error disabling squirt delay");
+                Addresses.unitValues["squirtDelay"].Write(0f, "Error disabling squirt delay");
             else
-                Memory.WriteFloat(Addresses.squirtDelay, 0.5f, "Error restoring squirt delay");
+                Addresses.unitValues["squirtDelay"].Write(0.5f, "Error restoring squirt delay");
         }
 
         void SquirtGlassesCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if (squirtGlassesCheckBox.Checked)
-                Memory.WriteBytes(Addresses.cantSquirt, "0x00", "Error enabling squirt without glasses");
+                Addresses.values["cantSquirt"].Write("0x00", "Error enabling squirt without glasses");
             else
-                Memory.WriteBytes(Addresses.cantSquirt, "0x01", "Error disabling squirt without glasses");
+                Addresses.values["cantSquirt"].Write("0x01", "Error disabling squirt without glasses");
         }
 
         void ZoomCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             ToggleCameraZoom(zoomCheckBox.Checked);
-            Memory.WriteFloat(Addresses.cameraTargettedDistance, 5f, "Error zooming out camera");
+            Addresses.values["camTargetDistance"].Write(5f, "Error zooming out camera");//TODO??????
         }
 
         void FirstPersonCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            if (firstPersonCheckBox.Checked)
-            {
-                zoomCheckBox.Enabled = false;
-
-                ToggleCameraZoom(true);
-                Memory.WriteFloat(Addresses.cameraTargettedDistance, 0.01f, "Error enabling first person");
-                Memory.Nop(Addresses.opacityChangeOne, 2, "Error changing player opacity");
-                Memory.Nop(Addresses.opacityChangeTwo, 2, "Error changing player opacity");
-            }
-            else
-            {
-                zoomCheckBox.Enabled = true;
-
-                if (!zoomCheckBox.Checked)
-                    ToggleCameraZoom(false);
-                Memory.WriteFloat(Addresses.cameraTargettedDistance, 5f, "Error disabling first person");
-                Memory.WriteBytes(Addresses.opacityChangeOne, "D9 11", "Error changing player opacity");
-                Memory.WriteBytes(Addresses.opacityChangeTwo, "89 01", "Error changing player opacity");
-            }
+            zoomCheckBox.Enabled = !firstPersonCheckBox.Checked;
+            ToggleCameraZoom(!firstPersonCheckBox.Checked && !zoomCheckBox.Checked);
+            ToggleCloseCamera(firstPersonCheckBox.Checked);
         }
 
         void ControllerCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -211,32 +195,32 @@ namespace Barnyard_Trainer
         {
             if (IsOnFoot())
             {
-                Memory.WriteFloat(Addresses.xPos, float.Parse(xPosTextBox.Text), "Error applying X position");
-                Memory.WriteFloat(Addresses.yPos, -float.Parse(yPosTextBox.Text), "Error applying Y position");
-                Memory.WriteFloat(Addresses.zPos, float.Parse(zPosTextBox.Text), "Error applying Z position");
+                Addresses.values["xPos"].Write(float.Parse(xPosTextBox.Text), "Error applying X position");
+                Addresses.values["yPos"].Write(float.Parse(yPosTextBox.Text), "Error applying Y position");
+                Addresses.values["zPos"].Write(float.Parse(zPosTextBox.Text), "Error applying Z position");
             }
             else
             {
-                Memory.WriteFloat(Addresses.bikeXPos, float.Parse(xPosTextBox.Text), "Error applying X position");
-                Memory.WriteFloat(Addresses.bikeYPos, -float.Parse(yPosTextBox.Text), "Error applying Y position");
-                Memory.WriteFloat(Addresses.bikeZPos, float.Parse(zPosTextBox.Text), "Error applying Z position");
+                Addresses.values["bikeXPos"].Write(float.Parse(xPosTextBox.Text), "Error applying X position");
+                Addresses.values["bikeYPos"].Write(float.Parse(yPosTextBox.Text), "Error applying Y position");
+                Addresses.values["bikeZPos"].Write(float.Parse(zPosTextBox.Text), "Error applying Z position");
             }
         }
 
         void MoneyApplyButton_Click(object sender, EventArgs e)
         {
-            Memory.WriteBytes(Addresses.money, Memory.IntStringTo4Bytes(moneyTextBox.Text), "Error applying money");
-            Memory.WriteBytes(Addresses.moneyHud, Memory.IntStringTo4Bytes(moneyTextBox.Text), "Error applying money HUD");
+            Addresses.values["money"].Write(Memory.IntStringTo4Bytes(moneyTextBox.Text), "Error applying money");
+            Addresses.values["moneyHud"].Write(Memory.IntStringTo4Bytes(moneyTextBox.Text), "Error applying money HUD");
         }
 
         void ItemsApplyButton_Click(object sender, EventArgs e)
         {
-            Memory.WriteBytes(Addresses.itemCount, Memory.IntStringTo4Bytes(itemsTextBox.Text), "Error applying item count");
+            Addresses.values["itemCount"].Write(Memory.IntStringTo4Bytes(itemsTextBox.Text), "Error applying item count");
         }
 
         void FovTrackBar_Scroll(object sender, EventArgs e)
         {
-            Memory.WriteFloat(Addresses.fov, (float)fovTrackBar.Value / 100, "Error changing FOV");
+            Addresses.values["fov"].Write(fovTrackBar.Value / 100f, "Error changing FOV");
         }
 
         void FlightInfoButton_Click(object sender, EventArgs e)
@@ -258,63 +242,67 @@ namespace Barnyard_Trainer
         #region Custom Functions
         void UpdateConstantAddresses()
         {
+            // Infinite stamina
             if (staminaCheckBox.Checked)
             {
                 if (IsOnFoot())
-                    Memory.WriteFloat(Addresses.stamina, 5f);
+                    Addresses.values["stamina"].Write(5f);
                 else
-                    Memory.WriteFloat(Addresses.bikeStamina, 1f);
+                    Addresses.values["bikeStamina"].Write(1f);
             }
 
+            // Infinite ammo
             if (milkCheckBox.Checked)
-                Memory.WriteFloat(Addresses.milk, 5f);
+                Addresses.values["milk"].Write(5f);
 
+            // First-person
             if (firstPersonCheckBox.Checked)
             {
                 if (IsOnFoot())
                 {
-                    Memory.WriteFloat(Addresses.cameraTargettedDistance, 0.01f);
-                    Memory.WriteFloat(Addresses.opacity, 0f);
+                    /////////////////////////////////////
                 }
             }
 
             if (IsOnFoot())
             {
+                // Camera clamped pitch
                 if (clampCheckBox.Checked)
                 {
-                    Memory.Nop(Addresses.minPitch, 2);
-                    Memory.Nop(Addresses.maxPitch, 2);
+                    Addresses.instructions["minPitch"].Nop();
+                    Addresses.instructions["maxPitch"].Nop();
                 }
                 else
                 {
-                    Memory.WriteBytes(Addresses.minPitch, "89 01");
-                    Memory.WriteBytes(Addresses.maxPitch, "89 11");
+                    Addresses.instructions["minPitch"].Restore();
+                    Addresses.instructions["maxPitch"].Restore();
                 }
 
+                // Water collisions
                 if (waterCheckBox.Checked)
-                    Memory.Nop(Addresses.waterCollision, 2);
+                    Addresses.instructions["waterCollision"].Nop();
                 else
-                    Memory.WriteBytes(Addresses.waterCollision, "89 0E");
+                    Addresses.instructions["waterCollision"].Restore();
             }
             else // Restore because this causes issues while on a bike
             {
-                Memory.WriteBytes(Addresses.minPitch, "89 01");
-                Memory.WriteBytes(Addresses.maxPitch, "89 11");
-                Memory.WriteBytes(Addresses.waterCollision, "89 0E");
+                Addresses.instructions["minPitch"].Restore();
+                Addresses.instructions["maxPitch"].Restore();
+                Addresses.instructions["waterCollision"].Restore();
             }
         }
 
         void UpdateInfoPage()
         {
             bool isSprinting = IsSprinting();
-            float stamina = IsOnFoot() ? Memory.ReadFloat(Addresses.stamina) : Memory.ReadFloat(Addresses.bikeStamina) * 5;
+            float stamina = IsOnFoot() ? Addresses.values["stamina"].ReadFloat() : Addresses.values["bikeStamina"].ReadFloat() * 5;
             int staminaPercent = (int)(stamina * 20);
             double timeUntilFull = Math.Round((5 - stamina) * (IsOnFoot() ? 4 : 3), 2);
 
             // Text
-            dayLabel.Text = "Day:  " + DAYS[Memory.ReadByte(Addresses.day)];
-            horizontalSpeedLabel.Text = "Horizontal Speed:  " + CalculateHorizontalSpeed() + " m/s";
-            verticalSpeedLabel.Text = "Vertical Speed:  " + CalculateVerticalSpeed() + " m/s";
+            dayLabel.Text = "Day:  " + DAYS[Addresses.values["day"].ReadByte()];
+            horizontalSpeedLabel.Text = "Horizontal Velocity:  " + CalculateHorizontalVelocity() + " m/s";
+            verticalSpeedLabel.Text = "Vertical Velocity:  " + CalculateVerticalVelocity() + " m/s";
             positionLabel.Text = "Position:  X: " + GetXPos() + ",  Y: " + GetYPos() + ",  Z: " + GetZPos();
             staminaLabel.Text = "Stamina:  " + staminaPercent + "%";
             if (!isSprinting && !staminaCheckBox.Checked)
@@ -328,56 +316,82 @@ namespace Barnyard_Trainer
 
         void ApplyMovementStats()
         {
-            Memory.WriteFloat(Addresses.walkSpeed, float.Parse(walkTextBox.Text), "Error applying walk speed");
-            Memory.WriteFloat(Addresses.runSpeed, float.Parse(runTextBox.Text), "Error applying run speed");
-            Memory.WriteFloat(Addresses.sprintSpeed, float.Parse(sprintTextBox.Text), "Error applying sprint speed");
-            Memory.WriteFloat(Addresses.acceleration, float.Parse(accTextBox.Text), "Error applying acceleration");
-            Memory.WriteFloat(Addresses.deceleration, float.Parse(decTextBox.Text), "Error applying deceleration");
-            Memory.WriteFloat(Addresses.jumpForce, float.Parse(jumpTextBox.Text), "Error applying jump height");
+            Addresses.unitValues["walkSpeed"].Write(float.Parse(walkTextBox.Text), "Error applying walk speed");
+            Addresses.unitValues["runSpeed"].Write(float.Parse(runTextBox.Text), "Error applying run speed");
+            Addresses.unitValues["sprintSpeed"].Write(float.Parse(sprintTextBox.Text), "Error applying sprint speed");
+            Addresses.unitValues["acceleration"].Write(float.Parse(accTextBox.Text), "Error applying acceleration");
+            Addresses.unitValues["deceleration"].Write(float.Parse(decTextBox.Text), "Error applying deceleration");
+            Addresses.unitValues["jumpForce"].Write(float.Parse(jumpTextBox.Text), "Error applying jump height");
         }
 
         void ToggleCameraZoom(bool enable)
         {
             if (enable)
             {
-                Memory.WriteBytes(Addresses.cameraZoom, "89 96 88 00 00 00", "Error enabling camera zoom");
-                Memory.WriteBytes(Addresses.cameraZoomIn, "89 01", "Error enabling camera zoom in");
-                Memory.WriteBytes(Addresses.cameraZoomOut, "89 8E 88 00 00 00", "Error enabling camera zoom out");
+                Addresses.instructions["camZoom"].Restore("Error enabling camera zoom");
+                Addresses.instructions["camZoomIn"].Restore("Error enabling camera zoom in");
+                Addresses.instructions["camZoomOut"].Restore("Error enabling camera zoom out");
+                Addresses.instructions["camReset"].Restore("Error enabling camera reset");
+                Addresses.instructions["bikeCamDistanceReset"].Restore("Error enabling camera reset");
+                Addresses.instructions["bikeCamHeightReset"].Restore("Error enabling camera reset");
             }
             else
             {
-                Memory.Nop(Addresses.cameraZoom, 6, "Error disabling camera zoom");
-                Memory.Nop(Addresses.cameraZoomIn, 2, "Error disabling camera zoom in");
-                Memory.Nop(Addresses.cameraZoomOut, 6, "Error disabling camera zoom out");
+                Addresses.instructions["camZoom"].Nop("Error disabling camera zoom");
+                Addresses.instructions["camZoomIn"].Nop("Error disabling camera zoom in");
+                Addresses.instructions["camZoomOut"].Nop("Error disabling camera zoom out");
+                Addresses.instructions["camReset"].Nop("Error disabling camera reset");
+                Addresses.instructions["bikeCamDistanceReset"].Nop("Error disabling camera reset");
+                Addresses.instructions["bikeCamHeightReset"].Nop("Error disabling camera reset");
+            }
+        }
+
+        void ToggleCloseCamera(bool enable)
+        {
+            if (enable)
+            {
+                Addresses.values["camTargetDistance"].Write(0.01f, "Error enabling first person");
+                Addresses.values["bikeCamTargetDistance"].Write(0.1f, "Error setting bike camera targetted distance");
+                Addresses.values["bikeCamTargetHeight"].Write(0f, "Error setting bike camera targetted height");
+                Addresses.instructions["opacityChangeOne"].Nop("Error changing player opacity");
+                Addresses.instructions["opacityChangeTwo"].Nop("Error changing player opacity");
+            }
+            else
+            {
+                Addresses.values["camTargetDistance"].Write(5f, "Error enabling first person");
+                Addresses.values["bikeCamTargetDistance"].Write(4f, "Error setting bike camera targetted distance");
+                Addresses.values["bikeCamTargetHeight"].Write(0.8f, "Error setting bike camera targetted height");
+                Addresses.instructions["opacityChangeOne"].Restore("Error changing player opacity");
+                Addresses.instructions["opacityChangeTwo"].Restore("Error changing player opacity");
             }
         }
 
         bool IsOnFoot()
         {
-            return Memory.ReadByte(Addresses.isOnFoot) == 1;
+            return Addresses.values["isOnFoot"].ReadByte() == 1;
         }
 
         bool IsSprinting()
         {
-            return IsOnFoot() ? Memory.ReadByte(Addresses.isSprintingFoot) == 1 : Memory.ReadByte(Addresses.isSprintingBike) == 4;
+            return IsOnFoot() ? Addresses.values["isSprintingFoot"].ReadByte() == 1 : Addresses.values["isSprintingBike"].ReadByte() == 4;
         }
 
         float GetXPos()
         {
-            return IsOnFoot() ? Memory.ReadFloat(Addresses.xPos) : Memory.ReadFloat(Addresses.bikeXPos);
+            return IsOnFoot() ? Addresses.values["xPos"].ReadFloat() : Addresses.values["bikeXPos"].ReadFloat();
         }
 
         float GetYPos()
         {
-            return IsOnFoot() ? -Memory.ReadFloat(Addresses.yPos) : -Memory.ReadFloat(Addresses.bikeYPos);
+            return IsOnFoot() ? Addresses.values["yPos"].ReadFloat() : Addresses.values["bikeYPos"].ReadFloat();
         }
 
         float GetZPos()
         {
-            return IsOnFoot() ? Memory.ReadFloat(Addresses.zPos) : Memory.ReadFloat(Addresses.bikeZPos);
+            return IsOnFoot() ? Addresses.values["zPos"].ReadFloat() : Addresses.values["bikeZPos"].ReadFloat();
         }
 
-        double CalculateHorizontalSpeed()
+        double CalculateHorizontalVelocity()
         {
             xPos = GetXPos();
             zPos = GetZPos();
@@ -394,7 +408,7 @@ namespace Barnyard_Trainer
             return speed;
         }
 
-        double CalculateVerticalSpeed()
+        double CalculateVerticalVelocity()
         {
             yPos = GetYPos();
             long time = stopWatch.ElapsedMilliseconds;

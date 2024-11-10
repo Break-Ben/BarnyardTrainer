@@ -25,15 +25,6 @@ namespace Barnyard_Trainer
                 Messages.DisplayError(errorMessage);
         }
 
-        public static void Nop(string address, int byteCount, string errorMessage = "Error writing nop")
-        {
-            string value = "";
-            for (int i = 0; i < byteCount; i++)
-                value += "90 ";
-            if (!mem.WriteMemory(address, "bytes", value.TrimEnd()))
-                Messages.DisplayError(errorMessage);
-        }
-
         public static float ReadFloat(string address)
         {
             return mem.ReadFloat(address);

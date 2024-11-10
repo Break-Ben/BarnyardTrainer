@@ -804,18 +804,18 @@
             this.verticalSpeedLabel.AutoSize = true;
             this.verticalSpeedLabel.Location = new System.Drawing.Point(3, 39);
             this.verticalSpeedLabel.Name = "verticalSpeedLabel";
-            this.verticalSpeedLabel.Size = new System.Drawing.Size(112, 13);
+            this.verticalSpeedLabel.Size = new System.Drawing.Size(118, 13);
             this.verticalSpeedLabel.TabIndex = 30;
-            this.verticalSpeedLabel.Text = "Vertical Speed:  0 m/s";
+            this.verticalSpeedLabel.Text = "Vertical Velocity:  0 m/s";
             // 
             // horizontalSpeedLabel
             // 
             this.horizontalSpeedLabel.AutoSize = true;
             this.horizontalSpeedLabel.Location = new System.Drawing.Point(3, 21);
             this.horizontalSpeedLabel.Name = "horizontalSpeedLabel";
-            this.horizontalSpeedLabel.Size = new System.Drawing.Size(124, 13);
+            this.horizontalSpeedLabel.Size = new System.Drawing.Size(130, 13);
             this.horizontalSpeedLabel.TabIndex = 29;
-            this.horizontalSpeedLabel.Text = "Horizontal Speed:  0 m/s";
+            this.horizontalSpeedLabel.Text = "Horizontal Velocity:  0 m/s";
             // 
             // builtInCheatPage
             // 
