@@ -33,8 +33,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.moneyTextBox = new System.Windows.Forms.TextBox();
             this.moneyApplyButton = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.fovTrackBar = new System.Windows.Forms.TrackBar();
             this.staminaCheckBox = new System.Windows.Forms.CheckBox();
             this.inGameTimer = new System.Windows.Forms.Timer(this.components);
             this.milkCheckBox = new System.Windows.Forms.CheckBox();
@@ -51,11 +49,8 @@
             this.label7 = new System.Windows.Forms.Label();
             this.zPosTextBox = new System.Windows.Forms.TextBox();
             this.positionRefreshButton = new System.Windows.Forms.Button();
-            this.zoomCheckBox = new System.Windows.Forms.CheckBox();
-            this.firstPersonCheckBox = new System.Windows.Forms.CheckBox();
             this.outGameTimer = new System.Windows.Forms.Timer(this.components);
             this.statusText = new System.Windows.Forms.Label();
-            this.clampCheckBox = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.jumpTextBox = new System.Windows.Forms.TextBox();
             this.decTextBox = new System.Windows.Forms.TextBox();
@@ -83,7 +78,17 @@
             this.tabControl = new System.Windows.Forms.TabControl();
             this.cheatPage = new System.Windows.Forms.TabPage();
             this.movementRevertButton = new System.Windows.Forms.Button();
-            this.pitchInfoButton = new System.Windows.Forms.Button();
+            this.cameraPage = new System.Windows.Forms.TabPage();
+            this.distanceRevertButton = new System.Windows.Forms.Button();
+            this.fovRevertButton = new System.Windows.Forms.Button();
+            this.distanceLabel = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.camDistanceTrackBar = new System.Windows.Forms.TrackBar();
+            this.label2 = new System.Windows.Forms.Label();
+            this.fovTrackBar = new System.Windows.Forms.TrackBar();
+            this.clampCheckBox = new System.Windows.Forms.CheckBox();
+            this.firstPersonCheckBox = new System.Windows.Forms.CheckBox();
+            this.zoomCheckBox = new System.Windows.Forms.CheckBox();
             this.infoPage = new System.Windows.Forms.TabPage();
             this.dayLabel = new System.Windows.Forms.Label();
             this.sprintingCheckBox = new System.Windows.Forms.CheckBox();
@@ -98,10 +103,12 @@
             this.windowedCheckBox = new System.Windows.Forms.CheckBox();
             this.controllerCheckBox = new System.Windows.Forms.CheckBox();
             this.builtInCheatsLabel = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.fovTrackBar)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.cheatPage.SuspendLayout();
+            this.cameraPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.camDistanceTrackBar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.fovTrackBar)).BeginInit();
             this.infoPage.SuspendLayout();
             this.builtInCheatPage.SuspendLayout();
             this.SuspendLayout();
@@ -136,30 +143,6 @@
             this.moneyApplyButton.Text = "Apply";
             this.moneyApplyButton.UseVisualStyleBackColor = true;
             this.moneyApplyButton.Click += new System.EventHandler(this.MoneyApplyButton_Click);
-            // 
-            // label2
-            // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(222, 262);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(33, 15);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "FOV";
-            // 
-            // fovTrackBar
-            // 
-            this.fovTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.fovTrackBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
-            this.fovTrackBar.Location = new System.Drawing.Point(217, 280);
-            this.fovTrackBar.Maximum = 250;
-            this.fovTrackBar.Name = "fovTrackBar";
-            this.fovTrackBar.Size = new System.Drawing.Size(332, 45);
-            this.fovTrackBar.TabIndex = 4;
-            this.fovTrackBar.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.fovTrackBar.Value = 100;
-            this.fovTrackBar.Scroll += new System.EventHandler(this.FovTrackBar_Scroll);
             // 
             // staminaCheckBox
             // 
@@ -319,29 +302,6 @@
             this.positionRefreshButton.UseVisualStyleBackColor = true;
             this.positionRefreshButton.Click += new System.EventHandler(this.PositionRefreshButton_Click);
             // 
-            // zoomCheckBox
-            // 
-            this.zoomCheckBox.AutoSize = true;
-            this.zoomCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.zoomCheckBox.Location = new System.Drawing.Point(6, 213);
-            this.zoomCheckBox.Name = "zoomCheckBox";
-            this.zoomCheckBox.Size = new System.Drawing.Size(130, 17);
-            this.zoomCheckBox.TabIndex = 21;
-            this.zoomCheckBox.Text = "Disable Camera Zoom";
-            this.zoomCheckBox.UseVisualStyleBackColor = true;
-            this.zoomCheckBox.CheckedChanged += new System.EventHandler(this.ZoomCheckBox_CheckedChanged);
-            // 
-            // firstPersonCheckBox
-            // 
-            this.firstPersonCheckBox.AutoSize = true;
-            this.firstPersonCheckBox.Location = new System.Drawing.Point(6, 259);
-            this.firstPersonCheckBox.Name = "firstPersonCheckBox";
-            this.firstPersonCheckBox.Size = new System.Drawing.Size(168, 17);
-            this.firstPersonCheckBox.TabIndex = 22;
-            this.firstPersonCheckBox.Text = "First Person Mode (unfinished)";
-            this.firstPersonCheckBox.UseVisualStyleBackColor = true;
-            this.firstPersonCheckBox.CheckedChanged += new System.EventHandler(this.FirstPersonCheckBox_CheckedChanged);
-            // 
             // outGameTimer
             // 
             this.outGameTimer.Interval = 200;
@@ -356,16 +316,6 @@
             this.statusText.Size = new System.Drawing.Size(79, 13);
             this.statusText.TabIndex = 23;
             this.statusText.Text = "Not Connected";
-            // 
-            // clampCheckBox
-            // 
-            this.clampCheckBox.AutoSize = true;
-            this.clampCheckBox.Location = new System.Drawing.Point(6, 190);
-            this.clampCheckBox.Name = "clampCheckBox";
-            this.clampCheckBox.Size = new System.Drawing.Size(110, 17);
-            this.clampCheckBox.TabIndex = 24;
-            this.clampCheckBox.Text = "Un-clamped Pitch";
-            this.clampCheckBox.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel1
             // 
@@ -598,7 +548,7 @@
             // 
             this.waterCheckBox.AutoSize = true;
             this.waterCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.waterCheckBox.Location = new System.Drawing.Point(6, 236);
+            this.waterCheckBox.Location = new System.Drawing.Point(6, 190);
             this.waterCheckBox.Name = "waterCheckBox";
             this.waterCheckBox.Size = new System.Drawing.Size(164, 17);
             this.waterCheckBox.TabIndex = 39;
@@ -635,6 +585,7 @@
             // tabControl
             // 
             this.tabControl.Controls.Add(this.cheatPage);
+            this.tabControl.Controls.Add(this.cameraPage);
             this.tabControl.Controls.Add(this.infoPage);
             this.tabControl.Controls.Add(this.builtInCheatPage);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -649,14 +600,11 @@
             // 
             this.cheatPage.Controls.Add(this.movementRevertButton);
             this.cheatPage.Controls.Add(this.flightInfoButton);
-            this.cheatPage.Controls.Add(this.pitchInfoButton);
             this.cheatPage.Controls.Add(this.flightCheckBox);
             this.cheatPage.Controls.Add(this.label1);
             this.cheatPage.Controls.Add(this.moneyTextBox);
             this.cheatPage.Controls.Add(this.moneyApplyButton);
             this.cheatPage.Controls.Add(this.waterCheckBox);
-            this.cheatPage.Controls.Add(this.label2);
-            this.cheatPage.Controls.Add(this.fovTrackBar);
             this.cheatPage.Controls.Add(this.ladderCheckBox);
             this.cheatPage.Controls.Add(this.staminaCheckBox);
             this.cheatPage.Controls.Add(this.squirtDelayCheckBox);
@@ -676,12 +624,9 @@
             this.cheatPage.Controls.Add(this.label5);
             this.cheatPage.Controls.Add(this.tableLayoutPanel1);
             this.cheatPage.Controls.Add(this.yPosTextBox);
-            this.cheatPage.Controls.Add(this.clampCheckBox);
             this.cheatPage.Controls.Add(this.label6);
             this.cheatPage.Controls.Add(this.zPosTextBox);
-            this.cheatPage.Controls.Add(this.firstPersonCheckBox);
             this.cheatPage.Controls.Add(this.label7);
-            this.cheatPage.Controls.Add(this.zoomCheckBox);
             this.cheatPage.Controls.Add(this.positionRefreshButton);
             this.cheatPage.Location = new System.Drawing.Point(4, 22);
             this.cheatPage.Name = "cheatPage";
@@ -702,16 +647,137 @@
             this.movementRevertButton.UseVisualStyleBackColor = true;
             this.movementRevertButton.Click += new System.EventHandler(this.MovementRevertButton_Click);
             // 
-            // pitchInfoButton
+            // cameraPage
             // 
-            this.pitchInfoButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pitchInfoButton.Location = new System.Drawing.Point(112, 188);
-            this.pitchInfoButton.Name = "pitchInfoButton";
-            this.pitchInfoButton.Size = new System.Drawing.Size(20, 20);
-            this.pitchInfoButton.TabIndex = 43;
-            this.pitchInfoButton.Text = "?";
-            this.pitchInfoButton.UseVisualStyleBackColor = true;
-            this.pitchInfoButton.Click += new System.EventHandler(this.PitchInfoButton_Click);
+            this.cameraPage.Controls.Add(this.distanceRevertButton);
+            this.cameraPage.Controls.Add(this.fovRevertButton);
+            this.cameraPage.Controls.Add(this.distanceLabel);
+            this.cameraPage.Controls.Add(this.label15);
+            this.cameraPage.Controls.Add(this.camDistanceTrackBar);
+            this.cameraPage.Controls.Add(this.label2);
+            this.cameraPage.Controls.Add(this.fovTrackBar);
+            this.cameraPage.Controls.Add(this.clampCheckBox);
+            this.cameraPage.Controls.Add(this.firstPersonCheckBox);
+            this.cameraPage.Controls.Add(this.zoomCheckBox);
+            this.cameraPage.Location = new System.Drawing.Point(4, 22);
+            this.cameraPage.Name = "cameraPage";
+            this.cameraPage.Size = new System.Drawing.Size(561, 319);
+            this.cameraPage.TabIndex = 3;
+            this.cameraPage.Text = "Camera";
+            this.cameraPage.UseVisualStyleBackColor = true;
+            // 
+            // distanceRevertButton
+            // 
+            this.distanceRevertButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.distanceRevertButton.Location = new System.Drawing.Point(471, 77);
+            this.distanceRevertButton.Name = "distanceRevertButton";
+            this.distanceRevertButton.Size = new System.Drawing.Size(75, 23);
+            this.distanceRevertButton.TabIndex = 40;
+            this.distanceRevertButton.Text = "Revert";
+            this.distanceRevertButton.UseVisualStyleBackColor = true;
+            this.distanceRevertButton.Click += new System.EventHandler(this.DistanceRevertButton_Click);
+            // 
+            // fovRevertButton
+            // 
+            this.fovRevertButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.fovRevertButton.Location = new System.Drawing.Point(471, 26);
+            this.fovRevertButton.Name = "fovRevertButton";
+            this.fovRevertButton.Size = new System.Drawing.Size(75, 23);
+            this.fovRevertButton.TabIndex = 39;
+            this.fovRevertButton.Text = "Revert";
+            this.fovRevertButton.UseVisualStyleBackColor = true;
+            this.fovRevertButton.Click += new System.EventHandler(this.FovRevertButton_Click);
+            // 
+            // distanceLabel
+            // 
+            this.distanceLabel.AutoSize = true;
+            this.distanceLabel.Location = new System.Drawing.Point(374, 62);
+            this.distanceLabel.Name = "distanceLabel";
+            this.distanceLabel.Size = new System.Drawing.Size(27, 13);
+            this.distanceLabel.TabIndex = 38;
+            this.distanceLabel.Text = "(5m)";
+            // 
+            // label15
+            // 
+            this.label15.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(199, 60);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(175, 15);
+            this.label15.TabIndex = 30;
+            this.label15.Text = "Camera Distance (on foot)";
+            // 
+            // camDistanceTrackBar
+            // 
+            this.camDistanceTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.camDistanceTrackBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
+            this.camDistanceTrackBar.Location = new System.Drawing.Point(194, 78);
+            this.camDistanceTrackBar.Maximum = 350;
+            this.camDistanceTrackBar.Name = "camDistanceTrackBar";
+            this.camDistanceTrackBar.Size = new System.Drawing.Size(276, 45);
+            this.camDistanceTrackBar.TabIndex = 31;
+            this.camDistanceTrackBar.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.camDistanceTrackBar.Value = 50;
+            this.camDistanceTrackBar.Scroll += new System.EventHandler(this.CamDistanceTrackBar_Scroll);
+            // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(199, 9);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(33, 15);
+            this.label2.TabIndex = 28;
+            this.label2.Text = "FOV";
+            // 
+            // fovTrackBar
+            // 
+            this.fovTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.fovTrackBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
+            this.fovTrackBar.Location = new System.Drawing.Point(194, 27);
+            this.fovTrackBar.Maximum = 250;
+            this.fovTrackBar.Name = "fovTrackBar";
+            this.fovTrackBar.Size = new System.Drawing.Size(276, 45);
+            this.fovTrackBar.TabIndex = 29;
+            this.fovTrackBar.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.fovTrackBar.Value = 100;
+            this.fovTrackBar.Scroll += new System.EventHandler(this.FovTrackBar_Scroll);
+            // 
+            // clampCheckBox
+            // 
+            this.clampCheckBox.AutoSize = true;
+            this.clampCheckBox.Location = new System.Drawing.Point(6, 6);
+            this.clampCheckBox.Name = "clampCheckBox";
+            this.clampCheckBox.Size = new System.Drawing.Size(118, 17);
+            this.clampCheckBox.TabIndex = 27;
+            this.clampCheckBox.Text = "Look Higher/Lower";
+            this.clampCheckBox.UseVisualStyleBackColor = true;
+            this.clampCheckBox.CheckedChanged += new System.EventHandler(this.ClampCheckBox_CheckedChanged);
+            // 
+            // firstPersonCheckBox
+            // 
+            this.firstPersonCheckBox.AutoSize = true;
+            this.firstPersonCheckBox.Location = new System.Drawing.Point(6, 52);
+            this.firstPersonCheckBox.Name = "firstPersonCheckBox";
+            this.firstPersonCheckBox.Size = new System.Drawing.Size(141, 17);
+            this.firstPersonCheckBox.TabIndex = 26;
+            this.firstPersonCheckBox.Text = "First Person Mode (WIP)";
+            this.firstPersonCheckBox.UseVisualStyleBackColor = true;
+            this.firstPersonCheckBox.CheckedChanged += new System.EventHandler(this.FirstPersonCheckBox_CheckedChanged);
+            // 
+            // zoomCheckBox
+            // 
+            this.zoomCheckBox.AutoSize = true;
+            this.zoomCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.zoomCheckBox.Location = new System.Drawing.Point(6, 29);
+            this.zoomCheckBox.Name = "zoomCheckBox";
+            this.zoomCheckBox.Size = new System.Drawing.Size(130, 17);
+            this.zoomCheckBox.TabIndex = 25;
+            this.zoomCheckBox.Text = "Disable Camera Zoom";
+            this.zoomCheckBox.UseVisualStyleBackColor = true;
+            this.zoomCheckBox.CheckedChanged += new System.EventHandler(this.ZoomCheckBox_CheckedChanged);
             // 
             // infoPage
             // 
@@ -735,17 +801,17 @@
             // dayLabel
             // 
             this.dayLabel.AutoSize = true;
-            this.dayLabel.Location = new System.Drawing.Point(3, 3);
+            this.dayLabel.Location = new System.Drawing.Point(3, 6);
             this.dayLabel.Name = "dayLabel";
-            this.dayLabel.Size = new System.Drawing.Size(73, 13);
+            this.dayLabel.Size = new System.Drawing.Size(153, 13);
             this.dayLabel.TabIndex = 37;
-            this.dayLabel.Text = "Day:  Monday";
+            this.dayLabel.Text = "Day/Time:  Monday, 03:00 AM";
             // 
             // sprintingCheckBox
             // 
             this.sprintingCheckBox.AutoSize = true;
             this.sprintingCheckBox.Enabled = false;
-            this.sprintingCheckBox.Location = new System.Drawing.Point(6, 120);
+            this.sprintingCheckBox.Location = new System.Drawing.Point(6, 124);
             this.sprintingCheckBox.Name = "sprintingCheckBox";
             this.sprintingCheckBox.Size = new System.Drawing.Size(78, 17);
             this.sprintingCheckBox.TabIndex = 36;
@@ -756,7 +822,7 @@
             // 
             this.onFootCheckBox.AutoSize = true;
             this.onFootCheckBox.Enabled = false;
-            this.onFootCheckBox.Location = new System.Drawing.Point(6, 97);
+            this.onFootCheckBox.Location = new System.Drawing.Point(6, 101);
             this.onFootCheckBox.Name = "onFootCheckBox";
             this.onFootCheckBox.Size = new System.Drawing.Size(75, 17);
             this.onFootCheckBox.TabIndex = 0;
@@ -767,7 +833,7 @@
             // 
             this.staminaBar.BackColor = System.Drawing.Color.DimGray;
             this.staminaBar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.staminaBar.Location = new System.Drawing.Point(6, 78);
+            this.staminaBar.Location = new System.Drawing.Point(6, 80);
             this.staminaBar.Name = "staminaBar";
             this.staminaBar.Size = new System.Drawing.Size(100, 13);
             this.staminaBar.TabIndex = 34;
@@ -776,7 +842,7 @@
             // 
             this.panel2.BackColor = System.Drawing.Color.Transparent;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel2.Location = new System.Drawing.Point(6, 78);
+            this.panel2.Location = new System.Drawing.Point(6, 80);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(100, 13);
             this.panel2.TabIndex = 35;
@@ -784,7 +850,7 @@
             // staminaLabel
             // 
             this.staminaLabel.AutoSize = true;
-            this.staminaLabel.Location = new System.Drawing.Point(112, 77);
+            this.staminaLabel.Location = new System.Drawing.Point(112, 81);
             this.staminaLabel.Name = "staminaLabel";
             this.staminaLabel.Size = new System.Drawing.Size(80, 13);
             this.staminaLabel.TabIndex = 33;
@@ -793,7 +859,7 @@
             // positionLabel
             // 
             this.positionLabel.AutoSize = true;
-            this.positionLabel.Location = new System.Drawing.Point(3, 57);
+            this.positionLabel.Location = new System.Drawing.Point(3, 60);
             this.positionLabel.Name = "positionLabel";
             this.positionLabel.Size = new System.Drawing.Size(191, 13);
             this.positionLabel.TabIndex = 31;
@@ -802,7 +868,7 @@
             // verticalSpeedLabel
             // 
             this.verticalSpeedLabel.AutoSize = true;
-            this.verticalSpeedLabel.Location = new System.Drawing.Point(3, 39);
+            this.verticalSpeedLabel.Location = new System.Drawing.Point(3, 42);
             this.verticalSpeedLabel.Name = "verticalSpeedLabel";
             this.verticalSpeedLabel.Size = new System.Drawing.Size(118, 13);
             this.verticalSpeedLabel.TabIndex = 30;
@@ -811,7 +877,7 @@
             // horizontalSpeedLabel
             // 
             this.horizontalSpeedLabel.AutoSize = true;
-            this.horizontalSpeedLabel.Location = new System.Drawing.Point(3, 21);
+            this.horizontalSpeedLabel.Location = new System.Drawing.Point(3, 24);
             this.horizontalSpeedLabel.Name = "horizontalSpeedLabel";
             this.horizontalSpeedLabel.Size = new System.Drawing.Size(130, 13);
             this.horizontalSpeedLabel.TabIndex = 29;
@@ -871,12 +937,15 @@
             this.Name = "BarnyardTrainer";
             this.Text = "Barnyard Trainer";
             this.Load += new System.EventHandler(this.MainForm_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.fovTrackBar)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.tabControl.ResumeLayout(false);
             this.cheatPage.ResumeLayout(false);
             this.cheatPage.PerformLayout();
+            this.cameraPage.ResumeLayout(false);
+            this.cameraPage.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.camDistanceTrackBar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.fovTrackBar)).EndInit();
             this.infoPage.ResumeLayout(false);
             this.infoPage.PerformLayout();
             this.builtInCheatPage.ResumeLayout(false);
@@ -891,8 +960,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox moneyTextBox;
         private System.Windows.Forms.Button moneyApplyButton;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TrackBar fovTrackBar;
         private System.Windows.Forms.CheckBox staminaCheckBox;
         private System.Windows.Forms.Timer inGameTimer;
         private System.Windows.Forms.CheckBox milkCheckBox;
@@ -909,11 +976,8 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox zPosTextBox;
         private System.Windows.Forms.Button positionRefreshButton;
-        private System.Windows.Forms.CheckBox zoomCheckBox;
-        private System.Windows.Forms.CheckBox firstPersonCheckBox;
         private System.Windows.Forms.Timer outGameTimer;
         private System.Windows.Forms.Label statusText;
-        private System.Windows.Forms.CheckBox clampCheckBox;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label9;
@@ -945,7 +1009,6 @@
         private System.Windows.Forms.Label builtInCheatsLabel;
         private System.Windows.Forms.Label verticalSpeedLabel;
         private System.Windows.Forms.Label horizontalSpeedLabel;
-        private System.Windows.Forms.Button pitchInfoButton;
         private System.Windows.Forms.Button movementRevertButton;
         private System.Windows.Forms.Label positionLabel;
         private System.Windows.Forms.Label staminaLabel;
@@ -956,6 +1019,17 @@
         private System.Windows.Forms.CheckBox windowedCheckBox;
         private System.Windows.Forms.CheckBox controllerCheckBox;
         private System.Windows.Forms.Label dayLabel;
+        private System.Windows.Forms.TabPage cameraPage;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TrackBar fovTrackBar;
+        private System.Windows.Forms.CheckBox clampCheckBox;
+        private System.Windows.Forms.CheckBox firstPersonCheckBox;
+        private System.Windows.Forms.CheckBox zoomCheckBox;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TrackBar camDistanceTrackBar;
+        private System.Windows.Forms.Label distanceLabel;
+        private System.Windows.Forms.Button distanceRevertButton;
+        private System.Windows.Forms.Button fovRevertButton;
     }
 }
 

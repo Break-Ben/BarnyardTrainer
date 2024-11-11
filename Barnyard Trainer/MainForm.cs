@@ -74,6 +74,7 @@ namespace Barnyard_Trainer
         #endregion
 
         #region Checkboxes
+        // General Cheats
         void FlightCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if (flightCheckBox.Checked)
@@ -100,7 +101,7 @@ namespace Barnyard_Trainer
             }
             else
             {
-                Addresses.unitValues["radius"].Write(0.55f, "Error changing player radius");
+                Addresses.unitValues["radius"].Revert("Error changing player radius");
                 Addresses.instructions["noClip"].Restore("Error disabling no-clip");
             }
         }
@@ -122,8 +123,8 @@ namespace Barnyard_Trainer
             }
             else
             {
-                Addresses.unitValues["minClimbSpeed"].Write(1f, "Error disabling fast ladder");
-                Addresses.unitValues["maxClimbSpeed"].Write(1.3f, "Error disabling fast ladder");
+                Addresses.unitValues["minClimbSpeed"].Revert("Error disabling fast ladder");
+                Addresses.unitValues["maxClimbSpeed"].Revert("Error disabling fast ladder");
             }
         }
 
@@ -132,7 +133,7 @@ namespace Barnyard_Trainer
             if (squirtDelayCheckBox.Checked)
                 Addresses.unitValues["squirtDelay"].Write(0f, "Error disabling squirt delay");
             else
-                Addresses.unitValues["squirtDelay"].Write(0.5f, "Error restoring squirt delay");
+                Addresses.unitValues["squirtDelay"].Revert("Error restoring squirt delay");
         }
 
         void SquirtGlassesCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -141,19 +142,6 @@ namespace Barnyard_Trainer
                 Addresses.values["cantSquirt"].Write("0x00", "Error enabling squirt without glasses");
             else
                 Addresses.values["cantSquirt"].Write("0x01", "Error disabling squirt without glasses");
-        }
-
-        void ZoomCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            ToggleCameraZoom(zoomCheckBox.Checked);
-            Addresses.values["camTargetDistance"].Write(5f, "Error zooming out camera");//TODO??????
-        }
-
-        void FirstPersonCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            zoomCheckBox.Enabled = !firstPersonCheckBox.Checked;
-            ToggleCameraZoom(!firstPersonCheckBox.Checked && !zoomCheckBox.Checked);
-            ToggleCloseCamera(firstPersonCheckBox.Checked);
         }
 
         void ControllerCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -165,9 +153,43 @@ namespace Barnyard_Trainer
         {
             registry.SetValue("RealForcedWindowed", windowedCheckBox.Checked);
         }
+
+        // Camera Settings
+        void FirstPersonCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            zoomCheckBox.Enabled = !firstPersonCheckBox.Checked;
+            ToggleCameraZoom(!firstPersonCheckBox.Checked && !zoomCheckBox.Checked);
+            ToggleCloseCamera(firstPersonCheckBox.Checked);
+        }
+
+        void ClampCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (clampCheckBox.Checked)
+            {
+                Addresses.values["minPitch"].Write(-60f, "Error setting minimum pitch");
+                Addresses.values["maxPitch"].Write(90f, "Error setting maximum pitch");
+                Addresses.instructions["maxPitchResetOne"].Nop("Error setting maximum pitch");
+                Addresses.instructions["maxPitchResetTwo"].Nop("Error setting maximum pitch");
+            }
+            else
+            {
+                Addresses.values["minPitch"].Revert("Error setting minimum pitch");
+                Addresses.values["maxPitch"].Revert("Error setting maximum pitch");
+                Addresses.instructions["maxPitchResetOne"].Restore("Error setting maximum pitch");
+                Addresses.instructions["maxPitchResetTwo"].Restore("Error setting maximum pitch");
+            }
+        }
+
+        void ZoomCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            ToggleCameraZoom(!zoomCheckBox.Checked);
+            if(!firstPersonCheckBox.Checked && zoomCheckBox.Checked)
+                Addresses.values["camTargetDistance"].Write(GetCamMaxDistance(), "Error zooming out camera");
+        }
         #endregion
 
         #region Buttons
+        // General Cheats
         void MovementRevertButton_Click(object sender, EventArgs e)
         {
             walkTextBox.Text = "1.5";
@@ -218,24 +240,42 @@ namespace Barnyard_Trainer
             Addresses.values["itemCount"].Write(Memory.IntStringTo4Bytes(itemsTextBox.Text), "Error applying item count");
         }
 
-        void FovTrackBar_Scroll(object sender, EventArgs e)
-        {
-            Addresses.values["fov"].Write(fovTrackBar.Value / 100f, "Error changing FOV");
-        }
-
         void FlightInfoButton_Click(object sender, EventArgs e)
         {
             Messages.DisplayMessage("'Space' to fly up and 'Left Control' to fly down.");
         }
 
-        void PitchInfoButton_Click(object sender, EventArgs e)
-        {
-            Messages.DisplayMessage("Allows you to look higher/lower. Note that it is completely unclamped so weird behaviour can occur if you look too high/low.");
-        }
-
         void SpeedInfoButton_Click(object sender, EventArgs e)
         {
             Messages.DisplayMessage("Walk speed is when slightly moving the joystick, run speed is when fully moving the joystick or pressing WASD, and sprint speed is while holding shift and moving. All speeds are in m/s.");
+        }
+
+        // Camera Settings
+        void FovRevertButton_Click(object sender, EventArgs e)
+        {
+            fovTrackBar.Value = 100;
+            Addresses.values["fov"].Revert("Error changing FOV");
+        }
+
+        void DistanceRevertButton_Click(object sender, EventArgs e)
+        {
+            distanceLabel.Text = "(5m)";
+            camDistanceTrackBar.Value = 50;
+            Addresses.values["camMaxDistance"].Revert("Error changing camera distance");
+        }
+        #endregion
+
+        #region Track Bars
+        void FovTrackBar_Scroll(object sender, EventArgs e)
+        {
+            Addresses.values["fov"].Write(fovTrackBar.Value / 100f, "Error changing FOV");
+        }
+
+        void CamDistanceTrackBar_Scroll(object sender, EventArgs e)
+        {
+            float distance = GetCamMaxDistance();
+            distanceLabel.Text = "(" + distance + "m)";
+            Addresses.values["camMaxDistance"].Write(distance, "Error changing camera distance");
         }
         #endregion
 
@@ -255,40 +295,13 @@ namespace Barnyard_Trainer
             if (milkCheckBox.Checked)
                 Addresses.values["milk"].Write(5f);
 
-            // First-person
-            if (firstPersonCheckBox.Checked)
+            // Water collisions
+            if (waterCheckBox.Checked)
             {
-                if (IsOnFoot())
-                {
-                    /////////////////////////////////////
-                }
-            }
-
-            if (IsOnFoot())
-            {
-                // Camera clamped pitch
-                if (clampCheckBox.Checked)
-                {
-                    Addresses.instructions["minPitch"].Nop();
-                    Addresses.instructions["maxPitch"].Nop();
-                }
-                else
-                {
-                    Addresses.instructions["minPitch"].Restore();
-                    Addresses.instructions["maxPitch"].Restore();
-                }
-
-                // Water collisions
-                if (waterCheckBox.Checked)
+                if (!IsOnFoot())
                     Addresses.instructions["waterCollision"].Nop();
-                else
+                else // Restore because this causes issues while on a bike
                     Addresses.instructions["waterCollision"].Restore();
-            }
-            else // Restore because this causes issues while on a bike
-            {
-                Addresses.instructions["minPitch"].Restore();
-                Addresses.instructions["maxPitch"].Restore();
-                Addresses.instructions["waterCollision"].Restore();
             }
         }
 
@@ -299,8 +312,12 @@ namespace Barnyard_Trainer
             int staminaPercent = (int)(stamina * 20);
             double timeUntilFull = Math.Round((5 - stamina) * (IsOnFoot() ? 4 : 3), 2);
 
+            float time = Addresses.values["time"].ReadFloat() / 50f;
+            int hour = (int)time;
+            int minute = (int)((time - hour) * 60);
+
             // Text
-            dayLabel.Text = "Day:  " + DAYS[Addresses.values["day"].ReadByte()];
+            dayLabel.Text = "Day/Time:  " + DAYS[Addresses.values["day"].ReadByte()] + ", " + new DateTime(1, 1, 1, hour, minute, 0).ToString("hh:mm tt");
             horizontalSpeedLabel.Text = "Horizontal Velocity:  " + CalculateHorizontalVelocity() + " m/s";
             verticalSpeedLabel.Text = "Vertical Velocity:  " + CalculateVerticalVelocity() + " m/s";
             positionLabel.Text = "Position:  X: " + GetXPos() + ",  Y: " + GetYPos() + ",  Z: " + GetZPos();
@@ -358,7 +375,7 @@ namespace Barnyard_Trainer
             }
             else
             {
-                Addresses.values["camTargetDistance"].Write(5f, "Error enabling first person");
+                Addresses.values["camTargetDistance"].Write(GetCamMaxDistance(), "Error enabling first person");
                 Addresses.values["bikeCamTargetDistance"].Write(4f, "Error setting bike camera targetted distance");
                 Addresses.values["bikeCamTargetHeight"].Write(0.8f, "Error setting bike camera targetted height");
                 Addresses.instructions["opacityChangeOne"].Restore("Error changing player opacity");
@@ -418,6 +435,11 @@ namespace Barnyard_Trainer
             lastYPos = yPos;
 
             return speed;
+        }
+
+        float GetCamMaxDistance()
+        {
+            return Math.Max(0.1f, camDistanceTrackBar.Value / 10f);
         }
         #endregion
     }
