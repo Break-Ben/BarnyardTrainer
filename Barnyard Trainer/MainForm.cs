@@ -155,13 +155,6 @@ namespace Barnyard_Trainer
         }
 
         // Camera Settings
-        void FirstPersonCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            zoomCheckBox.Enabled = !firstPersonCheckBox.Checked;
-            ToggleCameraZoom(!firstPersonCheckBox.Checked && !zoomCheckBox.Checked);
-            ToggleCloseCamera(firstPersonCheckBox.Checked);
-        }
-
         void ClampCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if (clampCheckBox.Checked)
@@ -180,11 +173,51 @@ namespace Barnyard_Trainer
             }
         }
 
+        void CamPosLockCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (camPosLockCheckBox.Checked)
+            {
+                Addresses.instructions["camLockXFoot"].Nop("Error locking camera");
+                Addresses.instructions["camLockXBike"].Nop("Error locking camera");
+                Addresses.instructions["camLockYFoot"].Nop("Error locking camera");
+                Addresses.instructions["camLockYBike"].Nop("Error locking camera");
+                Addresses.instructions["camLockZFoot"].Nop("Error locking camera");
+                Addresses.instructions["camLockZBike"].Nop("Error locking camera");
+            }
+            else
+            {
+                Addresses.instructions["camLockXFoot"].Restore("Error unlocking camera");
+                Addresses.instructions["camLockXBike"].Restore("Error unlocking camera");
+                Addresses.instructions["camLockYFoot"].Restore("Error unlocking camera");
+                Addresses.instructions["camLockYBike"].Restore("Error unlocking camera");
+                Addresses.instructions["camLockZFoot"].Restore("Error unlocking camera");
+                Addresses.instructions["camLockZBike"].Restore("Error unlocking camera");
+            }
+        }
+
         void ZoomCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             ToggleCameraZoom(!zoomCheckBox.Checked);
-            if(!firstPersonCheckBox.Checked && zoomCheckBox.Checked)
+            if (!firstPersonCheckBox.Checked && zoomCheckBox.Checked)
                 Addresses.values["camTargetDistance"].Write(GetCamMaxDistance(), "Error zooming out camera");
+        }
+
+        void FirstPersonCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            // Disable other options
+            bool notChecked = !firstPersonCheckBox.Checked;
+            zoomCheckBox.Enabled = notChecked;
+            camDistanceTrackBar.Enabled = notChecked;
+            camHeightTrackBar.Enabled = notChecked;
+            bikeCamDistanceTrackBar.Enabled = notChecked;
+            bikeCamHeightTrackBar.Enabled = notChecked;
+            distanceRevertButton.Enabled = notChecked;
+            heightRevertButton.Enabled = notChecked;
+            bikeDistanceRevertButton.Enabled = notChecked;
+            bikeHeightRevertButton.Enabled = notChecked;
+
+            ToggleCameraZoom(notChecked && !zoomCheckBox.Checked);
+            ToggleCloseCamera(firstPersonCheckBox.Checked);
         }
         #endregion
 
@@ -263,6 +296,41 @@ namespace Barnyard_Trainer
             camDistanceTrackBar.Value = 50;
             Addresses.values["camMaxDistance"].Revert("Error changing camera distance");
         }
+
+        void HeightRevertButton_Click(object sender, EventArgs e)
+        {
+            heightLabel.Text = "(1.7m)";
+            camHeightTrackBar.Value = 17;
+            Addresses.values["camHeight"].Revert("Error changing camera height");
+        }
+
+        void BikeDistanceRevertButton_Click(object sender, EventArgs e)
+        {
+            bikeDistanceLabel.Text = "(4m)";
+            bikeCamDistanceTrackBar.Value = 40;
+            Addresses.values["bikeCamMaxDistance"].Revert("Error changing camera distance");
+        }
+
+        void BikeHeightRevertButton_Click(object sender, EventArgs e)
+        {
+            bikeHeightLabel.Text = "(0.8m)";
+            bikeCamHeightTrackBar.Value = 8;
+            Addresses.values["bikeCamHeight"].Revert("Error changing camera height");
+        }
+
+        void CamPosRefreshButton_Click(object sender, EventArgs e)
+        {
+            camXPosTextBox.Text = Addresses.values["camX"].ReadFloat().ToString();
+            camYPosTextBox.Text = Addresses.values["camY"].ReadFloat().ToString();
+            camZPosTextBox.Text = Addresses.values["camZ"].ReadFloat().ToString();
+        }
+
+        void CamPosApplyButton_Click(object sender, EventArgs e)
+        {
+            Addresses.values["camX"].Write(float.Parse(camXPosTextBox.Text), "Error applying X position");
+            Addresses.values["camY"].Write(float.Parse(camYPosTextBox.Text), "Error applying Y position");
+            Addresses.values["camZ"].Write(float.Parse(camZPosTextBox.Text), "Error applying Z position");
+        }
         #endregion
 
         #region Track Bars
@@ -276,6 +344,27 @@ namespace Barnyard_Trainer
             float distance = GetCamMaxDistance();
             distanceLabel.Text = "(" + distance + "m)";
             Addresses.values["camMaxDistance"].Write(distance, "Error changing camera distance");
+        }
+
+        void CamHeightTrackBar_Scroll(object sender, EventArgs e)
+        {
+            float height = camHeightTrackBar.Value / 10f;
+            heightLabel.Text = "(" + height + "m)";
+            Addresses.values["camHeight"].Write(height, "Error changing camera height");
+        }
+
+        void BikeCamDistanceTrackBar_Scroll(object sender, EventArgs e)
+        {
+            float distance = GetBikeCamMaxDistance();
+            bikeDistanceLabel.Text = "(" + distance + "m)";
+            Addresses.values["bikeCamMaxDistance"].Write(distance, "Error changing camera distance");
+        }
+
+        void BikeCamHeightTrackBar_Scroll(object sender, EventArgs e)
+        {
+            float height = bikeCamHeightTrackBar.Value / 10f;
+            bikeHeightLabel.Text = "(" + height + "m)";
+            Addresses.values["bikeCamHeight"].Write(height, "Error changing camera height");
         }
         #endregion
 
@@ -296,13 +385,10 @@ namespace Barnyard_Trainer
                 Addresses.values["milk"].Write(5f);
 
             // Water collisions
-            if (waterCheckBox.Checked)
-            {
-                if (!IsOnFoot())
-                    Addresses.instructions["waterCollision"].Nop();
-                else // Restore because this causes issues while on a bike
-                    Addresses.instructions["waterCollision"].Restore();
-            }
+            if (waterCheckBox.Checked && !IsOnFoot())
+                Addresses.instructions["waterCollision"].Nop();
+            else // Restore because this causes issues while on a bike
+                Addresses.instructions["waterCollision"].Restore();
         }
 
         void UpdateInfoPage()
@@ -320,7 +406,8 @@ namespace Barnyard_Trainer
             dayLabel.Text = "Day/Time:  " + DAYS[Addresses.values["day"].ReadByte()] + ", " + new DateTime(1, 1, 1, hour, minute, 0).ToString("hh:mm tt");
             horizontalSpeedLabel.Text = "Horizontal Velocity:  " + CalculateHorizontalVelocity() + " m/s";
             verticalSpeedLabel.Text = "Vertical Velocity:  " + CalculateVerticalVelocity() + " m/s";
-            positionLabel.Text = "Position:  X: " + GetXPos() + ",  Y: " + GetYPos() + ",  Z: " + GetZPos();
+            positionLabel.Text = "Player Position:  X: " + GetXPos() + ",  Y: " + GetYPos() + ",  Z: " + GetZPos();
+            camPositionLabel.Text = "Camera Position:  X: " + Addresses.values["camX"].ReadFloat() + ",  Y: " + Addresses.values["camY"].ReadFloat() + ",  Z: " + Addresses.values["camZ"].ReadFloat();
             staminaLabel.Text = "Stamina:  " + staminaPercent + "%";
             if (!isSprinting && !staminaCheckBox.Checked)
                 staminaLabel.Text += "  (" + timeUntilFull + "s until full)";
@@ -367,17 +454,17 @@ namespace Barnyard_Trainer
         {
             if (enable)
             {
-                Addresses.values["camTargetDistance"].Write(0.01f, "Error enabling first person");
-                Addresses.values["bikeCamTargetDistance"].Write(0.1f, "Error setting bike camera targetted distance");
-                Addresses.values["bikeCamTargetHeight"].Write(0f, "Error setting bike camera targetted height");
+                Addresses.values["camMaxDistance"].Write(0.01f, "Error enabling first person");
+                Addresses.values["bikeCamMaxDistance"].Write(0.1f, "Error setting bike camera targetted distance");
+                Addresses.values["bikeCamHeight"].Write(0f, "Error setting bike camera targetted height");
                 Addresses.instructions["opacityChangeOne"].Nop("Error changing player opacity");
                 Addresses.instructions["opacityChangeTwo"].Nop("Error changing player opacity");
             }
             else
             {
-                Addresses.values["camTargetDistance"].Write(GetCamMaxDistance(), "Error enabling first person");
-                Addresses.values["bikeCamTargetDistance"].Write(4f, "Error setting bike camera targetted distance");
-                Addresses.values["bikeCamTargetHeight"].Write(0.8f, "Error setting bike camera targetted height");
+                Addresses.values["camMaxDistance"].Write(GetCamMaxDistance(), "Error enabling first person");
+                Addresses.values["bikeCamMaxDistance"].Write(GetBikeCamMaxDistance(), "Error setting bike camera targetted distance");
+                Addresses.values["bikeCamHeight"].Write(bikeCamHeightTrackBar.Value / 10f, "Error setting bike camera targetted height");
                 Addresses.instructions["opacityChangeOne"].Restore("Error changing player opacity");
                 Addresses.instructions["opacityChangeTwo"].Restore("Error changing player opacity");
             }
@@ -440,6 +527,11 @@ namespace Barnyard_Trainer
         float GetCamMaxDistance()
         {
             return Math.Max(0.1f, camDistanceTrackBar.Value / 10f);
+        }
+
+        float GetBikeCamMaxDistance()
+        {
+            return Math.Max(0.1f, bikeCamDistanceTrackBar.Value / 10f);
         }
         #endregion
     }

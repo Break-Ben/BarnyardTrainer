@@ -79,6 +79,28 @@
             this.cheatPage = new System.Windows.Forms.TabPage();
             this.movementRevertButton = new System.Windows.Forms.Button();
             this.cameraPage = new System.Windows.Forms.TabPage();
+            this.label16 = new System.Windows.Forms.Label();
+            this.camXPosTextBox = new System.Windows.Forms.TextBox();
+            this.camPosApplyButton = new System.Windows.Forms.Button();
+            this.label19 = new System.Windows.Forms.Label();
+            this.camYPosTextBox = new System.Windows.Forms.TextBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.camZPosTextBox = new System.Windows.Forms.TextBox();
+            this.label22 = new System.Windows.Forms.Label();
+            this.camPosRefreshButton = new System.Windows.Forms.Button();
+            this.camPosLockCheckBox = new System.Windows.Forms.CheckBox();
+            this.bikeHeightRevertButton = new System.Windows.Forms.Button();
+            this.bikeHeightLabel = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.bikeCamHeightTrackBar = new System.Windows.Forms.TrackBar();
+            this.bikeDistanceRevertButton = new System.Windows.Forms.Button();
+            this.bikeDistanceLabel = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.bikeCamDistanceTrackBar = new System.Windows.Forms.TrackBar();
+            this.heightRevertButton = new System.Windows.Forms.Button();
+            this.heightLabel = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.camHeightTrackBar = new System.Windows.Forms.TrackBar();
             this.distanceRevertButton = new System.Windows.Forms.Button();
             this.fovRevertButton = new System.Windows.Forms.Button();
             this.distanceLabel = new System.Windows.Forms.Label();
@@ -90,6 +112,7 @@
             this.firstPersonCheckBox = new System.Windows.Forms.CheckBox();
             this.zoomCheckBox = new System.Windows.Forms.CheckBox();
             this.infoPage = new System.Windows.Forms.TabPage();
+            this.camPositionLabel = new System.Windows.Forms.Label();
             this.dayLabel = new System.Windows.Forms.Label();
             this.sprintingCheckBox = new System.Windows.Forms.CheckBox();
             this.onFootCheckBox = new System.Windows.Forms.CheckBox();
@@ -107,6 +130,9 @@
             this.tabControl.SuspendLayout();
             this.cheatPage.SuspendLayout();
             this.cameraPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bikeCamHeightTrackBar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bikeCamDistanceTrackBar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.camHeightTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.camDistanceTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fovTrackBar)).BeginInit();
             this.infoPage.SuspendLayout();
@@ -649,6 +675,28 @@
             // 
             // cameraPage
             // 
+            this.cameraPage.Controls.Add(this.label16);
+            this.cameraPage.Controls.Add(this.camXPosTextBox);
+            this.cameraPage.Controls.Add(this.camPosApplyButton);
+            this.cameraPage.Controls.Add(this.label19);
+            this.cameraPage.Controls.Add(this.camYPosTextBox);
+            this.cameraPage.Controls.Add(this.label21);
+            this.cameraPage.Controls.Add(this.camZPosTextBox);
+            this.cameraPage.Controls.Add(this.label22);
+            this.cameraPage.Controls.Add(this.camPosRefreshButton);
+            this.cameraPage.Controls.Add(this.camPosLockCheckBox);
+            this.cameraPage.Controls.Add(this.bikeHeightRevertButton);
+            this.cameraPage.Controls.Add(this.bikeHeightLabel);
+            this.cameraPage.Controls.Add(this.label18);
+            this.cameraPage.Controls.Add(this.bikeCamHeightTrackBar);
+            this.cameraPage.Controls.Add(this.bikeDistanceRevertButton);
+            this.cameraPage.Controls.Add(this.bikeDistanceLabel);
+            this.cameraPage.Controls.Add(this.label20);
+            this.cameraPage.Controls.Add(this.bikeCamDistanceTrackBar);
+            this.cameraPage.Controls.Add(this.heightRevertButton);
+            this.cameraPage.Controls.Add(this.heightLabel);
+            this.cameraPage.Controls.Add(this.label17);
+            this.cameraPage.Controls.Add(this.camHeightTrackBar);
             this.cameraPage.Controls.Add(this.distanceRevertButton);
             this.cameraPage.Controls.Add(this.fovRevertButton);
             this.cameraPage.Controls.Add(this.distanceLabel);
@@ -666,10 +714,243 @@
             this.cameraPage.Text = "Camera";
             this.cameraPage.UseVisualStyleBackColor = true;
             // 
+            // label16
+            // 
+            this.label16.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.Location = new System.Drawing.Point(201, 260);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(59, 15);
+            this.label16.TabIndex = 56;
+            this.label16.Text = "Position";
+            // 
+            // camXPosTextBox
+            // 
+            this.camXPosTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.camXPosTextBox.Location = new System.Drawing.Point(269, 280);
+            this.camXPosTextBox.Name = "camXPosTextBox";
+            this.camXPosTextBox.Size = new System.Drawing.Size(46, 20);
+            this.camXPosTextBox.TabIndex = 57;
+            this.camXPosTextBox.Text = "0";
+            // 
+            // camPosApplyButton
+            // 
+            this.camPosApplyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.camPosApplyButton.Location = new System.Drawing.Point(445, 280);
+            this.camPosApplyButton.Name = "camPosApplyButton";
+            this.camPosApplyButton.Size = new System.Drawing.Size(75, 23);
+            this.camPosApplyButton.TabIndex = 58;
+            this.camPosApplyButton.Text = "Apply";
+            this.camPosApplyButton.UseVisualStyleBackColor = true;
+            this.camPosApplyButton.Click += new System.EventHandler(this.CamPosApplyButton_Click);
+            // 
+            // label19
+            // 
+            this.label19.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(257, 283);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(14, 13);
+            this.label19.TabIndex = 59;
+            this.label19.Text = "X";
+            // 
+            // camYPosTextBox
+            // 
+            this.camYPosTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.camYPosTextBox.Location = new System.Drawing.Point(330, 280);
+            this.camYPosTextBox.Name = "camYPosTextBox";
+            this.camYPosTextBox.Size = new System.Drawing.Size(46, 20);
+            this.camYPosTextBox.TabIndex = 60;
+            this.camYPosTextBox.Text = "0";
+            // 
+            // label21
+            // 
+            this.label21.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(318, 283);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(14, 13);
+            this.label21.TabIndex = 61;
+            this.label21.Text = "Y";
+            // 
+            // camZPosTextBox
+            // 
+            this.camZPosTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.camZPosTextBox.Location = new System.Drawing.Point(393, 280);
+            this.camZPosTextBox.Name = "camZPosTextBox";
+            this.camZPosTextBox.Size = new System.Drawing.Size(46, 20);
+            this.camZPosTextBox.TabIndex = 62;
+            this.camZPosTextBox.Text = "0";
+            // 
+            // label22
+            // 
+            this.label22.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(381, 283);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(14, 13);
+            this.label22.TabIndex = 63;
+            this.label22.Text = "Z";
+            // 
+            // camPosRefreshButton
+            // 
+            this.camPosRefreshButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.camPosRefreshButton.Location = new System.Drawing.Point(202, 278);
+            this.camPosRefreshButton.Name = "camPosRefreshButton";
+            this.camPosRefreshButton.Size = new System.Drawing.Size(53, 23);
+            this.camPosRefreshButton.TabIndex = 64;
+            this.camPosRefreshButton.Text = "Refresh";
+            this.camPosRefreshButton.UseVisualStyleBackColor = true;
+            this.camPosRefreshButton.Click += new System.EventHandler(this.CamPosRefreshButton_Click);
+            // 
+            // camPosLockCheckBox
+            // 
+            this.camPosLockCheckBox.AutoSize = true;
+            this.camPosLockCheckBox.Location = new System.Drawing.Point(6, 29);
+            this.camPosLockCheckBox.Name = "camPosLockCheckBox";
+            this.camPosLockCheckBox.Size = new System.Drawing.Size(90, 17);
+            this.camPosLockCheckBox.TabIndex = 55;
+            this.camPosLockCheckBox.Text = "Lock Position";
+            this.camPosLockCheckBox.UseVisualStyleBackColor = true;
+            this.camPosLockCheckBox.CheckedChanged += new System.EventHandler(this.CamPosLockCheckBox_CheckedChanged);
+            // 
+            // bikeHeightRevertButton
+            // 
+            this.bikeHeightRevertButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.bikeHeightRevertButton.Location = new System.Drawing.Point(471, 226);
+            this.bikeHeightRevertButton.Name = "bikeHeightRevertButton";
+            this.bikeHeightRevertButton.Size = new System.Drawing.Size(75, 23);
+            this.bikeHeightRevertButton.TabIndex = 54;
+            this.bikeHeightRevertButton.Text = "Revert";
+            this.bikeHeightRevertButton.UseVisualStyleBackColor = true;
+            this.bikeHeightRevertButton.Click += new System.EventHandler(this.BikeHeightRevertButton_Click);
+            // 
+            // bikeHeightLabel
+            // 
+            this.bikeHeightLabel.AutoSize = true;
+            this.bikeHeightLabel.Location = new System.Drawing.Point(362, 211);
+            this.bikeHeightLabel.Name = "bikeHeightLabel";
+            this.bikeHeightLabel.Size = new System.Drawing.Size(36, 13);
+            this.bikeHeightLabel.TabIndex = 53;
+            this.bikeHeightLabel.Text = "(0.8m)";
+            // 
+            // label18
+            // 
+            this.label18.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label18.Location = new System.Drawing.Point(199, 209);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(164, 15);
+            this.label18.TabIndex = 51;
+            this.label18.Text = "Camera Height (on bike)";
+            // 
+            // bikeCamHeightTrackBar
+            // 
+            this.bikeCamHeightTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.bikeCamHeightTrackBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
+            this.bikeCamHeightTrackBar.Location = new System.Drawing.Point(194, 227);
+            this.bikeCamHeightTrackBar.Maximum = 100;
+            this.bikeCamHeightTrackBar.Name = "bikeCamHeightTrackBar";
+            this.bikeCamHeightTrackBar.Size = new System.Drawing.Size(276, 45);
+            this.bikeCamHeightTrackBar.TabIndex = 52;
+            this.bikeCamHeightTrackBar.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.bikeCamHeightTrackBar.Value = 8;
+            this.bikeCamHeightTrackBar.Scroll += new System.EventHandler(this.BikeCamHeightTrackBar_Scroll);
+            // 
+            // bikeDistanceRevertButton
+            // 
+            this.bikeDistanceRevertButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.bikeDistanceRevertButton.Location = new System.Drawing.Point(471, 176);
+            this.bikeDistanceRevertButton.Name = "bikeDistanceRevertButton";
+            this.bikeDistanceRevertButton.Size = new System.Drawing.Size(75, 23);
+            this.bikeDistanceRevertButton.TabIndex = 50;
+            this.bikeDistanceRevertButton.Text = "Revert";
+            this.bikeDistanceRevertButton.UseVisualStyleBackColor = true;
+            this.bikeDistanceRevertButton.Click += new System.EventHandler(this.BikeDistanceRevertButton_Click);
+            // 
+            // bikeDistanceLabel
+            // 
+            this.bikeDistanceLabel.AutoSize = true;
+            this.bikeDistanceLabel.Location = new System.Drawing.Point(376, 161);
+            this.bikeDistanceLabel.Name = "bikeDistanceLabel";
+            this.bikeDistanceLabel.Size = new System.Drawing.Size(27, 13);
+            this.bikeDistanceLabel.TabIndex = 49;
+            this.bikeDistanceLabel.Text = "(4m)";
+            // 
+            // label20
+            // 
+            this.label20.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label20.AutoSize = true;
+            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label20.Location = new System.Drawing.Point(199, 159);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(178, 15);
+            this.label20.TabIndex = 47;
+            this.label20.Text = "Camera Distance (on bike)";
+            // 
+            // bikeCamDistanceTrackBar
+            // 
+            this.bikeCamDistanceTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.bikeCamDistanceTrackBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
+            this.bikeCamDistanceTrackBar.Location = new System.Drawing.Point(194, 177);
+            this.bikeCamDistanceTrackBar.Maximum = 350;
+            this.bikeCamDistanceTrackBar.Name = "bikeCamDistanceTrackBar";
+            this.bikeCamDistanceTrackBar.Size = new System.Drawing.Size(276, 45);
+            this.bikeCamDistanceTrackBar.TabIndex = 48;
+            this.bikeCamDistanceTrackBar.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.bikeCamDistanceTrackBar.Value = 40;
+            this.bikeCamDistanceTrackBar.Scroll += new System.EventHandler(this.BikeCamDistanceTrackBar_Scroll);
+            // 
+            // heightRevertButton
+            // 
+            this.heightRevertButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.heightRevertButton.Location = new System.Drawing.Point(471, 126);
+            this.heightRevertButton.Name = "heightRevertButton";
+            this.heightRevertButton.Size = new System.Drawing.Size(75, 23);
+            this.heightRevertButton.TabIndex = 45;
+            this.heightRevertButton.Text = "Revert";
+            this.heightRevertButton.UseVisualStyleBackColor = true;
+            this.heightRevertButton.Click += new System.EventHandler(this.HeightRevertButton_Click);
+            // 
+            // heightLabel
+            // 
+            this.heightLabel.AutoSize = true;
+            this.heightLabel.Location = new System.Drawing.Point(359, 111);
+            this.heightLabel.Name = "heightLabel";
+            this.heightLabel.Size = new System.Drawing.Size(36, 13);
+            this.heightLabel.TabIndex = 44;
+            this.heightLabel.Text = "(1.7m)";
+            // 
+            // label17
+            // 
+            this.label17.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.Location = new System.Drawing.Point(199, 109);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(161, 15);
+            this.label17.TabIndex = 42;
+            this.label17.Text = "Camera Height (on foot)";
+            // 
+            // camHeightTrackBar
+            // 
+            this.camHeightTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.camHeightTrackBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
+            this.camHeightTrackBar.Location = new System.Drawing.Point(194, 127);
+            this.camHeightTrackBar.Maximum = 100;
+            this.camHeightTrackBar.Name = "camHeightTrackBar";
+            this.camHeightTrackBar.Size = new System.Drawing.Size(276, 45);
+            this.camHeightTrackBar.TabIndex = 43;
+            this.camHeightTrackBar.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.camHeightTrackBar.Value = 17;
+            this.camHeightTrackBar.Scroll += new System.EventHandler(this.CamHeightTrackBar_Scroll);
+            // 
             // distanceRevertButton
             // 
             this.distanceRevertButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.distanceRevertButton.Location = new System.Drawing.Point(471, 77);
+            this.distanceRevertButton.Location = new System.Drawing.Point(471, 76);
             this.distanceRevertButton.Name = "distanceRevertButton";
             this.distanceRevertButton.Size = new System.Drawing.Size(75, 23);
             this.distanceRevertButton.TabIndex = 40;
@@ -691,7 +972,7 @@
             // distanceLabel
             // 
             this.distanceLabel.AutoSize = true;
-            this.distanceLabel.Location = new System.Drawing.Point(374, 62);
+            this.distanceLabel.Location = new System.Drawing.Point(373, 61);
             this.distanceLabel.Name = "distanceLabel";
             this.distanceLabel.Size = new System.Drawing.Size(27, 13);
             this.distanceLabel.TabIndex = 38;
@@ -702,7 +983,7 @@
             this.label15.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(199, 60);
+            this.label15.Location = new System.Drawing.Point(199, 59);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(175, 15);
             this.label15.TabIndex = 30;
@@ -712,7 +993,7 @@
             // 
             this.camDistanceTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.camDistanceTrackBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
-            this.camDistanceTrackBar.Location = new System.Drawing.Point(194, 78);
+            this.camDistanceTrackBar.Location = new System.Drawing.Point(194, 77);
             this.camDistanceTrackBar.Maximum = 350;
             this.camDistanceTrackBar.Name = "camDistanceTrackBar";
             this.camDistanceTrackBar.Size = new System.Drawing.Size(276, 45);
@@ -728,9 +1009,9 @@
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(199, 9);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(33, 15);
+            this.label2.Size = new System.Drawing.Size(81, 15);
             this.label2.TabIndex = 28;
-            this.label2.Text = "FOV";
+            this.label2.Text = "FOV / Zoom";
             // 
             // fovTrackBar
             // 
@@ -759,7 +1040,7 @@
             // firstPersonCheckBox
             // 
             this.firstPersonCheckBox.AutoSize = true;
-            this.firstPersonCheckBox.Location = new System.Drawing.Point(6, 52);
+            this.firstPersonCheckBox.Location = new System.Drawing.Point(6, 75);
             this.firstPersonCheckBox.Name = "firstPersonCheckBox";
             this.firstPersonCheckBox.Size = new System.Drawing.Size(141, 17);
             this.firstPersonCheckBox.TabIndex = 26;
@@ -771,16 +1052,17 @@
             // 
             this.zoomCheckBox.AutoSize = true;
             this.zoomCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.zoomCheckBox.Location = new System.Drawing.Point(6, 29);
+            this.zoomCheckBox.Location = new System.Drawing.Point(6, 52);
             this.zoomCheckBox.Name = "zoomCheckBox";
-            this.zoomCheckBox.Size = new System.Drawing.Size(130, 17);
+            this.zoomCheckBox.Size = new System.Drawing.Size(172, 17);
             this.zoomCheckBox.TabIndex = 25;
-            this.zoomCheckBox.Text = "Disable Camera Zoom";
+            this.zoomCheckBox.Text = "Disable Camera Zoom (on foot)";
             this.zoomCheckBox.UseVisualStyleBackColor = true;
             this.zoomCheckBox.CheckedChanged += new System.EventHandler(this.ZoomCheckBox_CheckedChanged);
             // 
             // infoPage
             // 
+            this.infoPage.Controls.Add(this.camPositionLabel);
             this.infoPage.Controls.Add(this.dayLabel);
             this.infoPage.Controls.Add(this.sprintingCheckBox);
             this.infoPage.Controls.Add(this.onFootCheckBox);
@@ -798,6 +1080,15 @@
             this.infoPage.Text = "Info";
             this.infoPage.UseVisualStyleBackColor = true;
             // 
+            // camPositionLabel
+            // 
+            this.camPositionLabel.AutoSize = true;
+            this.camPositionLabel.Location = new System.Drawing.Point(3, 78);
+            this.camPositionLabel.Name = "camPositionLabel";
+            this.camPositionLabel.Size = new System.Drawing.Size(230, 13);
+            this.camPositionLabel.TabIndex = 38;
+            this.camPositionLabel.Text = "Camera Position:  X: 0.000,  Y: 0.000,  Z: 0.000";
+            // 
             // dayLabel
             // 
             this.dayLabel.AutoSize = true;
@@ -811,7 +1102,7 @@
             // 
             this.sprintingCheckBox.AutoSize = true;
             this.sprintingCheckBox.Enabled = false;
-            this.sprintingCheckBox.Location = new System.Drawing.Point(6, 124);
+            this.sprintingCheckBox.Location = new System.Drawing.Point(6, 142);
             this.sprintingCheckBox.Name = "sprintingCheckBox";
             this.sprintingCheckBox.Size = new System.Drawing.Size(78, 17);
             this.sprintingCheckBox.TabIndex = 36;
@@ -822,7 +1113,7 @@
             // 
             this.onFootCheckBox.AutoSize = true;
             this.onFootCheckBox.Enabled = false;
-            this.onFootCheckBox.Location = new System.Drawing.Point(6, 101);
+            this.onFootCheckBox.Location = new System.Drawing.Point(6, 119);
             this.onFootCheckBox.Name = "onFootCheckBox";
             this.onFootCheckBox.Size = new System.Drawing.Size(75, 17);
             this.onFootCheckBox.TabIndex = 0;
@@ -833,7 +1124,7 @@
             // 
             this.staminaBar.BackColor = System.Drawing.Color.DimGray;
             this.staminaBar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.staminaBar.Location = new System.Drawing.Point(6, 80);
+            this.staminaBar.Location = new System.Drawing.Point(6, 98);
             this.staminaBar.Name = "staminaBar";
             this.staminaBar.Size = new System.Drawing.Size(100, 13);
             this.staminaBar.TabIndex = 34;
@@ -842,7 +1133,7 @@
             // 
             this.panel2.BackColor = System.Drawing.Color.Transparent;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel2.Location = new System.Drawing.Point(6, 80);
+            this.panel2.Location = new System.Drawing.Point(6, 98);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(100, 13);
             this.panel2.TabIndex = 35;
@@ -850,7 +1141,7 @@
             // staminaLabel
             // 
             this.staminaLabel.AutoSize = true;
-            this.staminaLabel.Location = new System.Drawing.Point(112, 81);
+            this.staminaLabel.Location = new System.Drawing.Point(112, 99);
             this.staminaLabel.Name = "staminaLabel";
             this.staminaLabel.Size = new System.Drawing.Size(80, 13);
             this.staminaLabel.TabIndex = 33;
@@ -861,9 +1152,9 @@
             this.positionLabel.AutoSize = true;
             this.positionLabel.Location = new System.Drawing.Point(3, 60);
             this.positionLabel.Name = "positionLabel";
-            this.positionLabel.Size = new System.Drawing.Size(191, 13);
+            this.positionLabel.Size = new System.Drawing.Size(223, 13);
             this.positionLabel.TabIndex = 31;
-            this.positionLabel.Text = "Position:  X: 0.000,  Y: 0.000,  Z: 0.000";
+            this.positionLabel.Text = "Player Position:  X: 0.000,  Y: 0.000,  Z: 0.000";
             // 
             // verticalSpeedLabel
             // 
@@ -944,6 +1235,9 @@
             this.cheatPage.PerformLayout();
             this.cameraPage.ResumeLayout(false);
             this.cameraPage.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bikeCamHeightTrackBar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bikeCamDistanceTrackBar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.camHeightTrackBar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.camDistanceTrackBar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.fovTrackBar)).EndInit();
             this.infoPage.ResumeLayout(false);
@@ -1030,6 +1324,29 @@
         private System.Windows.Forms.Label distanceLabel;
         private System.Windows.Forms.Button distanceRevertButton;
         private System.Windows.Forms.Button fovRevertButton;
+        private System.Windows.Forms.Button heightRevertButton;
+        private System.Windows.Forms.Label heightLabel;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.TrackBar camHeightTrackBar;
+        private System.Windows.Forms.Button bikeHeightRevertButton;
+        private System.Windows.Forms.Label bikeHeightLabel;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.TrackBar bikeCamHeightTrackBar;
+        private System.Windows.Forms.Button bikeDistanceRevertButton;
+        private System.Windows.Forms.Label bikeDistanceLabel;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.TrackBar bikeCamDistanceTrackBar;
+        private System.Windows.Forms.CheckBox camPosLockCheckBox;
+        private System.Windows.Forms.Label camPositionLabel;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.TextBox camXPosTextBox;
+        private System.Windows.Forms.Button camPosApplyButton;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.TextBox camYPosTextBox;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.TextBox camZPosTextBox;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Button camPosRefreshButton;
     }
 }
 

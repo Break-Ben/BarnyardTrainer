@@ -105,12 +105,16 @@ namespace Barnyard_Trainer
             { "isSprintingFoot", new Address("Barnyard.exe+389568,8,4F0") },
             { "isSprintingBike", new Address("Barnyard.exe+38CD2C,0") },
 
-            { "maxPitch", new Address("Barnyard.exe+3822E0,68,AC", -8f) },
-            { "minPitch", new Address("Barnyard.exe+3822E0,68,B0", 22f) },
+            { "minPitch", new Address("Barnyard.exe+3822E0,68,B0", -8f) },
+            { "maxPitch", new Address("Barnyard.exe+3822E0,68,AC", 22f) },
             { "camTargetDistance", new Address("Barnyard.exe+3822E0,68,84") },
             { "camMaxDistance", new Address("Barnyard.exe+3822E0,68,88", 5f) },
-            { "bikeCamTargetDistance", new Address("Barnyard.exe+3822E0,2D0", 4f) },
-            { "bikeCamTargetHeight", new Address("Barnyard.exe+3822E0,2EC", 0.8f) },
+            { "camHeight", new Address("Barnyard.exe+3822E0,68,94", 1.7f) },
+            { "bikeCamMaxDistance", new Address("Barnyard.exe+3822E0,2D0", 4f) },
+            { "bikeCamHeight", new Address("Barnyard.exe+3822E0,2EC", 0.8f) },
+            { "camX", new Address("Barnyard.exe+3822E0,124") },
+            { "camY", new Address("Barnyard.exe+3822E0,128") },
+            { "camZ", new Address("Barnyard.exe+3822E0,12C") },
             { "opacity", new Address("Barnyard.exe+3822E0,68,B4") },
         };
 
@@ -144,6 +148,13 @@ namespace Barnyard_Trainer
             { "bikeCamHeightReset", new Instruction("Barnyard.exe+5E65B", "89 46 7C", 3) },
             { "maxPitchResetOne", new Instruction("Barnyard.exe+636EE", "D9 96 AC 00 00 00", 6) },
             { "maxPitchResetTwo", new Instruction("Barnyard.exe+63DC6", "D9 96 AC 00 00 00", 6) },
+
+            { "camLockXFoot", new Instruction("Barnyard.exe+5B2A2", "89 07", 2) },
+            { "camLockXBike", new Instruction("Barnyard.exe+5F914", "89 02", 2) },
+            { "camLockYFoot", new Instruction("Barnyard.exe+5B2A7", "89 4F 04", 3) },
+            { "camLockYBike", new Instruction("Barnyard.exe+5F91A", "89 4A 04", 3) },
+            { "camLockZFoot", new Instruction("Barnyard.exe+5B2AD", "89 57 08", 3) },
+            { "camLockZBike", new Instruction("Barnyard.exe+5F921", "89 42 08", 3) },
         };
 
         public static readonly Dictionary<string, Address> inputs = new Dictionary<string, Address>
