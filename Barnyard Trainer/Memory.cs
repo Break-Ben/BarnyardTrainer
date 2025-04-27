@@ -8,6 +8,8 @@ namespace Barnyard_Trainer
     {
         static readonly Mem mem = new Mem();
 
+        static readonly string[] processNames = { "Barnyard.exe", "BYardModLoader.exe", "Barnyard Enhanced.exe" };
+
         public static void OpenProcess()
         {
             mem.OpenProcess(GetPID());
@@ -37,7 +39,14 @@ namespace Barnyard_Trainer
 
         public static int GetPID()
         {
-            return mem.GetProcIdFromName("Barnyard.exe");
+            int pid = 0;
+            foreach (var name in processNames)
+            {
+                pid = mem.GetProcIdFromName(name);
+                if (pid != 0)
+                    break;
+            }
+            return pid;
         }
 
         public static bool IsBarnyardOpen()
@@ -49,6 +58,12 @@ namespace Barnyard_Trainer
         public static string IntStringTo4Bytes(string intString)
         {
             return string.Join(" ", BitConverter.GetBytes(int.Parse(intString)).Select(b => "0x" + b.ToString("X2")));
+        }
+
+        public static string ReadBytes(string address, int n)
+        {
+            return mem.ReadByte(address).ToString();
+            //return mem.ReadBytes(address, n).ToString();
         }
     }
 }

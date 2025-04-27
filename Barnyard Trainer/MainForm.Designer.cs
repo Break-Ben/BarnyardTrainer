@@ -1196,6 +1196,7 @@
             this.windowedCheckBox.TabIndex = 32;
             this.windowedCheckBox.Text = "Windowed Mode";
             this.windowedCheckBox.UseVisualStyleBackColor = true;
+            this.windowedCheckBox.CheckedChanged += new System.EventHandler(this.WindowedCheckBox_CheckedChanged);
             // 
             // controllerCheckBox
             // 
@@ -1206,6 +1207,7 @@
             this.controllerCheckBox.TabIndex = 31;
             this.controllerCheckBox.Text = "Controller Support";
             this.controllerCheckBox.UseVisualStyleBackColor = true;
+            this.controllerCheckBox.CheckedChanged += new System.EventHandler(this.ControllerCheckBox_CheckedChanged);
             // 
             // builtInCheatsLabel
             // 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace Barnyard_Trainer
@@ -8,15 +9,14 @@ namespace Barnyard_Trainer
     public partial class BarnyardTrainer : Form
     {
         #region Initialisation
-        // Constants
-        const int PRESSED = 128;
+        [DllImport("user32.dll")]
+        static extern short GetAsyncKeyState(Keys vKey);
+
         static readonly string[] DAYS = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
 
-        // Objects
         readonly RegistryKey registry = Registry.CurrentUser.OpenSubKey(@"Software\THQ\Barnyard", true);
         readonly Stopwatch stopWatch = new Stopwatch();
 
-        // Variables
         float xPos, zPos, yPos, lastXPos, lastZPos, lastYPos;
         long lastHorizontalTime, lastVerticalTime;
 
@@ -30,8 +30,8 @@ namespace Barnyard_Trainer
             outGameTimer.Start();
             stopWatch.Start();
 
-            controllerCheckBox.Checked = registry.GetValue("ControllerEnabled").ToString() == "1";
-            windowedCheckBox.Checked = registry.GetValue("RealForcedWindowed").ToString() == "1";
+            controllerCheckBox.Checked = registry.GetValue("ControllerEnabled", 0).ToString() == "1";
+            windowedCheckBox.Checked = registry.GetValue("RealForcedWindowed", 0).ToString() == "1";
         }
         #endregion
 
@@ -49,26 +49,26 @@ namespace Barnyard_Trainer
 
         void InGameTimer_Tick(object sender, EventArgs e)
         {
-            if (!Memory.IsBarnyardOpen())
+            if (Memory.IsBarnyardOpen())
+            {
+                UpdateConstantAddresses();
+                if (tabControl.SelectedTab.Name == "infoPage")
+                    UpdateInfoPage();
+            }
+            else
             {
                 statusText.Text = "Disconnected";
                 flightTimer.Stop();
                 inGameTimer.Stop();
                 outGameTimer.Start();
             }
-            else
-            {
-                UpdateConstantAddresses();
-                if (tabControl.SelectedTab.Name == "infoPage")
-                    UpdateInfoPage();
-            }
         }
 
         void FlightTimer_Tick(object sender, EventArgs e)
         {
-            if (Addresses.inputs["space"].ReadByte() == PRESSED)
+            if (IsKeyPressed(Keys.Space))
                 Addresses.values["yPos"].Write(Addresses.values["yPos"].ReadFloat() - 0.2f);
-            if (Addresses.inputs["leftControl"].ReadByte() == PRESSED)
+            if (IsKeyPressed(Keys.LControlKey))
                 Addresses.values["yPos"].Write(Addresses.values["yPos"].ReadFloat() + 0.2f);
         }
         #endregion
@@ -146,12 +146,12 @@ namespace Barnyard_Trainer
 
         void ControllerCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            registry.SetValue("ControllerEnabled", controllerCheckBox.Checked);
+            registry.SetValue("ControllerEnabled", Convert.ToInt32(controllerCheckBox.Checked));
         }
 
         void WindowedCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            registry.SetValue("RealForcedWindowed", windowedCheckBox.Checked);
+            registry.SetValue("RealForcedWindowed", Convert.ToInt32(windowedCheckBox.Checked));
         }
 
         // Camera Settings
@@ -175,24 +175,13 @@ namespace Barnyard_Trainer
 
         void CamPosLockCheckBox_CheckedChanged(object sender, EventArgs e)
         {
+            string[] cameraInstructions = { "camLockXFoot", "camLockYFoot", "camLockZFoot", "camLockXBike", "camLockYBike", "camLockZBike" };
             if (camPosLockCheckBox.Checked)
-            {
-                Addresses.instructions["camLockXFoot"].Nop("Error locking camera");
-                Addresses.instructions["camLockXBike"].Nop("Error locking camera");
-                Addresses.instructions["camLockYFoot"].Nop("Error locking camera");
-                Addresses.instructions["camLockYBike"].Nop("Error locking camera");
-                Addresses.instructions["camLockZFoot"].Nop("Error locking camera");
-                Addresses.instructions["camLockZBike"].Nop("Error locking camera");
-            }
+                foreach (var instruction in cameraInstructions)
+                    Addresses.instructions[instruction].Nop("Error locking camera");
             else
-            {
-                Addresses.instructions["camLockXFoot"].Restore("Error unlocking camera");
-                Addresses.instructions["camLockXBike"].Restore("Error unlocking camera");
-                Addresses.instructions["camLockYFoot"].Restore("Error unlocking camera");
-                Addresses.instructions["camLockYBike"].Restore("Error unlocking camera");
-                Addresses.instructions["camLockZFoot"].Restore("Error unlocking camera");
-                Addresses.instructions["camLockZBike"].Restore("Error unlocking camera");
-            }
+                foreach (var instruction in cameraInstructions)
+                    Addresses.instructions[instruction].Restore("Error unlocking camera");
         }
 
         void ZoomCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -532,6 +521,11 @@ namespace Barnyard_Trainer
         float GetBikeCamMaxDistance()
         {
             return Math.Max(0.1f, bikeCamDistanceTrackBar.Value / 10f);
+        }
+
+        static bool IsKeyPressed(Keys key)
+        {
+            return (GetAsyncKeyState(key) & 0x8000) != 0;
         }
         #endregion
     }
