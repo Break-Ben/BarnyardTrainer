@@ -1,7 +1,7 @@
 # BarnyardTrainer
 A 'trainer' application for the video game Barnyard.
 
-Note that there are different builds of Barnyard released but this trainer is built to work with the version available for download on the [Barnyard Speedrunning Discord](https://discord.gg/4WD8sF28RU).
+Note that this application is built to work with the Barnyard version that can be found on the [Barnyard Speedrunning Discord](https://discord.gg/4WD8sF28RU), including modded versions of this build.
 
 ## Installation
 To use, simply download and extract the [latest release](https://github.com/Break-Ben/BarnyardTrainer/releases/latest), and run `Barnyard Trainer.exe`.
@@ -25,6 +25,6 @@ The app also allows you to view live information about the game, see the game's 
 ## Known Issues
 + The first-person mode is currently incomplete
 + Invulnerability only works on foot
-+ The speedometer is not 100% accurate - it fluctuates above/below the actual speed
++ The speedometer fluctuates above/below the actual speed
 
 Special thanks to [InfiniteC0re](https://github.com/InfiniteC0re) for discovering the built-in cheats and registry hacks, and [AdventureT](https://github.com/AdventureT) for his tool that helped with discovering some memory addresses!
